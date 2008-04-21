@@ -42,7 +42,6 @@ endif
 fun! AutoClose_stop()
     if g:autoclose_on
         iunmap "
-        iunmap '
         iunmap (
         iunmap )
         iunmap [
@@ -60,7 +59,6 @@ endfun
 fun! AutoClose_start()
     if !g:autoclose_on
         inoremap <silent> " <C-R>=<SID>QuoteDelim('"')<CR>
-        inoremap <silent> ' <C-R>=match(getline('.')[col('.') - 2],'\w') == 0 && getline('.')[col('.')-1] != "'" ? "'" : <SID>QuoteDelim("'")<CR>
         inoremap <silent> ( (<C-R>=<SID>CloseStackPush(')')<CR>
         inoremap <silent> ) <C-R>=<SID>CloseStackPop(')')<CR>
         inoremap <silent> [ [<C-R>=<SID>CloseStackPush(']')<CR>

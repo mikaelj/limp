@@ -1,0 +1,42 @@
+startup_message       off             # default: on
+defscrollback         1000
+hardcopydir           $HOME/.lim-hardcopy
+shell                 bash
+
+
+# scrolling capabilities
+termcapinfo xterm ti@:te@
+
+# bind Shift+PgUp/PgDn as copy-mode keys (clever!)
+bindkey -m "^[[5;2~" stuff ^u
+bindkey -m "^[[6;2~" stuff ^d
+
+#bindkey -k F2 eval "select 0" "stuff " "select 1"
+
+# F12 is detach
+bindkey -k F2 detach
+
+#======================================
+# Lisp
+#======================================
+
+# this is so we can send large amounts of text through 'readbuf'/'paste .'
+
+msgwait 0
+msgminwait 0
+obulimit 20971520 # 20M *has* to be enough!
+defflow off
+
+hardstatus alwayslastline ""
+caption splitonly
+
+screen /tmp/startlisp.sh startlispflag
+title "Lisp"
+
+# This is how you activate it. Move to the lisp.sh with a magic flag, or similar.
+#
+#     screen -c lispscreenrc -dmS lim_listener-foo
+#
+# Then, reattach using -x name, but that should be done with startlisp.sh
+#
+# 
