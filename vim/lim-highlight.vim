@@ -120,8 +120,33 @@ fun! <SID>LimHighlight_handler()
             let [mtchline,mtchcol] = searchpairpos(escape(chrmatch,'[]'),'',escape(curchr,'[]'),'bn','',stopline)
         endif
 
+	" Cursor /on/ the bracket
         if mtchline != 0 && mtchcol != 0
             exe 'match Brackets /\%'.mtchline.'l\%'.mtchcol.'c/'
+
+            " mail@mikael.jansson.be
+            " highlight the block within the parens.
+	    let mtchline1=line('.')
+	    let mtchcol1=col('.')
+	    let mtchline2=mtchline
+	    let mtchcol2=mtchcol
+            if mtchline2 == mtchline1
+		"On the same line; make sure column 1 is before column 2
+                if mtchcol1 > mtchcol2
+                    let tmp = mtchcol1
+                    let mtchcol1 = mtchcol2
+                    let mtchcol2 = tmp
+                endif
+                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\%<'.mtchcol2.'v/'
+            else
+		" Multiple lines
+                if mtchline1 > mtchline2
+                    let tmp = mtchline1
+                    let mtchline1 = mtchline2
+                    let mtchline2 = tmp
+                endif
+                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\|\%>'.mtchline1.'l\%<'.mtchline2.'l\|\%'.mtchline2.'l\%<'.mtchcol2.'v/'
+            endif
         else
             match none
             2match none
@@ -130,6 +155,8 @@ fun! <SID>LimHighlight_handler()
     " if g:HiMtchBrkt_surround exists and is true, then highlight the surrounding brackets
     "elseif exists("g:HiMtchBrkt_surround") && g:HiMtchBrkt_surround
     else
+	" Cursor inside brackets
+
         let swp        = Cursor_get()
         let openers    = '['.escape(substitute(&mps,':.,\=',"","g"),']').']'
         let closers    = '['.escape(substitute(&mps,',\=.:',"","g"),']').']'
@@ -153,9 +180,14 @@ fun! <SID>LimHighlight_handler()
                     let mtchcol1 = mtchcol2
                     let mtchcol2 = tmp
                 endif
-                exe '2match BracketsBlock /\%'.mtchline2.'l\%>'.mtchcol1.'v\%<'.mtchcol2.'v/'
+                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\%<'.mtchcol2.'v/'
             else
-                exe '2match BracketsBlock /\%'.mtchline2.'l\%>'.mtchcol2.'v\|\%>'.mtchline2.'l\%<'.mtchline1.'l\|\%'.mtchline1.'l\%<'.mtchcol1.'v/'
+                if mtchline1 > mtchline2
+                    let tmp = mtchline1
+                    let mtchline1 = mtchline2
+                    let mtchline2 = tmp
+                endif
+                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\|\%>'.mtchline1.'l\%<'.mtchline2.'l\|\%'.mtchline2.'l\%<'.mtchcol2.'v/'
             endif
         else
             match none
