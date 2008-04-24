@@ -83,6 +83,7 @@ fun! <SID>LimHighlight_handler()
         return
     endif
 
+
     " save
     let magickeep        = &magic
     let regdq            = @"
@@ -107,6 +108,9 @@ fun! <SID>LimHighlight_handler()
     " if the character grabbed in @0 is in the mps option set, then highlight
     " the matching character
     if stridx(mps,@0) != -1
+        "------------------------------------------
+        " We are at a bracket character
+        "------------------------------------------
         let curchr     = @0
         " determine match line, column.
         " Restrict search to currently visible portion of window.
@@ -120,43 +124,24 @@ fun! <SID>LimHighlight_handler()
             let [mtchline,mtchcol] = searchpairpos(escape(chrmatch,'[]'),'',escape(curchr,'[]'),'bn','',stopline)
         endif
 
-	" Cursor /on/ the bracket
         if mtchline != 0 && mtchcol != 0
-            exe 'match Brackets /\%'.mtchline.'l\%'.mtchcol.'c/'
+	    let mtchline2 = line('.')
+	    let mtchcol2 = col('.')
+	    let mtchline1 = mtchline
+	    let mtchcol1 = mtchcol
 
-            " mail@mikael.jansson.be
-            " highlight the block within the parens.
-	    let mtchline1=line('.')
-	    let mtchcol1=col('.')
-	    let mtchline2=mtchline
-	    let mtchcol2=mtchcol
-            if mtchline2 == mtchline1
-		"On the same line; make sure column 1 is before column 2
-                if mtchcol1 > mtchcol2
-                    let tmp = mtchcol1
-                    let mtchcol1 = mtchcol2
-                    let mtchcol2 = tmp
-                endif
-                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\%<'.mtchcol2.'v/'
-            else
-		" Multiple lines
-                if mtchline1 > mtchline2
-                    let tmp = mtchline1
-                    let mtchline1 = mtchline2
-                    let mtchline2 = tmp
-                endif
-                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\|\%>'.mtchline1.'l\%<'.mtchline2.'l\|\%'.mtchline2.'l\%<'.mtchcol2.'v/'
-            endif
+	    call s:PerformMatch(mtchline1, mtchcol1, mtchline2, mtchcol2)
         else
+	    2match none
             match none
-            2match none
         endif
 
     " if g:HiMtchBrkt_surround exists and is true, then highlight the surrounding brackets
     "elseif exists("g:HiMtchBrkt_surround") && g:HiMtchBrkt_surround
     else
-	" Cursor inside brackets
-
+        "------------------------------------------
+        " We are inside brackets!
+        "------------------------------------------
         let swp        = Cursor_get()
         let openers    = '['.escape(substitute(&mps,':.,\=',"","g"),']').']'
         let closers    = '['.escape(substitute(&mps,',\=.:',"","g"),']').']'
@@ -170,32 +155,11 @@ fun! <SID>LimHighlight_handler()
             let mtchcol2  = virtcol('.')
             call Cursor_set(swp)
 
-            exe 'match Brackets /\%'.mtchline1.'l\%'.mtchcol1.'v\|\%'.mtchline2.'l\%'.mtchcol2.'v/'
-
-            " mail@mikael.jansson.be
-            " highlight the block within the parens.
-            if mtchline2 == mtchline1
-                if mtchcol1 > mtchcol2
-                    let tmp = mtchcol1
-                    let mtchcol1 = mtchcol2
-                    let mtchcol2 = tmp
-                endif
-                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\%<'.mtchcol2.'v/'
-            else
-                if mtchline1 > mtchline2
-                    let tmp = mtchline1
-                    let mtchline1 = mtchline2
-                    let mtchline2 = tmp
-                endif
-                exe '2match BracketsBlock /\%'.mtchline1.'l\%>'.mtchcol1.'v\|\%>'.mtchline1.'l\%<'.mtchline2.'l\|\%'.mtchline2.'l\%<'.mtchcol2.'v/'
-            endif
+	    call s:PerformMatch(mtchline1, mtchcol1, mtchline2, mtchcol2)
         else
             match none
             2match none
         endif
-    "else
-    "    match none
-    "    2match none
     endif
  
     " restore
@@ -211,6 +175,38 @@ fun! <SID>LimHighlight_handler()
     silent! let @* = regpaste
 endfun
 
+fun! s:PerformMatch(line1, col1, line2, col2)
+    let line1 = a:line1
+    let col1 = a:col1
+    let line2 = a:line2
+    let col2 = a:col2
+
+    if line1 == line2
+	" at a single line => sort points on columns
+	if col1 > col2
+	    let tmp = col2
+	    let col2 = col1
+	    let col1 = tmp
+	    let tmp = line2
+	    let line2 = line1
+	    let line1 = tmp
+	endif
+	exe '2match BracketsBlock /\%'.line1.'l\%>'.col1.'v\%<'.col2.'v/'
+    else
+	" at a single line => sort points on lines
+	if line1 > line2
+	    let tmp = line2
+	    let line2 = line1
+	    let line1 = tmp
+	    let tmp = col2
+	    let col2 = col1
+	    let col1 = tmp
+	endif
+	exe '2match BracketsBlock /\%'.line1.'l\%>'.col1.'v\|\%>'.line1.'l\%<'.line2.'l\|\%'.line2.'l\%<'.col2.'v/'
+    endif
+
+    exe 'match Brackets /\%'.line1.'l\%'.col1.'v\|\%'.line2.'l\%'.col2.'v/'
+endfun
 
 "
 " disable paren colors (for Lisp rainbow)
