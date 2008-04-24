@@ -30,8 +30,8 @@ defflow off
 hardstatus alwayslastline ""
 caption splitonly
 
-screen /tmp/startlisp.sh startlispflag
-title "Lisp"
+logstamp off
+screen -t Lisp 0 /tmp/startlisp.sh startlispflag
 
 # This is how you activate it. Move to the lisp.sh with a magic flag, or similar.
 #
