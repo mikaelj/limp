@@ -40,8 +40,8 @@ endif
 
 " only do this once
 let s:lim_bridge_connected=0
-let s:LimBridge_location = expand( "<sfile>:h" )
-exe "set complete+=s" . s:LimBridge_location . "/lisp-thesaurus"
+let s:LimBridge_location = expand("$LIMRUNTIME")
+exe "set complete+=s" . s:LimBridge_location . "/vim/thesaurus"
 
 "-------------------------------------------------------------------
 " talk to multiple Lisps using LimBridge_connect()
@@ -346,11 +346,21 @@ function! LimBridge_stuff_current_form()
   call LimBridge_goto_pos( pos )
 endfunction
 
+function! LimBridge_stuff_top_form()
+  " save position
+  let pos = LimBridge_get_pos()
+
+  " find & yank top-level s-exp
+  silent! exec "normal! 99[("
+  call LimBridge_send_sexp_to_buffer( LimBridge_yank( "%" ), g:lim_bridge_test )
+
+  call LimBridge_goto_pos( pos )
+endfunction
 
 function! LimBridge_hyperspec(type, make_page)
   " get current word under cursor
   let word = expand( "<cword>" )
-  let cmd = "! perl " . s:LimBridge_location . "/LimBridge-hyperspec.pl "
+  let cmd = "! perl " . s:LimBridge_location . "/bin/lim-hyperspec.pl"
   let cmd = cmd . a:type . " " . a:make_page . " '" .  word . "'"
   silent! exe cmd
   redraw!

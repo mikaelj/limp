@@ -36,11 +36,14 @@ set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
 " coloring
 "-------------------------------------------------------------------
 set t_Co=256
+color desert256
 
-hi Brackets ctermbg=53 ctermfg=white 
+hi Brackets      ctermbg=53 ctermfg=white 
 hi BracketsBlock ctermbg=235 guibg=lightgray
-hi StatusLine ctermbg=white ctermfg=160
-hi StatusLineNC ctermbg=black ctermfg=gray
+hi StatusLine    ctermbg=white ctermfg=160
+hi StatusLineNC  ctermbg=black ctermfg=gray
+hi Pmenu         ctermbg=53 ctermfg=255
+hi PmenuSel      ctermbg=255 ctermfg=53
 
 "-------------------------------------------------------------------
 " external dependencies
@@ -95,8 +98,9 @@ noremap <Leader>aq    :call LimBridge_send_to_lisp( "(sb-ext:quit)\n" )<CR>
 " Abort Interrupt:    send ^C to interpreter
 noremap <Leader>ai    :call LimBridge_send_to_lisp( "" )<CR>
 
-" Stuff Test:         copy current s-exp to test buffer: Stuff Test buffer
-noremap <Leader>st    :call  LimBridge_stuff_current_form()<CR>
+" Test Current:       copy current s-exp to test buffer
+noremap <Leader>tc    :call  LimBridge_stuff_current_form()<CR>
+noremap <Leader>tt    :call  LimBridge_stuff_top_form()<CR>
 
 " Load File:          load /this/ file into Lisp
 " Load Any File:      load whichever version of this file (.lisp not given)
@@ -106,7 +110,7 @@ noremap <Leader>la    :call LimBridge_send_to_lisp( "(load \"" . expand( "%:p:r"
 " Compile File:       compile the current file
 " Compile Load File:  compile, then load the current file
 noremap <Leader>cf    :call LimBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
-noremap <Leader>cl    <Leader>lcf<Leader>lla
+noremap <Leader>cl    <Leader>cf<Leader>la
 
 " Goto Test Buffer:
 " Goto Split:         split current buffer and goto test buffer

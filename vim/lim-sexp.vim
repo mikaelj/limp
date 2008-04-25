@@ -22,7 +22,7 @@
 " * Based on ViLisp.vim by Larry Clapp <vim@theclapp.org>
 
 " Mark Top:           mark visual block
-noremap <Leader>ms   99[(V%
+noremap <Leader>mt   99[(V%
 
 " Format Current:     reindent/format
 " Format Top:    
