@@ -267,20 +267,24 @@ function! LimBridge_send_to_lisp( sexp )
   let p = LimBridge_get_pos()
 
   " goto LimBridge_channel, delete it, put s-exp, write it to lisp
-  exe "hide bu" g:lim_bridge_channel
-  exe "%d"
-  normal! 1G
+  try
+      exe "hide bu" g:lim_bridge_channel
+      exe "%d"
+      normal! 1G
 
-  " tried append() -- doesn't work the way I need it to
-  let old_l = @l
-  let @l = a:sexp
-  normal! "lP
-  let @l = old_l
+      " tried append() -- doesn't work the way I need it to
+      let old_l = @l
+      let @l = a:sexp
+      normal! "lP
+      let @l = old_l
 
-  silent exe 'w!'
-
-  "exe 'w! '.g:lim_bridge_channel
-  call system('screen -x '.g:lim_bridge_screenid.' -p 0 -X eval "readbuf" "paste ."')
+      silent exe 'w!'
+      call system('screen -x '.g:lim_bridge_screenid.' -p 0 -X eval "readbuf" "paste ."')
+  catch /^Vim:E211:/
+      echom "Lisp is gone!"
+      " file not available, Lisp disappeared
+      call LimBridge_disconnect()
+  endtry
 
   call LimBridge_goto_pos( p )
 endfunction

@@ -87,8 +87,39 @@ done
 
 NAME="$1"
 
+
+SCREENRC_DATA="
+\n    startup_message off      # default: on
+\n    defscrollback   1000
+\n    hardcopydir     $HOME/.lim-hardcopy
+\n    logstamp        off
+\n    shell           bash
+\n    caption         splitonly
+\n    escape          ^zz
+\n    
+\n    ## scrolling
+\n    termcapinfo     xterm ti@:te@
+\n    
+\n    # <S-PageUp>, <S-PageDown>: Scroll
+\n    bindkey -m \"^[[5;2~\" stuff ^u
+\n    bindkey -m \"^[[6;2~\" stuff ^d
+\n    
+\n    # <F12>: Detach
+\n    bindkey -k F2 detach
+\n    
+\n    # this is so we can send large amounts of text through 'readbuf'/'paste .'
+\n    obulimit        20971520 # 20M should to be enough
+\n    
+\n    # have to remove delay or screen will drop chars.
+\n    msgwait         0
+\n    msgminwait      0
+\n    
+\n    # no flow control
+\n    defflow         off
+"
+
 #
-# this is called from 'lispscreenrc'.
+# this is executed from inside the screen
 # 
 if [[ "$DO_BOOT" == "1" ]]; then
 
@@ -100,7 +131,7 @@ if [[ "$DO_BOOT" == "1" ]]; then
     touch $LIM_BRIDGE_CHANNEL
 
     # magic goes here
-	screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Lim on $lisp %35= <F12> to disconnect, C-d to quit %= $name ($id)\""
+    screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Lim on $lisp %35= <F12> to disconnect, C-d to quit. (escape is C-z) %= $name ($id)\""
     screen -x $STY -p 0 -X eval "bufferfile $LIM_BRIDGE_CHANNEL"
     screen -x $STY -p 0 -X eval "register . $STY"
     screen -x $STY -p 0 -X eval "writebuf $LIM_SCREEN_STY_FILE"
@@ -140,8 +171,9 @@ elif [[ "$BOOT" == "1" ]]; then
 
     initfile=$(tempfile -s lim_bridge-screenrc)
     styfile=$(tempfile)
-    cp -f $LIMRUNTIME/lim.screenrc $initfile
-    echo "screen -t Lisp 0 $LIMRUNTIME/startlisp.sh $core_opt --private-lim-screenrc=$initfile --private-do-boot=$styfile" >> $initfile
+    #cp -f $LIMRUNTIME/lim.screenrc $initfile
+    echo -e $SCREENRC_DATA > $initfile
+    echo "screen -t Lisp 0 $LIMRUNTIME/bin/lisp.sh $core_opt --private-lim-screenrc=$initfile --private-do-boot=$styfile" >> $initfile
 
     screen -c $initfile -dmS lim_listener-$NAME 
 
