@@ -92,13 +92,12 @@ NAME="$1"
 # 
 if [[ "$DO_BOOT" == "1" ]]; then
 
-	pos=$(expr index $STY .)
-	id=${STY:0:$pos-1}
-	name=${STY:$pos+13}
+    pos=$(expr index $STY .)
+    id=${STY:0:$pos-1}
+    name=${STY:$pos+13}
     lisp=$(sbcl --version)
     LIM_BRIDGE_CHANNEL="$HOME/.lim_bridge_channel-$name.$id"
     touch $LIM_BRIDGE_CHANNEL
-
 
     # magic goes here
 	screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Lim on $lisp %35= <F12> to disconnect, C-d to quit %= $name ($id)\""
@@ -141,8 +140,8 @@ elif [[ "$BOOT" == "1" ]]; then
 
     initfile=$(tempfile -s lim_bridge-screenrc)
     styfile=$(tempfile)
-    cp -f /home/mikaelj/hacking/lim/trunk/lispscreenrc $initfile
-    echo "screen -t Lisp 0 $HOME/hacking/lim/trunk/startlisp.sh $core_opt --private-lim-screenrc=$initfile --private-do-boot=$styfile" >> $initfile
+    cp -f $LIMRUNTIME/lim.screenrc $initfile
+    echo "screen -t Lisp 0 $LIMRUNTIME/startlisp.sh $core_opt --private-lim-screenrc=$initfile --private-do-boot=$styfile" >> $initfile
 
     screen -c $initfile -dmS lim_listener-$NAME 
 
