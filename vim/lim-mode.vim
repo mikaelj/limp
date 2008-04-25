@@ -41,12 +41,10 @@ augroup LimMode
 
  au BufEnter .lim_bridge_test*,*.lisp,*.asd setlocal statusline=%<%f\ \(%{g:lim_bridge_id}\)\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
 
+ au BufEnter .lim_bridge_test*,*.lisp,*.asd setlocal iskeyword=&,*,+,45,/,48-57,:,<,=,>,@,A-Z,a-z,_
+
  au BufEnter .lim_bridge_test*,*.lisp,*.asd call LimHighlight_start()|call AutoClose_start()
  au BufLeave .lim_bridge_test*,*.lisp,*.asd call LimHighlight_stop()|call AutoClose_stop()
 
- au Filetype lisp imap ä (
- au Filetype lisp imap ö )
- au Filetype lisp nmap ä a(
- au Filetype lisp nmap Ö a)
 augroup END
 
