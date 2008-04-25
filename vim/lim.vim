@@ -66,6 +66,7 @@ runtime lim/lim-autoclose.vim
 " boot Lim
 "-------------------------------------------------------------------
 nmap <F12> 	          :call LimBridge_boot_or_connect_or_display()<CR>
+nmap <C-F12> 	      :call LimBridge_disconnect()<CR>
 
 "-------------------------------------------------------------------
 " key bindings

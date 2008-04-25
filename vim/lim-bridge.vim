@@ -64,6 +64,10 @@ endfun
 
 " optionally specify the screen id to connect to
 fun! LimBridge_connect(...)
+    if s:lim_bridge_connected == 1
+        echom "Already to connected to Lisp!"
+        return
+    endif
     if a:0 == 1 && a:1 != ""
         " format: 7213.lim_listener-foo
         let pid = a:1[:stridx(a:1, '.')-1]
@@ -125,13 +129,24 @@ fun! LimBridge_connect(...)
     echom "Welcome to Lim. May your journey be pleasant."
 endfun
 
+fun! LimBridge_disconnect()
+    echom "Lisp is gone!"
+    let s:lim_bridge_connected = 0
+    let g:lim_bridge_id = "<disconnected>"
+endfun
+
 "
 " when not connected, start new or connect to existing
 " otherwise, switch to Lisp (screen)
 fun! LimBridge_boot_or_connect_or_display()
     if s:lim_bridge_connected
-        echom 'screen -x '.g:lim_bridge_screenid
-        let cmd="screen -x ".g:lim_bridge_screenid
+        " is it still running?
+        let status = system("screen -ls")
+        if stridx(status, g:lim_bridge_screenid) == -1
+            call LimBridge_disconnect()
+            return
+        endif
+        let cmd = "screen -x ".g:lim_bridge_screenid
         silent exe "!".cmd
         redraw!
     else
@@ -140,7 +155,7 @@ fun! LimBridge_boot_or_connect_or_display()
             call LimBridge_connect()
         else
             echom "Booting..."
-            let sty = system("/home/mikaelj/hacking/lim/trunk/startlisp.sh -b ".name)
+            let sty = system("$LIMRUNTIME/bin/lisp.sh -b ".name)
             call LimBridge_connect(sty)
         endif
   endif
