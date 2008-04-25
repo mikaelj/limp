@@ -57,6 +57,7 @@ runtime lim/lim-autoclose.vim
 " boot Lim
 "-------------------------------------------------------------------
 nmap <F10> 	      :call LimBridge_connect()<CR>
+nmap <C-F10> 	  :call LimBridge_boot_lisp()<CR>
 
 "-------------------------------------------------------------------
 " key bindings

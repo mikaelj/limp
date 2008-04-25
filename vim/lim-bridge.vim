@@ -27,8 +27,10 @@ exe "set complete+=s" . s:LimBridge_location . "/lisp-thesaurus"
 " talk to multiple Lisps using LimBridge_connect()
 "-------------------------------------------------------------------
 fun! LimBridge_connect()
-    let s:pipe_name = input("Lisp? ", g:lim_bridge_channel_base, "file")
-    let g:lim_bridge_id = strpart(s:pipe_name, strlen(g:lim_bridge_channel_base))
+    let s:lim_bridge_channel = input("Lisp? ", g:lim_bridge_channel_base, "file")
+    let g:lim_bridge_id = strpart(s:lim_bridge_channel, strlen(g:lim_bridge_channel_base))
+    " extract the PID from "foobar.whatever.104982"
+    let g:lim_bridge_screenid = g:lim_bridge_id[strridx(g:lim_bridge_id, '.')+1:]
     let g:lim_bridge_scratch = $HOME . "/.lim_bridge_scratch-" . g:lim_bridge_id
     let g:lim_bridge_test = $HOME . '/.lim_bridge_test-' . g:lim_bridge_id
 
@@ -59,6 +61,16 @@ fun! LimBridge_connect()
     normal! 
 
     let s:lim_bridge_connected=1
+endfun
+
+fun! LimBridge_boot_lisp()
+    let name = input("Name of Lisp? ")
+    if name == ""
+        echom "No name given, bailing out."
+        return
+    endif
+"call system("bash -c \"/home/mikaelj/hacking/lim/trunk/startlisp.sh -b ".name."\"")
+exe '!/home/mikaelj/hacking/lim/trunk/startlisp.sh -b '.name
 endfun
 
 augroup LimBridge
@@ -177,7 +189,8 @@ function! LimBridge_send_to_lisp( sexp )
   normal! "lP
   let @l = old_l
 
-  exe 'w >>' s:pipe_name
+  exe 'w! '.s:lim_bridge_channel
+  call system('screen -x '.g:lim_bridge_screenid.' -p 0 -X eval "readbuf" "paste ."')
 
   call LimBridge_goto_pos( p )
 endfunction
