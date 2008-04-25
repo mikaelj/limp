@@ -90,14 +90,23 @@ if [[ "$DO_BOOT" == "1" ]]; then
 	pos=$(expr index $STY .)
 	id=${STY:0:$pos-1}
 	name=${STY:$pos+13}
-	screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Lim on SBCL %35= <F12> to disconnect, C-d to quit %= $name ($id)\""
+    lisp=$(sbcl --version)
+	screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Lim on $lisp %35= <F12> to disconnect, C-d to quit %= $name ($id)\""
 
     core=""
     if [[ "$CORE_PATH" != "" ]]; then
         core="--core $CORE_PATH"
     fi
-	#rlwrap -b $BREAK_CHARS sbcl $core
-    sbcl $core
+
+    # do we have rlwrap? very useful utility
+    RLWRAP=""
+    BREAK_CHARS="\"#'(),;\`\\|!?[]{}"
+    [[ `which rlwrap` ]] && RLWRAP="rlwrap -b $BREAK_CHARS"
+
+    # command to disable aliases/functions
+    echo -e "Welcome to Lim. May your journey be pleasant.\n"
+	command $RLWRAP sbcl --noinform $core
+    #sbcl --noinform $core
 
     # cleanup screenrc
     rm -rf "$LIM_SCREENRC"
