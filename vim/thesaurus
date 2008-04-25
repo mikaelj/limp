@@ -1,0 +1,1339 @@
+&aux
+&key
+acos
+aref
+asin
+atan
+atom
+byte
+caar
+cadr
+case
+cdar
+cddr
+char
+cond
+cons
+cosh
+decf
+endp
+eval
+expt
+fill
+find
+flet
+getf
+incf
+last
+let*
+list
+load
+loop
+mapc
+mapl
+null
+oddp
+open
+prog
+push
+read
+real
+remf
+rest
+room
+sbit
+setf
+setq
+sinh
+some
+sort
+sqrt
+step
+tanh
+time
+type
+warn
+when
+&body
+&rest
+abort
+acons
+acosh
+apply
+array
+asinh
+assoc
+atanh
+block
+boole
+break
+caaar
+caadr
+cadar
+caddr
+catch
+ccase
+cdaar
+cdadr
+cddar
+cdddr
+char<
+char=
+char>
+class
+close
+consp
+count
+debug
+defun
+ecase
+equal
+error
+evenp
+every
+fifth
+first
+float
+floor
+ftype
+isqrt
+ldiff
+list*
+listp
+merge
+nconc
+ninth
+phase
+plusp
+prin1
+princ
+print
+prog*
+prog1
+prog2
+progn
+progv
+psetf
+psetq
+quote
+ratio
+realp
+round
+schar
+sixth
+sleep
+space
+speed
+subst
+svref
+tailp
+tenth
+third
+throw
+trace
+typep
+union
+write
+zerop
+&whole
+adjoin
+append
+arrayp
+assert
+bignum
+boundp
+caaaar
+caaadr
+caadar
+caaddr
+cadaar
+cadadr
+caddar
+cadddr
+cdaaar
+cdaadr
+cdadar
+cdaddr
+cddaar
+cddadr
+cdddar
+cddddr
+cerror
+char/=
+char<=
+char>=
+coerce
+defvar
+delete
+dolist
+eighth
+equalp
+export
+ffloor
+fixnum
+floatp
+format
+fourth
+fround
+gensym
+ignore
+import
+inline
+intern
+labels
+lambda
+length
+listen
+logand
+logeqv
+logior
+lognor
+lognot
+logxor
+mapcan
+mapcar
+mapcon
+member
+method
+minusp
+notany
+nsubst
+nthcdr
+number
+nunion
+pprint
+random
+rassoc
+reduce
+remove
+return
+rplaca
+rplacd
+safety
+search
+second
+shadow
+shiftf
+signal
+signum
+stream
+string
+sublis
+subseq
+sxhash
+symbol
+terpri
+unless
+values
+vector
+apropos
+bit-and
+bit-eqv
+bit-ior
+bit-nor
+bit-not
+bit-xor
+boole-1
+boole-2
+boolean
+butlast
+ceiling
+clrhash
+compile
+complex
+declaim
+declare
+defsetf
+deftype
+dotimes
+dribble
+fboundp
+find-if
+funcall
+gentemp
+gethash
+inspect
+integer
+keyword
+locally
+logbitp
+lognand
+logorc1
+logorc2
+logtest
+maphash
+maplist
+nreconc
+nsublis
+numberp
+package
+pairlis
+provide
+pushnew
+remhash
+remprop
+replace
+require
+restart
+reverse
+rotatef
+seventh
+special
+streamp
+string<
+string=
+string>
+stringp
+subsetp
+symbolp
+tagbody
+type-of
+untrace
+vectorp
+warning
+assoc-if
+bit-nand
+bit-orc1
+bit-orc2
+boole-c1
+boole-c2
+char-int
+class-of
+complexp
+continue
+copy-seq
+count-if
+defclass
+defmacro
+describe
+fceiling
+function
+identity
+imagpart
+integerp
+keywordp
+ldb-test
+logandc1
+logandc2
+logcount
+macrolet
+map-into
+mismatch
+nbutlast
+notevery
+nreverse
+optimize
+packagep
+pathname
+position
+proclaim
+rational
+realpart
+sequence
+standard
+string/=
+string<=
+string>=
+subst-if
+subtypep
+truename
+truncate
+typecase
+unexport
+unintern
+variable
+y-or-n-p
+&optional
+*modules*
+*package*
+base-char
+bit-andc1
+bit-andc2
+boole-and
+boole-clr
+boole-eqv
+boole-ior
+boole-nor
+boole-set
+boole-xor
+byte-size
+char-code
+char-name
+character
+code-char
+condition
+conjugate
+constantp
+copy-list
+copy-tree
+ctypecase
+defmethod
+defstruct
+delete-if
+directory
+etypecase
+eval-when
+formatter
+ftruncate
+functionp
+ignorable
+make-list
+member-if
+name-char
+notinline
+nsubst-if
+nth-value
+numerator
+otherwise
+pathnamep
+peek-char
+rassoc-if
+rationalp
+read-byte
+read-char
+read-line
+readtable
+remove-if
+revappend
+satisfies
+structure
+use-value
+*debug-io*
+*features*
+*query-io*
+add-method
+array-rank
+bit-vector
+boole-nand
+boole-orc1
+boole-orc2
+cell-error
+char-equal
+char-lessp
+characterp
+check-type
+class-name
+complement
+constantly
+copy-alist
+defgeneric
+defpackage
+digit-char
+do-symbols
+file-error
+find-class
+float-sign
+fresh-line
+hash-table
+in-package
+long-float
+make-array
+makunbound
+mask-field
+namestring
+pprint-pop
+pprint-tab
+probe-file
+readtablep
+slot-value
+substitute
+tree-equal
+type-error
+vector-pop
+with-slots
+write-byte
+write-char
+write-line
+*read-base*
+*read-eval*
+*readtable*
+base-string
+boole-andc1
+boole-andc2
+both-case-p
+call-method
+char-upcase
+clear-input
+concatenate
+copy-symbol
+declaration
+defconstant
+delete-file
+denominator
+disassemble
+echo-stream
+end-of-file
+fdefinition
+file-author
+file-length
+file-stream
+find-if-not
+find-method
+find-symbol
+float-radix
+fmakunbound
+list-length
+loop-finish
+macroexpand
+make-method
+make-string
+make-symbol
+nsubstitute
+parse-error
+position-if
+pprint-fill
+rationalize
+rename-file
+return-from
+scale-float
+short-float
+signed-byte
+slot-boundp
+stable-sort
+store-value
+string-trim
+symbol-name
+unread-char
+use-package
+values-list
+vector-push
+yes-or-no-p
+&environment
+*load-print*
+*print-base*
+*print-case*
+adjust-array
+alpha-char-p
+apropos-list
+assoc-if-not
+bit-vector-p
+change-class
+clear-output
+compile-file
+count-if-not
+decode-float
+defparameter
+digit-char-p
+double-float
+fill-pointer
+find-package
+find-restart
+float-digits
+force-output
+handler-bind
+handler-case
+hash-table-p
+intersection
+lower-case-p
+machine-type
+make-package
+package-name
+print-object
+random-state
+reader-error
+restart-bind
+restart-case
+restart-name
+simple-array
+simple-error
+single-float
+slot-missing
+slot-unbound
+stream-error
+string-equal
+string-lessp
+subst-if-not
+symbol-plist
+symbol-value
+unbound-slot
+upper-case-p
+write-string
+*print-array*
+*print-level*
+*print-lines*
+*print-radix*
+*terminal-io*
+alphanumericp
+byte-position
+char-downcase
+char-greaterp
+control-error
+delete-if-not
+deposit-field
+documentation
+extended-char
+file-position
+finish-output
+ignore-errors
+macroexpand-1
+make-instance
+make-pathname
+make-sequence
+member-if-not
+next-method-p
+nintersection
+nsubst-if-not
+open-stream-p
+package-error
+parse-integer
+pathname-host
+pathname-name
+pathname-type
+pprint-indent
+pprint-linear
+program-error
+rassoc-if-not
+read-sequence
+remove-if-not
+remove-method
+simple-string
+simple-vector
+slot-exists-p
+software-type
+standard-char
+string-stream
+string-upcase
+style-warning
+substitute-if
+unsigned-byte
+unuse-package
+*error-output*
+*load-verbose*
+*print-circle*
+*print-escape*
+*print-gensym*
+*print-length*
+*print-pretty*
+*random-state*
+*trace-output*
+built-in-class
+char-not-equal
+char-not-lessp
+compiler-macro
+copy-readtable
+copy-structure
+delete-package
+do-all-symbols
+dynamic-extent
+get-properties
+graphic-char-p
+input-stream-p
+integer-length
+invoke-restart
+long-site-name
+macro-function
+make-condition
+make-load-form
+muffle-warning
+no-next-method
+nstring-upcase
+nsubstitute-if
+pprint-newline
+pprint-tabular
+random-state-p
+readtable-case
+rename-package
+row-major-aref
+set-difference
+simple-warning
+standard-class
+symbol-package
+synonym-stream
+two-way-stream
+unwind-protect
+with-accessors
+with-open-file
+write-sequence
+*compile-print*
+*debugger-hook*
+*load-pathname*
+*load-truename*
+*read-suppress*
+array-dimension
+cell-error-name
+char-code-limit
+describe-object
+file-namestring
+file-write-date
+float-precision
+hash-table-size
+hash-table-test
+host-namestring
+invoke-debugger
+load-time-value
+machine-version
+make-hash-table
+merge-pathnames
+nset-difference
+output-stream-p
+pathname-device
+position-if-not
+pprint-dispatch
+prin1-to-string
+princ-to-string
+short-site-name
+simple-string-p
+simple-vector-p
+slot-makunbound
+standard-char-p
+standard-method
+standard-object
+string-downcase
+string-greaterp
+structure-class
+symbol-function
+symbol-macrolet
+wild-pathname-p
+write-to-string
+*gensym-counter*
+*print-readably*
+*standard-input*
+arithmetic-error
+array-dimensions
+array-rank-limit
+array-total-size
+broadcast-stream
+call-next-method
+compute-restarts
+define-condition
+division-by-zero
+find-all-symbols
+generic-function
+get-decoded-time
+hash-table-count
+logical-pathname
+machine-instance
+make-echo-stream
+nstring-downcase
+package-use-list
+parse-namestring
+pathname-match-p
+pathname-version
+read-from-string
+set-exclusive-or
+shadowing-import
+simple-condition
+software-version
+string-left-trim
+string-not-equal
+string-not-lessp
+structure-object
+type-error-datum
+unbound-variable
+with-open-stream
+&allow-other-keys
+*compile-verbose*
+*standard-output*
+allocate-instance
+array-in-bounds-p
+char-not-greaterp
+compilation-speed
+compiled-function
+delete-duplicates
+enough-namestring
+function-keywords
+list-all-packages
+make-random-state
+method-qualifiers
+nset-exclusive-or
+package-nicknames
+read-char-no-hang
+remove-duplicates
+serious-condition
+shared-initialize
+simple-bit-vector
+simple-type-error
+storage-condition
+string-capitalize
+string-right-trim
+substitute-if-not
+*break-on-signals*
+*macroexpand-hook*
+adjustable-array-p
+array-displacement
+array-element-type
+destructuring-bind
+file-string-length
+get-setf-expansion
+get-universal-time
+long-float-epsilon
+method-combination
+nstring-capitalize
+nsubstitute-if-not
+pathname-directory
+print-not-readable
+simple-base-string
+special-operator-p
+translate-pathname
+undefined-function
+vector-push-extend
+*print-miser-width*
+compiled-function-p
+concatenated-stream
+define-modify-macro
+define-symbol-macro
+do-external-symbols
+file-error-pathname
+get-macro-character
+initialize-instance
+make-synonym-stream
+make-two-way-stream
+multiple-value-bind
+multiple-value-call
+multiple-value-list
+multiple-value-setq
+read-delimited-list
+set-macro-character
+set-pprint-dispatch
+short-float-epsilon
+simple-bit-vector-p
+stream-element-type
+stream-error-stream
+string-not-greaterp
+with-simple-restart
+*print-right-margin*
+call-arguments-limit
+copy-pprint-dispatch
+define-setf-expander
+directory-namestring
+double-float-epsilon
+integer-decode-float
+interactive-stream-p
+invalid-method-error
+lambda-list-keywords
+most-negative-fixnum
+most-positive-fixnum
+multiple-value-prog1
+no-applicable-method
+package-used-by-list
+pprint-logical-block
+set-syntax-from-char
+single-float-epsilon
+array-dimension-limit
+array-row-major-index
+compile-file-pathname
+decode-universal-time
+define-compiler-macro
+encode-universal-time
+get-internal-run-time
+make-broadcast-stream
+multiple-values-limit
+package-error-package
+reinitialize-instance
+synonym-stream-symbol
+unbound-slot-instance
+user-homedir-pathname
+with-compilation-unit
+with-output-to-string
+with-package-iterator
+array-total-size-limit
+floating-point-inexact
+get-internal-real-time
+hash-table-rehash-size
+stream-external-format
+with-input-from-string
+*compile-file-pathname*
+*compile-file-truename*
+*print-pprint-dispatch*
+compiler-macro-function
+ensure-generic-function
+floating-point-overflow
+lambda-parameters-limit
+make-instances-obsolete
+print-unreadable-object
+with-condition-restarts
+with-standard-io-syntax
+array-has-fill-pointer-p
+broadcast-stream-streams
+echo-stream-input-stream
+ensure-directories-exist
+floating-point-underflow
+get-output-stream-string
+lisp-implementation-type
+make-concatenated-stream
+make-string-input-stream
+method-combination-error
+most-negative-long-float
+most-positive-long-float
+type-error-expected-type
+with-hash-table-iterator
+arithmetic-error-operands
+define-method-combination
+echo-stream-output-stream
+least-negative-long-float
+least-positive-long-float
+make-string-output-stream
+most-negative-short-float
+most-positive-short-float
+package-shadowing-symbols
+print-not-readable-object
+standard-generic-function
+arithmetic-error-operation
+compute-applicable-methods
+function-lambda-expression
+least-negative-short-float
+least-positive-short-float
+most-negative-double-float
+most-negative-single-float
+most-positive-double-float
+most-positive-single-float
+read-preserving-whitespace
+translate-logical-pathname
+upgraded-complex-part-type
+*default-pathname-defaults*
+*read-default-float-format*
+concatenated-stream-streams
+hash-table-rehash-threshold
+least-negative-double-float
+least-negative-single-float
+least-positive-double-float
+least-positive-single-float
+lisp-implementation-version
+long-float-negative-epsilon
+make-load-form-saving-slots
+two-way-stream-input-stream
+upgraded-array-element-type
+get-dispatch-macro-character
+invoke-restart-interactively
+set-dispatch-macro-character
+short-float-negative-epsilon
+two-way-stream-output-stream
+double-float-negative-epsilon
+logical-pathname-translations
+make-dispatch-macro-character
+pprint-exit-if-list-exhausted
+single-float-negative-epsilon
+internal-time-units-per-second
+simple-condition-format-control
+floating-point-invalid-operation
+simple-condition-format-arguments
+load-logical-pathname-translations
+update-instance-for-different-class
+update-instance-for-redefined-class
+least-negative-normalized-long-float
+least-positive-normalized-long-float
+least-negative-normalized-short-float
+least-positive-normalized-short-float
+least-negative-normalized-double-float
+least-negative-normalized-single-float
+least-positive-normalized-double-float
+least-positive-normalized-single-float
+&a-o-k &allow-other-keys
+*b-o-s *break-on-signals*
+*c-f-p *compile-file-pathname*
+*c-f-t *compile-file-truename*
+*c-p *compile-print*
+*c-v *compile-verbose*
+*d-h *debugger-hook*
+*d-i *debug-io*
+*d-p-d *default-pathname-defaults*
+*e-o *error-output*
+*g-c *gensym-counter*
+*l-p *load-print* *load-pathname*
+*l-t *load-truename*
+*l-v *load-verbose*
+*m-h *macroexpand-hook*
+*p-a *print-array*
+*p-b *print-base*
+*p-c *print-case* *print-circle*
+*p-e *print-escape*
+*p-g *print-gensym*
+*p-l *print-level* *print-lines* *print-length*
+*p-m-w *print-miser-width*
+*p-p *print-pretty*
+*p-p-d *print-pprint-dispatch*
+*p-r *print-radix* *print-readably*
+*p-r-m *print-right-margin*
+*q-i *query-io*
+*r-b *read-base*
+*r-d-f-f *read-default-float-format*
+*r-e *read-eval*
+*r-s *random-state* *read-suppress*
+*s-i *standard-input*
+*s-o *standard-output*
+*t-i *terminal-io*
+*t-o *trace-output*
+a-a adjust-array
+a-a-p adjustable-array-p
+a-c-p alpha-char-p
+a-d array-dimension array-dimensions array-displacement
+a-d-l array-dimension-limit
+a-e arithmetic-error
+a-e-o arithmetic-error-operands arithmetic-error-operation
+a-e-t array-element-type
+a-h-f-p-p array-has-fill-pointer-p
+a-i assoc-if allocate-instance
+a-i-b-p array-in-bounds-p
+a-i-n assoc-if-not
+a-l apropos-list
+a-m add-method
+a-o-k &allow-other-keys
+a-r array-rank
+a-r-l array-rank-limit
+a-r-m-i array-row-major-index
+a-t-s array-total-size
+a-t-s-l array-total-size-limit
+b-1 boole-1
+b-2 boole-2
+b-a bit-and bit-andc1 bit-andc2 boole-and boole-andc1 boole-andc2
+b-c boole-c1 boole-c2 base-char boole-clr
+b-c-p both-case-p
+b-e bit-eqv boole-eqv
+b-i bit-ior boole-ior
+b-i-c built-in-class
+b-n bit-nor bit-not bit-nand boole-nor boole-nand
+b-o bit-orc1 bit-orc2 boole-orc1 boole-orc2
+b-o-s *break-on-signals*
+b-p byte-position
+b-s boole-set byte-size base-string broadcast-stream
+b-s-s broadcast-stream-streams
+b-v bit-vector
+b-v-p bit-vector-p
+b-x bit-xor boole-xor
+c-a copy-alist
+c-a-l call-arguments-limit
+c-a-m compute-applicable-methods
+c-c char-code code-char change-class
+c-c-l char-code-limit
+c-d char-downcase
+c-e cell-error char-equal control-error
+c-e-n cell-error-name
+c-f compile-file compiled-function
+c-f-p compiled-function-p compile-file-pathname *compile-file-pathname*
+c-f-t *compile-file-truename*
+c-g char-greaterp
+c-i char-int count-if clear-input
+c-i-n count-if-not
+c-l copy-list char-lessp
+c-m call-method compiler-macro
+c-m-f compiler-macro-function
+c-n char-name class-name
+c-n-e char-not-equal
+c-n-g char-not-greaterp
+c-n-l char-not-lessp
+c-n-m call-next-method
+c-o class-of clear-output
+c-p *compile-print*
+c-p-d copy-pprint-dispatch
+c-r copy-readtable compute-restarts
+c-s copy-seq copy-symbol copy-structure compilation-speed concatenated-stream
+c-s-s concatenated-stream-streams
+c-t copy-tree check-type
+c-u char-upcase
+c-v *compile-verbose*
+d-a-s do-all-symbols
+d-b destructuring-bind
+d-b-z division-by-zero
+d-c digit-char define-condition
+d-c-m define-compiler-macro
+d-c-p digit-char-p
+d-d delete-duplicates
+d-e dynamic-extent
+d-e-s do-external-symbols
+d-f delete-file decode-float double-float deposit-field
+d-f-e double-float-epsilon
+d-f-n-e double-float-negative-epsilon
+d-h *debugger-hook*
+d-i delete-if *debug-io*
+d-i-n delete-if-not
+d-m-c define-method-combination
+d-m-m define-modify-macro
+d-n directory-namestring
+d-o describe-object
+d-p delete-package
+d-p-d *default-pathname-defaults*
+d-s do-symbols
+d-s-e define-setf-expander
+d-s-m define-symbol-macro
+d-u-t decode-universal-time
+e-c extended-char
+e-d-e ensure-directories-exist
+e-g-f ensure-generic-function
+e-n enough-namestring
+e-o *error-output*
+e-o-f end-of-file
+e-s echo-stream
+e-s-i-s echo-stream-input-stream
+e-s-o-s echo-stream-output-stream
+e-u-t encode-universal-time
+e-w eval-when
+f-a file-author
+f-a-s find-all-symbols
+f-c find-class
+f-d float-digits
+f-e file-error
+f-e-p file-error-pathname
+f-i find-if
+f-i-n find-if-not
+f-k function-keywords
+f-l fresh-line file-length
+f-l-e function-lambda-expression
+f-m find-method
+f-n file-namestring
+f-o force-output finish-output
+f-p fill-pointer find-package file-position float-precision
+f-p-i floating-point-inexact
+f-p-i-o floating-point-invalid-operation
+f-p-o floating-point-overflow
+f-p-u floating-point-underflow
+f-r float-radix find-restart
+f-s float-sign file-stream find-symbol
+f-s-l file-string-length
+f-w-d file-write-date
+g-c *gensym-counter*
+g-c-p graphic-char-p
+g-d-m-c get-dispatch-macro-character
+g-d-t get-decoded-time
+g-f generic-function
+g-i-r-t get-internal-run-time get-internal-real-time
+g-m-c get-macro-character
+g-o-s-s get-output-stream-string
+g-p get-properties
+g-s-e get-setf-expansion
+g-u-t get-universal-time
+h-b handler-bind
+h-c handler-case
+h-n host-namestring
+h-t hash-table
+h-t-c hash-table-count
+h-t-p hash-table-p
+h-t-r-s hash-table-rehash-size
+h-t-r-t hash-table-rehash-threshold
+h-t-s hash-table-size
+h-t-t hash-table-test
+i-d invoke-debugger
+i-d-f integer-decode-float
+i-e ignore-errors
+i-i initialize-instance
+i-l integer-length
+i-m-e invalid-method-error
+i-p in-package
+i-r invoke-restart
+i-r-i invoke-restart-interactively
+i-s-p input-stream-p interactive-stream-p
+i-t-u-p-s internal-time-units-per-second
+l-a-p list-all-packages
+l-c-p lower-case-p
+l-f long-float loop-finish
+l-f-e long-float-epsilon
+l-f-n-e long-float-negative-epsilon
+l-i-t lisp-implementation-type
+l-i-v lisp-implementation-version
+l-l list-length
+l-l-k lambda-list-keywords
+l-l-p-t load-logical-pathname-translations
+l-n-d-f least-negative-double-float
+l-n-l-f least-negative-long-float
+l-n-n-d-f least-negative-normalized-double-float
+l-n-n-l-f least-negative-normalized-long-float
+l-n-n-s-f least-negative-normalized-short-float least-negative-normalized-single-float
+l-n-s-f least-negative-short-float least-negative-single-float
+l-p *load-print* *load-pathname* logical-pathname
+l-p-d-f least-positive-double-float
+l-p-l lambda-parameters-limit
+l-p-l-f least-positive-long-float
+l-p-n-d-f least-positive-normalized-double-float
+l-p-n-l-f least-positive-normalized-long-float
+l-p-n-s-f least-positive-normalized-short-float least-positive-normalized-single-float
+l-p-s-f least-positive-short-float least-positive-single-float
+l-p-t logical-pathname-translations
+l-s-n long-site-name
+l-t ldb-test *load-truename*
+l-t-v load-time-value
+l-v *load-verbose*
+m-1 macroexpand-1
+m-a make-array
+m-b-s make-broadcast-stream
+m-c make-condition method-combination
+m-c-e method-combination-error
+m-c-s make-concatenated-stream
+m-d-m-c make-dispatch-macro-character
+m-e-s make-echo-stream
+m-f mask-field macro-function
+m-h *macroexpand-hook*
+m-h-t make-hash-table
+m-i map-into member-if make-instance machine-instance
+m-i-n member-if-not
+m-i-o make-instances-obsolete
+m-l make-list
+m-l-f make-load-form
+m-l-f-s-s make-load-form-saving-slots
+m-m make-method
+m-n-d-f most-negative-double-float
+m-n-f most-negative-fixnum
+m-n-l-f most-negative-long-float
+m-n-s-f most-negative-short-float most-negative-single-float
+m-p make-package make-pathname merge-pathnames
+m-p-d-f most-positive-double-float
+m-p-f most-positive-fixnum
+m-p-l-f most-positive-long-float
+m-p-s-f most-positive-short-float most-positive-single-float
+m-q method-qualifiers
+m-r-s make-random-state
+m-s make-string make-symbol make-sequence
+m-s-i-s make-string-input-stream
+m-s-o-s make-string-output-stream
+m-s-s make-synonym-stream
+m-t machine-type
+m-t-w-s make-two-way-stream
+m-v machine-version
+m-v-b multiple-value-bind
+m-v-c multiple-value-call
+m-v-l multiple-value-list multiple-values-limit
+m-v-p multiple-value-prog1
+m-v-s multiple-value-setq
+m-w muffle-warning
+n-a-m no-applicable-method
+n-c name-char nstring-capitalize
+n-d nset-difference nstring-downcase
+n-e-o nset-exclusive-or
+n-i nsubst-if nsubstitute-if
+n-i-n nsubst-if-not nsubstitute-if-not
+n-m-p next-method-p
+n-n-m no-next-method
+n-u nstring-upcase
+n-v nth-value
+o-s-p open-stream-p output-stream-p
+p-a *print-array*
+p-b *print-base*
+p-c peek-char *print-case* *print-circle*
+p-d pathname-device pprint-dispatch pathname-directory
+p-e parse-error package-error program-error *print-escape*
+p-e-i-l-e pprint-exit-if-list-exhausted
+p-e-p package-error-package
+p-f probe-file pprint-fill
+p-g *print-gensym*
+p-h pathname-host
+p-i position-if parse-integer pprint-indent
+p-i-n position-if-not
+p-l *print-level* *print-lines* pprint-linear *print-length*
+p-l-b pprint-logical-block
+p-m-p pathname-match-p
+p-m-w *print-miser-width*
+p-n package-name pathname-name pprint-newline parse-namestring package-nicknames
+p-n-r print-not-readable
+p-n-r-o print-not-readable-object
+p-o print-object
+p-p pprint-pop *print-pretty*
+p-p-d *print-pprint-dispatch*
+p-r *print-radix* *print-readably*
+p-r-m *print-right-margin*
+p-s-s package-shadowing-symbols
+p-t pprint-tab pathname-type pprint-tabular
+p-t-s prin1-to-string princ-to-string
+p-u-b-l package-used-by-list
+p-u-l package-use-list
+p-u-o print-unreadable-object
+p-v pathname-version
+q-i *query-io*
+r-b read-byte *read-base* restart-bind
+r-c read-char restart-case readtable-case
+r-c-n-h read-char-no-hang
+r-d remove-duplicates
+r-d-f-f *read-default-float-format*
+r-d-l read-delimited-list
+r-e *read-eval* reader-error
+r-f rename-file return-from
+r-f-s read-from-string
+r-i rassoc-if remove-if reinitialize-instance
+r-i-n rassoc-if-not remove-if-not
+r-l read-line
+r-m remove-method
+r-m-a row-major-aref
+r-n restart-name
+r-p rename-package
+r-p-w read-preserving-whitespace
+r-s random-state read-sequence *random-state* *read-suppress*
+r-s-p random-state-p
+s-a simple-array
+s-b signed-byte slot-boundp
+s-b-s simple-base-string
+s-b-v simple-bit-vector
+s-b-v-p simple-bit-vector-p
+s-c standard-char standard-class structure-class simple-condition serious-condition storage-condition string-capitalize
+s-c-f-a simple-condition-format-arguments
+s-c-f-c simple-condition-format-control
+s-c-p standard-char-p
+s-d set-difference string-downcase
+s-d-m-c set-dispatch-macro-character
+s-e simple-error stream-error string-equal
+s-e-f stream-external-format
+s-e-o set-exclusive-or
+s-e-p slot-exists-p
+s-e-s stream-error-stream
+s-e-t stream-element-type
+s-f scale-float short-float single-float symbol-function
+s-f-e short-float-epsilon single-float-epsilon
+s-f-n-e short-float-negative-epsilon single-float-negative-epsilon
+s-g string-greaterp
+s-g-f standard-generic-function
+s-i subst-if substitute-if *standard-input* shadowing-import shared-initialize
+s-i-n subst-if-not substitute-if-not
+s-l string-lessp
+s-l-t string-left-trim
+s-m slot-missing slot-makunbound standard-method symbol-macrolet
+s-m-c set-macro-character
+s-n symbol-name
+s-n-e string-not-equal
+s-n-g string-not-greaterp
+s-n-l string-not-lessp
+s-o standard-object structure-object *standard-output*
+s-o-p special-operator-p
+s-p symbol-plist symbol-package
+s-p-d set-pprint-dispatch
+s-r-t string-right-trim
+s-s stable-sort simple-string string-stream synonym-stream
+s-s-f-c set-syntax-from-char
+s-s-n short-site-name
+s-s-p simple-string-p
+s-s-s synonym-stream-symbol
+s-t string-trim software-type
+s-t-e simple-type-error
+s-u slot-unbound string-upcase
+s-v slot-value store-value symbol-value simple-vector software-version
+s-v-p simple-vector-p
+s-w style-warning simple-warning
+t-e tree-equal type-error
+t-e-d type-error-datum
+t-e-e-t type-error-expected-type
+t-i *terminal-io*
+t-l-p translate-logical-pathname
+t-o type-of *trace-output*
+t-p translate-pathname
+t-w-s two-way-stream
+t-w-s-i-s two-way-stream-input-stream
+t-w-s-o-s two-way-stream-output-stream
+u-a-e-t upgraded-array-element-type
+u-b unsigned-byte
+u-c unread-char
+u-c-p upper-case-p
+u-c-p-t upgraded-complex-part-type
+u-f undefined-function
+u-h-p user-homedir-pathname
+u-i-f-d-c update-instance-for-different-class
+u-i-f-r-c update-instance-for-redefined-class
+u-p use-package unuse-package unwind-protect
+u-s unbound-slot
+u-s-i unbound-slot-instance
+u-v use-value unbound-variable
+v-l values-list
+v-p vector-pop vector-push
+v-p-e vector-push-extend
+w-a with-accessors
+w-b write-byte
+w-c write-char
+w-c-r with-condition-restarts
+w-c-u with-compilation-unit
+w-h-t-i with-hash-table-iterator
+w-i-f-s with-input-from-string
+w-l write-line
+w-o-f with-open-file
+w-o-s with-open-stream
+w-o-t-s with-output-to-string
+w-p-i with-package-iterator
+w-p-p wild-pathname-p
+w-s with-slots write-string write-sequence
+w-s-i-s with-standard-io-syntax
+w-s-r with-simple-restart
+w-t-s write-to-string
+y-o-n-p y-or-n-p yes-or-no-p
