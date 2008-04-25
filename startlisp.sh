@@ -43,11 +43,11 @@ EOF
 }
 list_running_lisps() {
     echo "Currently running Lisps:"
-    screen -ls | sed -ne 's/[^0-9]\+\([0-9]\+\)\.lim_listener-\([a-z]\+\).*/  \2 (\1)/p' | sort -k1,1
+    screen -ls | sed -ne 's/[^0-9]\+\([0-9]\+\)\.lim_listener-\([a-z0-9]\+\).*/  \2 (\1)/p' | sort -k1,1
 }
 
-SHORTOPTS="hvb::lpP:"
-LONGOPTS="help,version,boot::,list,private-do-boot,private-lim-screenrc:"
+SHORTOPTS="hvb::lp:P:"
+LONGOPTS="help,version,boot::,list,private-do-boot:,private-lim-screenrc:"
 
 OPTS=$(getopt -o $SHORTOPTS --long $LONGOPTS -n "$progname" -- "$@")
 eval set -- "$OPTS"
@@ -55,7 +55,8 @@ eval set -- "$OPTS"
 CORE_PATH=""
 BOOT=0
 DO_BOOT=0 # private flag..
-LIM_SCREENRC=""
+LIM_SCREENRC="" # created at runtime to boot Lisp
+LIM_SCREEN_STY_FILE="" # temp file used to grab the STY of the last created screen
 
 
 while [ $# -gt 0 ]; do
@@ -70,9 +71,13 @@ while [ $# -gt 0 ]; do
         -l|--list)              list_running_lisps
                                 exit 0;;
         # magic!
-        --private-do-boot)      DO_BOOT=1; shift 1;;
+        --private-do-boot)      DO_BOOT=1;
+                                case "$2" in 
+                                    "") echo "--private-do-boot must be given a file containing the STY of the last screen process"; exit 1;;
+                                    *) LIM_SCREEN_STY_FILE=$2; shift 2;;
+                                esac ;;
         --private-lim-screenrc) case "$2" in 
-                                    "") shift 2;;
+                                    "") echo "--private-lim-screenrc must have a flag"; exit 1;;
                                     *) LIM_SCREENRC=$2; shift 2;;
                                 esac ;;
         --) shift; break;;
@@ -91,7 +96,15 @@ if [[ "$DO_BOOT" == "1" ]]; then
 	id=${STY:0:$pos-1}
 	name=${STY:$pos+13}
     lisp=$(sbcl --version)
+    LIM_BRIDGE_CHANNEL="$HOME/.lim_bridge_channel-$name.$id"
+    touch $LIM_BRIDGE_CHANNEL
+
+
+    # magic goes here
 	screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Lim on $lisp %35= <F12> to disconnect, C-d to quit %= $name ($id)\""
+    screen -x $STY -p 0 -X eval "bufferfile $LIM_BRIDGE_CHANNEL"
+    screen -x $STY -p 0 -X eval "register . $STY"
+    screen -x $STY -p 0 -X eval "writebuf $LIM_SCREEN_STY_FILE"
 
     core=""
     if [[ "$CORE_PATH" != "" ]]; then
@@ -105,12 +118,11 @@ if [[ "$DO_BOOT" == "1" ]]; then
 
     # command to disable aliases/functions
     echo -e "Welcome to Lim. May your journey be pleasant.\n"
-	command $RLWRAP sbcl --noinform $core
-    #sbcl --noinform $core
+	$RLWRAP sbcl --noinform $core
 
-    # cleanup screenrc
+    # cleanup 
+    rm -rf "$LIM_BRIDGE_CHANNEL"
     rm -rf "$LIM_SCREENRC"
-
 #
 # first part of the Lisp screen startup
 #
@@ -128,11 +140,21 @@ elif [[ "$BOOT" == "1" ]]; then
     fi
 
     initfile=$(tempfile -s lim_bridge-screenrc)
-    cp -f lispscreenrc $initfile
-    echo "screen -t Lisp 0 $HOME/hacking/lim/trunk/startlisp.sh $core_opt --private-lim-screenrc=$initfile --private-do-boot" >> $initfile
+    styfile=$(tempfile)
+    cp -f /home/mikaelj/hacking/lim/trunk/lispscreenrc $initfile
+    echo "screen -t Lisp 0 $HOME/hacking/lim/trunk/startlisp.sh $core_opt --private-lim-screenrc=$initfile --private-do-boot=$styfile" >> $initfile
+
     screen -c $initfile -dmS lim_listener-$NAME 
 
-    list_running_lisps
+    # wait for the styfile to become available
+    while [[ ! -s $styfile ]]; do
+        sleep 1s
+    done
+
+    # to give the STY back to Vim
+    cat $styfile
+    rm -f $styfile
+
     exit 0
 else
 
@@ -147,11 +169,11 @@ else
         exit 1
     else
         # try attaching as PID first
-        screen -A -x $NAME 2>&1 > /dev/null
+        screen -x $NAME  2>&1 > /dev/null
 
         if [[ $? -gt 0 ]]; then
             # if that didn't work, try the readable name
-            screen -A -x lim_listener-$NAME 2>&1 > /dev/null
+            screen -x lim_listener-$NAME  2>&1 > /dev/null
             if [[ $? -gt 0 ]]; then
                 echo "Couldn't connect to the Lisp named $NAME."
                 list_running_lisps

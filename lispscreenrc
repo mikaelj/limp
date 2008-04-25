@@ -4,7 +4,7 @@ hardcopydir           $HOME/.lim-hardcopy
 logstamp              off
 shell                 bash
 
-# scrolling 
+## scrolling 
 termcapinfo xterm     ti@:te@
 
 # <S-PageUp>, <S-PageDown>: Scroll

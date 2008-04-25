@@ -1,12 +1,32 @@
-
-" Last updated: Sun Oct 02 08:30:51 EDT 2005 
-
-" By Larry Clapp <vim@theclapp.org>
-" Copyright 2002
-" $Header: /home/lmc/lisp/briefcase/VIlisp/devel/RCS/VIlisp.vim,v 1.5 2002/06/11 02:38:39 lmc Exp $
+" 
+" lim/vim/lim-bridge.vim
 "
-" * 2008-08-18 by Mikael Jansson <mail@mikael.jansson.be>
-"   Tab-completed prompt that lets you choose the Lisp process to connect to.
+" URL:
+" http://mikael.jansson.be/hacking
+"
+" Description:
+" Handle communication between Vim and Lisp, including boot, connect and
+" display. Relies on 'lisp.sh' from the Lim package.
+"
+" Version:
+" 0.2
+"
+" Date:
+" 2008-04-25
+"
+" Authors:
+" Mikael Jansson <mail@mikael.jansson.be>
+" Larry Clapp <vim@theclapp.org>
+
+" Changelog:
+" 2008-08-25 by Mikael Jansson <mail@mikael.jansson.be>
+" * Now boots a new Lisp or connects to an existing via screen.
+"   No longer needs the funnel (although it does need a file to read to/from
+"   screen: it doesn't seem as if 'stuff' can handle very large amounts of
+"   texts)
+"
+" 2008-08-18 by Mikael Jansson <mail@mikael.jansson.be>
+" * Tab-completed prompt that lets you choose the Lisp process to connect to.
 "   Moved the startup to before the loaded check.
 
 "-------------------------------------------------------------------
@@ -26,20 +46,59 @@ exe "set complete+=s" . s:LimBridge_location . "/lisp-thesaurus"
 "-------------------------------------------------------------------
 " talk to multiple Lisps using LimBridge_connect()
 "-------------------------------------------------------------------
-fun! LimBridge_connect()
-    let s:lim_bridge_channel = input("Lisp? ", g:lim_bridge_channel_base, "file")
-    let g:lim_bridge_id = strpart(s:lim_bridge_channel, strlen(g:lim_bridge_channel_base))
-    " extract the PID from "foobar.whatever.104982"
+fun! LimBridge_complete_lisp(A,L,P)
+    let prefix = g:lim_bridge_channel_base
+    echom "ls -1 ".prefix."*"
+    let output = system("ls -1 ".prefix."*")
+    if stridx(output, prefix."*") >= 0
+        echom "No Lisps started yet?"
+        return
+    endif
+    let files = split(output, "\n")
+    let names = []
+    for f in files
+        let names += [f[strlen(prefix):]]
+    endfor
+    return names
+endfun
+
+" optionally specify the screen id to connect to
+fun! LimBridge_connect(...)
+    if a:0 == 1 && a:1 != ""
+        " format: 7213.lim_listener-foo
+        let pid = a:1[:stridx(a:1, '.')-1]
+        let fullname = a:1[stridx(a:1, '.')+1:]
+        let name = fullname[strlen("lim_listener-"):]
+
+        let g:lim_bridge_channel = g:lim_bridge_channel_base.name.".".pid
+    else
+        "let s:lim_bridge_channel = input("Lisp? ", g:lim_bridge_channel_base, "file")
+        let g:lim_bridge_channel = g:lim_bridge_channel_base
+        let g:lim_bridge_channel .= input("Lisp? ", "", "customlist,LimBridge_complete_lisp")
+        if 0 == filewritable(g:lim_bridge_channel) "|| g:lim_bridge_channel = g:lim_bridge_channel_base
+            echom "Not a channel."
+            return
+        endif
+    endif
+    " extract the PID from format: foo.104982
+    " (backward from screen sty naming to ease tab completion)
+    
+    " bridge id is the file used for communication between Vim and screen
+    let g:lim_bridge_id = strpart(g:lim_bridge_channel, strlen(g:lim_bridge_channel_base))
+
+    " bridge screenid is the screen in which the Lisp is running
     let g:lim_bridge_screenid = g:lim_bridge_id[strridx(g:lim_bridge_id, '.')+1:]
-    let g:lim_bridge_scratch = $HOME . "/.lim_bridge_scratch-" . g:lim_bridge_id
+    "let g:lim_bridge_scratch = $HOME . "/.lim_bridge_scratch-" . g:lim_bridge_id
     let g:lim_bridge_test = $HOME . '/.lim_bridge_test-' . g:lim_bridge_id
 
-    silent exe "new" g:lim_bridge_scratch
+    silent exe "new" g:lim_bridge_channel
         if exists( "#BufRead#*.lsp#" )
             doauto BufRead x.lsp
         endif
         set syntax=lisp
-        set buftype=nowrite
+        " XXX: in ViLisp, buftype=nowrite, but w/ lim_bridge_channel, vim
+        " complains about the file being write-only.
+        "set buftype=nowrite
         set bufhidden=hide
         set nobuflisted
         set noswapfile
@@ -58,19 +117,33 @@ fun! LimBridge_connect()
 
     " hide from the user that we created and deleted (hid, really) a couple of
     " buffers
-    normal! 
+    "normal! 
+    redraw
 
     let s:lim_bridge_connected=1
+
+    echom "Welcome to Lim. May your journey be pleasant."
 endfun
 
-fun! LimBridge_boot_lisp()
-    let name = input("Name of Lisp? ")
-    if name == ""
-        echom "No name given, bailing out."
-        return
-    endif
-"call system("bash -c \"/home/mikaelj/hacking/lim/trunk/startlisp.sh -b ".name."\"")
-exe '!/home/mikaelj/hacking/lim/trunk/startlisp.sh -b '.name
+"
+" when not connected, start new or connect to existing
+" otherwise, switch to Lisp (screen)
+fun! LimBridge_boot_or_connect_or_display()
+    if s:lim_bridge_connected
+        echom 'screen -x '.g:lim_bridge_screenid
+        let cmd="screen -x ".g:lim_bridge_screenid
+        silent exe "!".cmd
+        redraw!
+    else
+        let name = input("Name the new Lisp [blank to connect to existing]: ")
+        if name == ""
+            call LimBridge_connect()
+        else
+            echom "Booting..."
+            let sty = system("/home/mikaelj/hacking/lim/trunk/startlisp.sh -b ".name)
+            call LimBridge_connect(sty)
+        endif
+  endif
 endfun
 
 augroup LimBridge
@@ -117,8 +190,8 @@ function! LimBridge_goto_pos( pos )
   let l_cur = substitute( a:pos, mx, '\3', '' )
   let c_cur = substitute( a:pos, mx, '\4', '' )
 
-  exe "hide bu" bufname
-  exe "normal! " . l_top . "Gzt" . l_cur . "G" . c_cur . "|"
+  silent exe "hide bu" bufname
+  silent exe "normal! " . l_top . "Gzt" . l_cur . "G" . c_cur . "|"
 endfunction
 
 
@@ -165,7 +238,7 @@ function! LimBridge_send_sexp_to_buffer( sexp, buffer )
 endfunction
   
 
-" destroys contents of LimBridge_scratch buffer
+" destroys contents of LimBridge_channel buffer
 function! LimBridge_send_to_lisp( sexp )
   if a:sexp == ''
     return
@@ -178,8 +251,8 @@ function! LimBridge_send_to_lisp( sexp )
 
   let p = LimBridge_get_pos()
 
-  " goto LimBridge_scratch, delete it, put s-exp, write it to lisp
-  exe "hide bu" g:lim_bridge_scratch
+  " goto LimBridge_channel, delete it, put s-exp, write it to lisp
+  exe "hide bu" g:lim_bridge_channel
   exe "%d"
   normal! 1G
 
@@ -189,7 +262,9 @@ function! LimBridge_send_to_lisp( sexp )
   normal! "lP
   let @l = old_l
 
-  exe 'w! '.s:lim_bridge_channel
+  silent exe 'w!'
+
+  "exe 'w! '.g:lim_bridge_channel
   call system('screen -x '.g:lim_bridge_screenid.' -p 0 -X eval "readbuf" "paste ."')
 
   call LimBridge_goto_pos( p )
@@ -261,14 +336,4 @@ function! LimBridge_hyperspec(type, make_page)
   silent! exe cmd
   redraw!
 endfunction
-
-
-
-"-------------------------------------------------------------------
-" keymap
-"-------------------------------------------------------------------
-
-"
-" interact with the Lisp listener
-"
 
