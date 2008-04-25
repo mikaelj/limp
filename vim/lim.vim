@@ -1,18 +1,27 @@
 " 
 " lim/vim/lim.vim
 "
+" URL:
+" http://mikael.jansson.be/hacking
+"
 " Description:
 " Setup the Lim environment
 "
 " Version:
+" 0.2
+"
+" Date:
 " 2008-04-20
 "
 " Authors:
 " Mikael Jansson <mail@mikael.jansson.be>
 "
 " Changelog:
-" 2008-04-20
-" Initial version.
+" * 2008-04-25 by Mikael Jansson <mail@mikael.jansson.be>
+"   Catch-all key <F12> for Lisp boot, connect & display
+"
+" * 2008-04-20 by Mikael Jansson <mail@mikael.jansson.be>
+"   Initial version.
 
 set nocompatible
 syntax on
@@ -56,8 +65,7 @@ runtime lim/lim-autoclose.vim
 "-------------------------------------------------------------------
 " boot Lim
 "-------------------------------------------------------------------
-nmap <F10> 	      :call LimBridge_connect()<CR>
-nmap <C-F10> 	  :call LimBridge_boot_lisp()<CR>
+nmap <F12> 	          :call LimBridge_boot_or_connect_or_display()<CR>
 
 "-------------------------------------------------------------------
 " key bindings
