@@ -1,30 +1,44 @@
+" 
+" lim/vim/lim-autoclose.vim
+"
+" URL:
+" http://mikael.jansson.be/hacking
+"
+" Description:
 " AutoClose, closes what's opened.
 "
-"  Karl Guertin <grayrest@gr.ayre.st>
-"  1.1.2 released September 20, 2007
+" This plugin closes opened parenthesis, braces, brackets, quotes as you
+" type them. As of 1.1, if you type the open brace twice ({{), the closing
+" brace will be pushed down to a new line.
 "
-"    This plugin closes opened parenthesis, braces, brackets, quotes as you
-"    type them. As of 1.1, if you type the open brace twice ({{), the closing
-"    brace will be pushed down to a new line.
+" You can enable or disable this plugin by typing \a (or <Leader>a if
+" you've redefined your leader character) in normal mode. You'll also
+" probably want to know you can type <C-V> (<C-Q> if mswin is set) and the next
+" character you type doesn't have mappings applied. This is useful when you
+" want to insert only an opening paren or something.
 "
-"    You can enable or disable this plugin by typing \a (or <Leader>a if
-"    you've redefined your leader character) in normal mode. You'll also
-"    probably want to know you can type <C-V> (<C-Q> if mswin is set) and the next
-"    character you type doesn't have mappings applied. This is useful when you
-"    want to insert only an opening paren or something.
+" Version:
+" 0.2
 "
-"    Version Changes:
-"    2008-04-20: -- Mikael Jansson <mail@mikael.jansson.be>
-"    * Factored out start/stop functions.
-"    * Removed the default mappings to toggle autoclose
-"    
+" Date:
+" September 20, 2007
 "
-"    1.1.2 -- Fixed a mapping typo and caught a double brace problem
-"    1.1.1 -- Missed a bug in 1.1, September 19, 2007
-"    1.1   -- When not inserting at the end, previous version would eat chars
-"             at end of line, added double open->newline, September 19, 2007
-"    1.0.1 -- Cruft from other parts of the mapping, knew I shouldn't have
-"             released the first as 1.0, April 3, 2007
+" Authors:
+" Karl Guertin <grayrest@gr.ayre.st>
+" Mikael Jansson <mail@mikael.jansson.be>
+"
+" Changelog:
+" 2008-04-20 by Mikael Jansson <mail@mikael.jansson.be>
+" * Factored out start/stop functions.
+" * Removed the default mappings to toggle autoclose
+"
+" 2007-09-20 by Karl Guertin <grayrest@gr.ayre.st>
+"  1.1.2 -- Fixed a mapping typo and caught a double brace problem
+"  1.1.1 -- Missed a bug in 1.1, September 19, 2007
+"  1.1   -- When not inserting at the end, previous version would eat chars
+"           at end of line, added double open->newline, September 19, 2007
+"  1.0.1 -- Cruft from other parts of the mapping, knew I shouldn't have
+"           released the first as 1.0, April 3, 2007
 
 " Setup -----------------------------------------------------{{{1
 if exists('g:autoclose_loaded') || &cp

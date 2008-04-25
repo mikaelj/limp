@@ -1,16 +1,31 @@
-"  Name:        Lim-Highlight <lim-highlight.vim>
-"  Description: Highlight parens and containing s-exps
-"  Authors:     Mikael Jansson <mail@mikael.jansson>
-"               Charles E. Campbell, Jr.  <drNchipO@ScampbellPfamilyA.Mbiz>-NOSPAM
-"  Version:     2008-04-20-lim
-"  URL:         http://mikael.jansson.be/hacking
-"  Requires:    Vim >= 700 
-"  History:  {{{1
-"    
-"    2008-04-18 
-"    * Removed all mappings
-"    * Removed < 7.00 compatibility
-"    * Renamed to Lim-Highlight
+" 
+" lim/vim/lim-highlight.vim
+"
+" URL:
+" http://mikael.jansson.be/hacking
+"
+" Description:
+" Highlight parens and containing s-exps
+"
+" Version:
+" 0.2
+"
+" Date:
+" 2008-04-25
+"
+" Authors:
+" Mikael Jansson <mail@mikael.jansson.be>
+" Charles E. Campbell, Jr.  <drNchipO@ScampbellPfamilyA.Mbiz>-NOSPAM
+"
+" Changelog:
+" 2008-04-25
+" * Fixed regressions. Now properly highlights blocks again.
+"
+" 2008-04-18 
+" * Removed all mappings
+" * Removed < 7.00 compatibility
+" * Renamed to Lim-Highlight
+" * Changed from Search to Brackets[Block]
 "
 " Usage: {{{1
 "   Before loading: 

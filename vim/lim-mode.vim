@@ -1,10 +1,16 @@
 " 
-" lim-mode.vim
+" lim/vim/lim-mode.vim
+"
+" URL:
+" http://mikael.jansson.be
 "
 " Description:
 " Lisp-mode specific functions (such as leaving/entering buffers)
 "
 " Version:
+" 0.2
+"
+" Date:
 " 2008-04-20
 "
 " Authors:
@@ -12,7 +18,7 @@
 "
 " Changelog:
 " 2008-04-20
-" Initial version.
+" * Initial version.
 
 let g:lisp_rainbow=1
 let g:lim_bridge_id="<disconnected>"

@@ -1,23 +1,32 @@
-" Name:         cursor.vim
-" Description:  Save/restore cursor position in window
-" Author:       Mikael Jansson <mail@mikael.jansson.be>
-"               Charles E. Campbell, Jr.
-" Version:      2008-04-18-lim
-" URL:          http://mikael.jansson.be/hacking
-" Requires:     Vim >= 700
+" 
+" lim/vim/lim-cursor.vim
 "
-" History: {{{1
-"    
-"   2008-04-18 
-"   * Removed all leader mappings
+" URL:
+" http://mikael.jansson.be/hacking
 "
-"  Saving Restoring Destroying Window Position: {{{1
+" Description:
+" Save/restore cursor position in window (mostly obsoleted by Vim7 though)
 "
-"   call Cursor_save()
-"   let cursor = Cursor_save()
+" Version:
+" 0.2
 "
-"   call Cursor_restore()
-"   call Cursor_restore(cursor)
+" Date:
+" 2008-04-25
+"
+" Authors:
+" Mikael Jansson <mail@mikael.jansson.be>
+" Charles E. Campbell, Jr.  <drNchipO@ScampbellPfamilyA.Mbiz>-NOSPAM
+"
+" Changelog:
+" 2008-04-18 
+" * Removed all leader mappings
+"
+" Usage:
+"   call Cursor_push()
+"   let cursor = Cursor_get()
+"
+"   call Cursor_pop()
+"   call Cursor_set(cursor)
 "
 
 " Load Once: {{{1

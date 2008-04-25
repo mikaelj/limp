@@ -1,10 +1,16 @@
 " 
-" lim-sexp.vim
+" lim/vim/lim-sexp.vim
+"
+" URL:
+" http://mikael.jansson.be/hacking
 "
 " Description:
 " Things to help you out with s-exps.
 "
 " Version:
+" 0.2
+"
+" Date:
 " 2008-04-20
 "
 " Authors:
@@ -12,8 +18,8 @@
 "
 " Changelog:
 " 2008-04-20
-" Initial version.
-" Based on ViLisp.vim by Larry Clapp <vim@theclapp.org>
+" * Initial version.
+" * Based on ViLisp.vim by Larry Clapp <vim@theclapp.org>
 
 " Mark Top:           mark visual block
 noremap <Leader>ms   99[(V%
