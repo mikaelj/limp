@@ -96,7 +96,12 @@ if [[ "$DO_BOOT" == "1" ]]; then
     touch $LIMP_BRIDGE_CHANNEL
 
     # magic goes here
-    screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Limp on $lisp %35= <F12> to disconnect, C-d to quit. (escape is C-z) %= $name ($id)\""
+    if [[ "$CORE_PATH" != "" ]]; then
+        lisp="$CORE_PATH ($lisp)"
+    else
+        lisp="($lisp)"
+    fi
+    screen -x $STY -p 0 -X eval "hardstatus alwayslastline \"%{= bW}Limp: F12 to hide. %30= $lisp %= $name ($id)\""
     screen -x $STY -p 0 -X eval "bufferfile $LIMP_BRIDGE_CHANNEL"
     screen -x $STY -p 0 -X eval "register . $STY"
     screen -x $STY -p 0 -X eval "writebuf $LIMP_SCREEN_STY_FILE"
