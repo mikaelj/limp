@@ -1,90 +1,119 @@
-=======================================
-  Lim: Reinventing the Square Wheel
-=======================================
+=============================================
+  Limp: When You Need More Than Just A Lisp
+=============================================
 Pre-packaged & welded-together collection of Vim plugins working together for your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL) <http://www.sbcl.org>`_.  It is based on ViLisp and other great Vim plugins, and is an attempt at forming a usable Lisp environment for Vim users.
 
 .. While you can't have lengthy conversations with SWANK (yet...), what you *can* do is send code to your Lisp, ask the HyperSpec for documentation, and on top of that, fairly sane bracket-behaviour.
 
 Table of Contents
 ==================
-.. image:: /static/hacking/lim/square-wheel.jpg
+.. image:: /static/hacking/limp/square-wheel.jpg
    :class: rightalignplain
 
 .. contents::
 
 Features
 =========
-* Boot/attach/detach a Lisp directly from Vim, or using a script
+* Boot/attach/detach a Lisp from Vim or script, optionally specifying a core.
 * Automatic brackets closing
 * Form highlighting
 * HyperSpec documentation lookup and name completion
+* Sucks less than manual copy-and-paste.
 
 Quickstart
 ============
-First, follow the instructions for installing Lim.
+First, follow the instructions for installing Limp.
 
-.. figure:: /static/hacking/lim/docs/screenshots/disconnected.png
+.. figure:: /static/hacking/limp/docs/screenshots/disconnected.png
 
    Vim started with a simple hello-world program.
 
-.. figure:: /static/hacking/lim/docs/screenshots/connecting.png
+.. figure:: /static/hacking/limp/docs/screenshots/connecting.png
 
-   Press ``<F12>`` to start a new Lisp.
+   Press ``<F12>`` and Enter to start a new Lisp.
 
-.. figure:: /static/hacking/lim/docs/screenshots/listener.png
+.. figure:: /static/hacking/limp/docs/screenshots/listener.png
 
    Press ``<F12>`` again to go to the listener.
 
-.. figure:: /static/hacking/lim/docs/screenshots/sending-code.png
+.. figure:: /static/hacking/limp/docs/screenshots/sending-code.png
 
    Press  ``<F12>`` to return to Vim.
 
    Move the cursor somewhere inside the form and press ``\et`` *(Evaluate Top
    form)*. The function definition will be sent to the running Lisp.
 
-.. figure:: /static/hacking/lim/docs/screenshots/listener-with-defun.png
+.. figure:: /static/hacking/limp/docs/screenshots/listener-with-defun.png
 
    Looking at the listener, you see that the code you just sent has been
    compiled.
 
-.. figure:: /static/hacking/lim/docs/screenshots/highlighting-current-form.png
+.. figure:: /static/hacking/limp/docs/screenshots/highlighting-current-form.png
 
    Let's add more code inside the function definition.  With the cursor
    in the middle of the newly added form, you can now press ``\ec`` *(Evaluate
    Current form)* to send only what's currently highlighted.
 
-.. figure:: /static/hacking/lim/docs/screenshots/evaluating-current-form.png
+.. figure:: /static/hacking/limp/docs/screenshots/evaluating-current-form.png
 
    And here you can see the results.
 
-.. figure:: /static/hacking/lim/docs/screenshots/evaluate-prompt.png
+.. figure:: /static/hacking/limp/docs/screenshots/evaluate-prompt.png
 
    We can also evaluate arbitrary expressions, such as looking at a symbol,
    using ``\ex`` *(Evaluate eXpression)* and typing something at the prompt,
    followed by enter to send it.
 
-.. figure:: /static/hacking/lim/docs/screenshots/expression-sent.png
+.. figure:: /static/hacking/limp/docs/screenshots/expression-sent.png
 
    Yes, it is indeed a symbol.
 
-.. figure:: /static/hacking/lim/docs/screenshots/defun-with-documentation.png
+.. figure:: /static/hacking/limp/docs/screenshots/defun-with-documentation.png
 
    Let's remove that extra line of code in the function, and add a docstring
    describing the function. Send the definition to Lisp with ``\et``.
 
-.. figure:: /static/hacking/lim/docs/screenshots/describe-symbol.png
+.. figure:: /static/hacking/limp/docs/screenshots/describe-symbol.png
 
    With the cursor on the word ``say-hello``, we now press ``\hd`` *(Help
    Describe)* to get detailed information from Lisp about the symbol.
 
-.. figure:: /static/hacking/lim/docs/screenshots/describe-results.png
+.. figure:: /static/hacking/limp/docs/screenshots/describe-results.png
 
    This is what our Lisp believes ``SAY-HELLO`` to be.
 
-.. figure:: /static/hacking/lim/docs/screenshots/listing-lisps.png
+Shell
+~~~~~
+
+.. figure:: /static/hacking/limp/docs/screenshots/listing-lisps.png
 
    If we exit Vim, our Lisp is still active. You can attach from it directly from the command line,
    or from another Vim session.
+
+Freezing and Thawing
+--------------------
+You can save your Lisp's state and later restore it. Very handy.
+
+.. figure:: /static/hacking/limp/docs/screenshots/save-lisp-and-die.png
+
+   Here, I've booted up a fresh Lisp and evaluated the function definition.
+   Then, ``<Shift-F12>`` asks for the path of a file to save the core in. 
+   The Lisp core is now frozen in time.
+
+.. figure:: /static/hacking/limp/docs/screenshots/custom-core.png
+
+   I quit Vim and opened up a completely empty file, empty.lisp, to really
+   point out that I will not evaluate any code from the Lisp file.  Press
+   ``<F12>``, Enter, name it "test", Enter and Limp then asks for a core
+   to boot.  Here, input the core we just saved.
+
+.. figure:: /static/hacking/limp/docs/screenshots/evaluate-saved-core.png
+
+   With the core booted, we should have the function ``say-hello`` available.
+
+.. figure:: /static/hacking/limp/docs/screenshots/listener-from-core.png
+
+   Yup. Nice!
 
 Usage
 =======
@@ -102,7 +131,7 @@ Example 1::
 
 With the cursor at the indicated spot, "K" (see below) will invoke your
 browser with file://localhost/path/to/hyperspec/Body/m_defun.htm#defun. This
-may require some configuration of a Perl script, lim-hyperspec.pl.  See
+may require some configuration of a Perl script, limp-hyperspec.pl.  See
 below.
 
 Example 2::
@@ -129,8 +158,8 @@ browser with the address of a freshly built index of links to::
 
 Configuration
 --------------
-Lim uses a Perl script, ``lim/bin/lim-hyperspec.pl``, for invoking a browser with the documentation.
-I use Opera (www.opera.com), so Lim comes comes pre-configured to use
+Limp uses a Perl script, ``limp/bin/limp-hyperspec.pl``, for invoking a browser with the documentation.
+I use Opera (www.opera.com), so Limp comes comes pre-configured to use
 it.  I've done some testing with Lynx and Netscape, so uncomment those lines to
 try those browsers.  I haven't gotten Konqueror to work to my satisfaction; if
 you do, please drop me
@@ -157,7 +186,7 @@ $external
   page. Other browsers may have analogous flags, and
   similar behavior. 
 
-  ``lim-hyperspec.pl`` replaces %s in
+  ``limp-hyperspec.pl`` replaces %s in
   @browser_args with the URL to be opened.  See
   the Opera configuration for an example.
 
@@ -169,19 +198,19 @@ The script requires you to have a local copy of the HyperSpec.  It searches
 ``$BASE/Front/X_Perm_*.htm`` to find the symbols you want it to look for.  You can
 find a tarball of the CLHS at http://www.xanalys.com.  If you use Debian or a derivative, such as Ubuntu,
 ``apt-get install hyperspec`` will put the HyperSpec in
-``/usr/share/doc/hyperspec``.  lim-hyperspec.pl looks for it there, by default.
+``/usr/share/doc/hyperspec``.  limp-hyperspec.pl looks for it there, by default.
 
 Completion
 ~~~~~~~~~~~~~~~~~~~
 Name Completion
 -----------------
-Lim can complete the names of symbols. They tend to be rather long, so it's a useful thing.
+Limp can complete the names of symbols. They tend to be rather long, so it's a useful thing.
 
-.. figure:: /static/hacking/lim/docs/screenshots/name-completion.png
+.. figure:: /static/hacking/limp/docs/screenshots/name-completion.png
 
    First, type this in Vim...
 
-.. figure:: /static/hacking/lim/docs/screenshots/name-completion-popup.png
+.. figure:: /static/hacking/limp/docs/screenshots/name-completion-popup.png
 
    Then, hitting ^N (Ctrl-N) will expand ``least-`` into
    ``least-negative-long-float`` first, then (with another ^N)
@@ -192,11 +221,11 @@ Name Expansion
 ---------------
 There's a convention to talk about dashed names by abbreviating them into the first letter of each word, e.g.:
 
-.. figure:: /static/hacking/lim/docs/screenshots/name-expansion.png
+.. figure:: /static/hacking/limp/docs/screenshots/name-expansion.png
    
    First, type this in Vim...
 
-.. figure:: /static/hacking/lim/docs/screenshots/name-expansion-popup.png
+.. figure:: /static/hacking/limp/docs/screenshots/name-expansion-popup.png
 
    Then, hitting ^N^N (Ctrl-N twice) will expand the ``p-n``
    to ``package-name``.  ^N again will replace ``package-name`` with ``pathname-name``,
@@ -229,17 +258,25 @@ that instead of the default keys used for completion!
 
 Keyboard Reference
 ~~~~~~~~~~~~~~~~~~~~~
-The default settings in Lim.
+The default settings in Limp.
 
 ``<F12>``
-  Start a new Lisp or connect to an existing instance. When connected, the key
-  will toggle displaying the Lisp or Vim.
+  Connect to a running Lisp or start a new Lisp, optionally specifying a core
+  file to boot from. When connected, the key will toggle displaying the Lisp
+  or Vim.
 ``<Control-F12>``
   Disconnect from the current Lisp, which will be active in the background.
   You can re-attach to it using ``<F12>``.
+``<Shift-F12>``
+  Quit Lisp, optionally saving the core in a file (prompted for).
 
 The rest of the bindings assumes ``<Leader>`` == "\\", which is the default.
 Some people prefer ``set mapleader = ","``.
+
+Listener
+--------
+This is a regular screen session.  Escape is ``^z``, ``<F12>`` is map to
+detach.
 
 Lisp Interaction
 -----------------
@@ -255,7 +292,6 @@ For sending code to a Lisp.
 * ``\cf``: *(Compile File)*: Compile the current file
 * ``\cl``: *(Compile and Load)*: Compile current file and load
 * ``\ar``: *(Abort Reset)*: Send ``ABORT`` to Lisp
-* ``\aq``: *(Abort Quit)*: Tell Lisp (SBCL, really) to quit 
 * ``\ai`` :*(Abort Interrupt)*: Send C-c to Lisp
 
 S-Exp Manipulation
@@ -269,7 +305,7 @@ Source transformation.
 * ``\sp``: *(S-exp Peel)*: Peel off a list around the current s-exp
 * ``\cc`` :*(S-exp Comment)*: Comment current form
 
-Lim
+Limp
 ----
 Vim interaction.
 
@@ -301,28 +337,53 @@ altogether.  Backspacing over it removes the pair.
 
 Installation
 ============
-I'm going to assume Lim will be installed /usr/local/lim-x.y, but you can place it wherever you want to. 
+I'm going to assume Limp will be installed /usr/local/limp-x.y, but you can place it wherever you want to. 
 The name of the directory isn't important either, as long as ``$LIMRUNTIME`` is properly set.
 
 Step-by-step instructions::
 
   cd /usr/local
-  tar /path/to/lim-x.y.tar.gz
-  ln -sf /usr/local/lim-x.y/vim $HOME/.vim/lim
-  ln -sf ../lim/lim.vim $HOME/.vim/plugin/lim.vim
-  ln -sf ../lim/desert256.vim $HOME/.vim/colors/desert256.vim
+  tar /path/to/limp-x.y.tar.gz
+  ln -sf /usr/local/limp-x.y/vim $HOME/.vim/limp
+  ln -sf ../limp/limp.vim $HOME/.vim/plugin/limp.vim
+  ln -sf ../limp/desert256.vim $HOME/.vim/colors/desert256.vim
 
-Lim relies on the variable ``$LIMRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
+Limp relies on the variable ``$LIMRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
 
-  export LIMRUNTIME=/usr/local/lim-x.y
+  export LIMPRUNTIME=/usr/local/limp-x.y
 
-The following step is not required for using Lim with Vim, but if you're planning on using the command line tool, make a symlink like this::
+The following step is not required for using Limp with Vim, but if you're planning on using the command line tool, make a symlink like this::
 
-  ln -sf $LIMRUNTIME/bin/lisp.sh /usr/local/bin
+  ln -sf $LIMPRUNTIME/bin/lisp.sh /usr/local/bin
+
+Note that you probably will want to remove older versions of Lim if you've got
+that installed, and that it's not *LIMP* RUNTIME, not *LIM* RUNTIME
+
+Download
+========
+Current
+~~~~~~~
+Version 0.3, April 26th, 2008: `limp-0.3.tar.gz </static/hacking/limp/limp-0.3.tar.gz>`_
+
+Older
+~~~~~
+* `lim-0.2.2.tar.gz </static/hacking/lim/lim-0.2.2.tar.gz>`_ (April 26, 2008)
+* `lim-0.2.1.tar.gz </static/hacking/lim/lim-0.2.1.tar.gz>`_ (April 26, 2008)
+* `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.tar.gz>`_ (April 25, 2008)
+* `lim-0.1.tar.gz </static/hacking/lim/lim-0.1.tar.gz>`_ (April 21, 2008)
 
 
 Changelog
 =========
+Version 0.3
+~~~~~~~~~~~~~
+* 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + Optionally specify core at startup and shutdown.
+  + Added "quit Lisp" mapping on Shift-F12 and removed the ``\aq`` mapping.
+  + (Hopefully) fixed lisp.sh to work on OS X and other non-GNU systems. Thanks to Nico Weber for patches!
+  + Renamed Lim to Limp.
+
 Version 0.2.2
 ~~~~~~~~~~~~~
 * 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
