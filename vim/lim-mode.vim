@@ -20,10 +20,6 @@
 " 2008-04-20
 " * Initial version.
 
-let g:lisp_rainbow=1
-let g:lim_bridge_id="<disconnected>"
-let g:lim_bridge_channel_base = $HOME . "/.lim_bridge_channel-"
-
 augroup LimMode
  au!
  au BufEnter .lim_bridge_test*,*.lisp,*.asd setlocal syntax=lisp filetype=lisp lisp 
@@ -39,7 +35,7 @@ augroup LimMode
  "
  au BufEnter .lim_bridge_test*,*.lisp,*.asd setlocal ls=2 bs=2 si et sw=2 ts=2 tw=0 nocul
 
- au BufEnter .lim_bridge_test*,*.lisp,*.asd setlocal statusline=%<%f\ \(%{g:lim_bridge_id}\)\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
+ au BufEnter .lim_bridge_test*,*.lisp,*.asd setlocal statusline=%<%f\ \(%{LimBridge_connection_status()}\)\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
 
  au BufEnter .lim_bridge_test*,*.lisp,*.asd setlocal iskeyword=&,*,+,45,/,48-57,:,<,=,>,@,A-Z,a-z,_
 

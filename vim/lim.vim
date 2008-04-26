@@ -54,9 +54,6 @@ silent! runtime plugin/matchit.vim
 " the Lim library
 "-------------------------------------------------------------------
 
-" prefix for the pipe used for communication
-let g:lim_bridge_channel_base = $HOME . "/.lim_bridge_channel-"
-
 " load the rest of the code
 runtime lim/lim-mode.vim
 runtime lim/lim-cursor.vim
@@ -118,8 +115,8 @@ noremap <Leader>gt   :call LimBridge_goto_buffer_or_window(g:lim_bridge_test)<CR
 noremap <Leader>gs   :sb <bar> call LimBridge_goto_buffer_or_window(g:lim_bridge_test)<CR>
 "noremap <Leader>sb    :exe "hide bu" g:lim_bridge_scratch<cr>
 
-" Goto Last:          return to s:lim_bridge_last_lisp, i.e. last buffer
-noremap <Leader>gl   :call LimBridge_goto_buffer_or_window(s:lim_bridge_last_lisp)<CR>
+" Goto Last:          return to g:lim_bridge_last_lisp, i.e. last buffer
+noremap <Leader>gl   :call LimBridge_goto_buffer_or_window(g:lim_bridge_last_lisp)<CR>
 
 " HyperSpec:
 noremap <Leader>he   :call LimBridge_hyperspec("exact", 0)<CR>
