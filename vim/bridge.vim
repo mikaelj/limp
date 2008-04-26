@@ -69,10 +69,18 @@ fun! LimpBridge_complete_lisp(A,L,P)
 endfun
 
 " optionally specify the screen id to connect to
+"
+" return values:
+"
+" -1 if user didn't want to connect
+" 0 if connection wasn't possible
+" 1 if the user did connect
+" 2 if the user was already connected
+"
 fun! LimpBridge_connect(...)
     if s:limp_bridge_connected == 1
         echom "Already to connected to Lisp!"
-        return
+        return 2
     endif
     if a:0 == 1 && a:1 != ""
         " format: 7213.limp_listener-foo
@@ -83,10 +91,14 @@ fun! LimpBridge_connect(...)
         let g:limp_bridge_channel = g:limp_bridge_channel_base.name.".".pid
     else
         let g:limp_bridge_channel = g:limp_bridge_channel_base
-        let g:limp_bridge_channel .= input("Name of Lisp? ", "", "customlist,LimpBridge_complete_lisp")
+        let name = input("Connect to [boot new]: ", "", "customlist,LimpBridge_complete_lisp")
+        if name == ""
+            return -1
+        endif
+        let g:limp_bridge_channel .= name
         if 0 == filewritable(g:limp_bridge_channel) "|| g:limp_bridge_channel = g:limp_bridge_channel_base
-            echom "Not a channel."
-            return
+            echom "Not a Limp channel."
+            return 0
         endif
     endif
     " extract the PID from format: foo.104982
@@ -132,6 +144,8 @@ fun! LimpBridge_connect(...)
     let s:limp_bridge_connected=1
 
     echom "Welcome to Lim. May your journey be pleasant."
+
+    return 1
 endfun
 
 fun! LimpBridge_connection_status()
@@ -143,7 +157,6 @@ fun! LimpBridge_connection_status()
 endfun
 
 fun! LimpBridge_disconnect()
-    echom "Lisp is gone!"
     let s:limp_bridge_connected = 0
     let g:limp_bridge_id = "<disconnected>"
 endfun
@@ -153,8 +166,8 @@ endfun
 "
 fun! LimpBridge_quit_lisp(...)
     " we were given a file
-    if a:0 == 1
-        let core=a:1
+    if a:0 == 1 && a:1 != ""
+        let core = a:1
         call LimpBridge_send_to_lisp("(sb-ext:save-lisp-and-die \"".core."\")\n")
         echom "Lisp ".g:limp_bridge_id." is gone, core saved to ".core."."
     else
@@ -165,8 +178,12 @@ fun! LimpBridge_quit_lisp(...)
 endfun
 
 fun! LimpBridge_shutdown_lisp()
-    let core = input("Name of core to save [none]: ", "", "file")
-    call LimpBridge_quit_lisp(core)
+    if s:limp_bridge_connected == 1
+        let core = input("Name of core to save [none]: ", "", "file")
+        call LimpBridge_quit_lisp(core)
+    else
+        echom "Not connected."
+    endif
 endfun
 
 "
@@ -184,10 +201,15 @@ fun! LimpBridge_boot_or_connect_or_display()
         silent exe "!".cmd
         redraw!
     else
-        let name = input("Name the new Lisp [connect to existing]: ")
-        if name == ""
-            call LimpBridge_connect()
-        else
+        let what = LimpBridge_connect()
+        if what <= 0
+            " user didn't want to connect, let's boot!
+            let name = input("Name the new Lisp [connect to existing]: ")
+            if name == "" && a:1 != ""
+                " give up
+                return
+            endif
+
             let core = input("Path to core to boot [use system-default]: ", "", "file")
             let core_opt = ""
             if filereadable(core)
