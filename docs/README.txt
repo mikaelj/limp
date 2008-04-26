@@ -299,20 +299,6 @@ When typing an opening bracket, paren or double-quote, it automatically adds the
 bracket. You can now either type the closing symbol yourself or skip it
 altogether.  Backspacing over it removes the pair.
 
-
-Download
-========
-Current
-~~~~~~~
-Version 0.2.2, April 26th, 2008: `lim-0.2.2.tar.gz </static/hacking/lim/lim-0.2.2.tar.gz>`_
-
-Older
-~~~~~
-* `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.1.tar.gz>`_ (April 26, 2008)
-* `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.tar.gz>`_ (April 25, 2008)
-* `lim-0.1.tar.gz </static/hacking/lim/lim-0.1.tar.gz>`_ (April 21, 2008)
-
-
 Installation
 ============
 I'm going to assume Lim will be installed /usr/local/lim-x.y, but you can place it wherever you want to. 
