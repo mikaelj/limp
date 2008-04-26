@@ -26,10 +26,11 @@ Usage: $progname [options] [name-or-PID]
 Connects to the Lisp specified by name-or-PID, or boot a new called 'name'.
 
 Options:
-  -h, --help            Print help (this text) and exit
-  -v, --version         Print version information and exit
-  -b, --boot[=path]     Boot a fresh Lisp, optionally using the core in <path>
-  -l, --list            Display running Lisps
+  -h       Print help (this text) and exit
+  -v       Print version information and exit
+  -b       Boot a fresh Lisp
+  -c path  Use the specified core instead of the default
+  -l       Display running Lisps
 
   Name must be unique! (But isn't currently enforced.)
 
@@ -37,8 +38,8 @@ Examples:
   # connect to a running Lisp named mylisp
   $progname mylisp
 
-  # boot a new Lisp; name is automatically generated if not given
-  $progname -b/path/to/my/huge-app.core
+  # boot a new Lisp, using the specified core
+  $progname -b -c /path/to/my/huge-app.core mylisp
 EOF
 }
 list_running_lisps() {
@@ -46,11 +47,11 @@ list_running_lisps() {
     screen -ls | sed -ne 's/[^0-9]\+\([0-9]\+\)\.lim_listener-\([a-z0-9]\+\).*/  \2 (\1)/p' | sort -k1,1
 }
 
-SHORTOPTS="hvb::lp:P:"
-LONGOPTS="help,version,boot::,list,private-do-boot:,private-lim-screenrc:"
+SHORTOPTS="hvblc:p:P:"
 
-OPTS=$(getopt -o $SHORTOPTS --long $LONGOPTS -n "$progname" -- "$@")
-eval set -- "$OPTS"
+export GETOPT_COMPATIBLE=1
+OPTS=$(getopt $SHORTOPTS $*)
+set -- $OPTS
 
 CORE_PATH=""
 BOOT=0
@@ -58,28 +59,28 @@ DO_BOOT=0 # private flag..
 LIM_SCREENRC="" # created at runtime to boot Lisp
 LIM_SCREEN_STY_FILE="" # temp file used to grab the STY of the last created screen
 
-
 while [ $# -gt 0 ]; do
     case $1 in 
-        -h|--help)              print_version; print_help; exit 0;;
-        -v|--version)           print_version; exit 0;;
-        -b|--boot)              BOOT=1
-                                case "$2" in 
-                                    "") shift 2;;
-                                    *) CORE_PATH=$2; shift 2;;
-                                esac ;;
-        -l|--list)              list_running_lisps
-                                exit 0;;
+        -h)         print_version; print_help; exit 0;;
+        -v)         print_version; exit 0;;
+        -b)         BOOT=1; shift;;
+        -c)         case "$2" in 
+                      "") shift 2;;
+                       *) CORE_PATH=$2; shift 2;;
+                    esac ;;
+        -l)         list_running_lisps
+                    exit 0;;
         # magic!
-        --private-do-boot)      DO_BOOT=1;
-                                case "$2" in 
-                                    "") echo "--private-do-boot must be given a file containing the STY of the last screen process"; exit 1;;
-                                    *) LIM_SCREEN_STY_FILE=$2; shift 2;;
-                                esac ;;
-        --private-lim-screenrc) case "$2" in 
-                                    "") echo "--private-lim-screenrc must have a flag"; exit 1;;
-                                    *) LIM_SCREENRC=$2; shift 2;;
-                                esac ;;
+        -p)         DO_BOOT=1;
+                    case "$2" in 
+                        "") echo "-p must be given a file containing the STY of the last screen process"; 
+                            exit 1;;
+                        *) LIM_SCREEN_STY_FILE=$2; shift 2;;
+                    esac ;;
+        -P)         case "$2" in 
+                        "") echo "-P must be given a file containing the screenrc"; exit 1;;
+                        *) LIM_SCREENRC=$2; shift 2;;
+                    esac ;;
         --) shift; break;;
         *) echo "Internal error: option processing error: $1" 1>&2;  exit 1;;
     esac
@@ -88,44 +89,14 @@ done
 NAME="$1"
 
 
-SCREENRC_DATA="
-\n    startup_message off      # default: on
-\n    defscrollback   1000
-\n    hardcopydir     $HOME/.lim-hardcopy
-\n    logstamp        off
-\n    shell           bash
-\n    caption         splitonly
-\n    escape          ^zz
-\n    
-\n    ## scrolling
-\n    termcapinfo     xterm ti@:te@
-\n    
-\n    # <S-PageUp>, <S-PageDown>: Scroll
-\n    bindkey -m \"^[[5;2~\" stuff ^u
-\n    bindkey -m \"^[[6;2~\" stuff ^d
-\n    
-\n    # <F12>: Detach
-\n    bindkey -k F2 detach
-\n    
-\n    # this is so we can send large amounts of text through 'readbuf'/'paste .'
-\n    obulimit        20971520 # 20M should to be enough
-\n    
-\n    # have to remove delay or screen will drop chars.
-\n    msgwait         0
-\n    msgminwait      0
-\n    
-\n    # no flow control
-\n    defflow         off
-"
-
 #
 # this is executed from inside the screen
 # 
 if [[ "$DO_BOOT" == "1" ]]; then
 
-    pos=$(expr index $STY .)
-    id=${STY:0:$pos-1}
-    name=${STY:$pos+13}
+    id=$(echo $STY | cut -d '.' -f 1)
+    # in case someone gives it a name like 'lots-of-silly-parens-and-silly-dashes'
+    name=$(echo $STY | cut -d '-' -f 2,3,4,5,6,7,8,9)
     lisp=$(sbcl --version)
     LIM_BRIDGE_CHANNEL="$HOME/.lim_bridge_channel-$name.$id"
     touch $LIM_BRIDGE_CHANNEL
@@ -166,19 +137,49 @@ elif [[ "$BOOT" == "1" ]]; then
 
     core_opt=""
     if [[ "$CORE_PATH" != "" ]]; then
-        core_opt="--boot=$CORE_PATH"
+        core_opt="-c $CORE_PATH"
     fi
 
-    initfile=$(tempfile -s lim_bridge-screenrc)
-    styfile=$(tempfile)
-    #cp -f $LIMRUNTIME/lim.screenrc $initfile
-    echo -e $SCREENRC_DATA > $initfile
-    echo "screen -t Lisp 0 $LIMRUNTIME/bin/lisp.sh $core_opt --private-lim-screenrc=$initfile --private-do-boot=$styfile" >> $initfile
+    initfile=$(mktemp /tmp/lim_bridge-screenrc.XXXXXX)
+    styfile=$(mktemp /tmp/lim_sty_XXXXXX)
+
+    #
+    # to work around braindead versions of echo without -e
+    #
+    echo "startup_message off" >> $initfile
+    echo "defscrollback   1000" >> $initfile
+    echo "hardcopydir     $HOME/.lim-hardcopy" >> $initfile
+    echo "logstamp        off" >> $initfile
+    echo "shell           bash" >> $initfile
+    echo "caption         splitonly" >> $initfile
+    echo "escape          ^zz" >> $initfile
+
+    # scrolling
+    echo "termcapinfo     xterm ti@:te@" >> $initfile
+
+    # <S-PageUp>, <S-PageDown>: Scroll
+    echo "bindkey -m \"^[[5;2~\" stuff ^u" >> $initfile
+    echo "bindkey -m \"^[[6;2~\" stuff ^d" >> $initfile
+
+    # <F12>: Detach
+    echo "bindkey -k F2 detach" >> $initfile
+
+    # this is so we can send large amounts of text through 'readbuf'/'paste .'
+    echo "obulimit        20971520 # 20M should to be enough" >> $initfile
+
+    # have to remove delay or screen will drop chars.
+    echo "msgwait         0" >> $initfile
+    echo "msgminwait      0" >> $initfile
+
+    # no flow control
+    echo "defflow         off" >> $initfile
+
+    echo "screen -t Lisp 0 $LIMRUNTIME/bin/lisp.sh $core_opt -P $initfile -p $styfile" >> $initfile
 
     screen -c $initfile -dmS lim_listener-$NAME 
 
     # wait for the styfile to become available
-    while [[ ! -s $styfile ]]; do
+    while [ ! -s $styfile ]; do
         sleep 1s
     done
 
