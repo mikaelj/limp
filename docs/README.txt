@@ -249,8 +249,14 @@ Moreover, ``K`` works as expected, doing an exact matching.
 
 Download
 ========
-* Version 0.2: `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.tar.gz>`_ (April 25, 2008)
-* Version 0.1: `lim-0.1.tar.gz </static/hacking/lim/lim-0.1.tar.gz>`_ (April 21, 2008)
+Current
+~~~~~~~
+Version 0.2.1, April 26th, 2008: `lim-0.2.1.tar.gz </static/hacking/lim/lim-0.2.1.tar.gz>`_
+
+Older
+~~~~~
+* `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.tar.gz>`_ (April 25, 2008)
+* `lim-0.1.tar.gz </static/hacking/lim/lim-0.1.tar.gz>`_ (April 21, 2008)
 
 Installation
 ============
@@ -276,6 +282,13 @@ The following step is not required for using Lim with Vim, but if you're plannin
 
 Changelog
 =========
+Version 0.2.1
+~~~~~~~~~~~~~
+* 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + Fixed copy-paste typo for 'Goto Last'
+  + Better connection status information
+
 Version 0.2
 ~~~~~~~~~~~
 * 2008-04-25 by Mikael Jansson <mail@mikael.jansson.be>
