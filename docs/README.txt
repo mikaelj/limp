@@ -1,15 +1,15 @@
 =======================================
   Lim: Reinventing the Square Wheel
 =======================================
-
 Pre-packaged & welded-together collection of Vim plugins working together for your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL) <http://www.sbcl.org>`_.  It is based on ViLisp and other great Vim plugins, and is an attempt at forming a usable Lisp environment for Vim users.
-
-(`Lim on the web <http://mikael.jansson.be/hacking>`_, follow the links)
 
 .. While you can't have lengthy conversations with SWANK (yet...), what you *can* do is send code to your Lisp, ask the HyperSpec for documentation, and on top of that, fairly sane bracket-behaviour.
 
 Table of Contents
 ==================
+.. image:: /static/hacking/lim/square-wheel.jpg
+   :class: rightalignplain
+
 .. contents::
 
 Features
@@ -23,45 +23,82 @@ Quickstart
 ============
 First, follow the instructions for installing Lim.
 
-Booting Lisp from Vim
-~~~~~~~~~~~~~~~~~~~~~~
-Open a .lisp file in Vim and hit ``<F12>``. You'll be asked about what you want
-to name your Lisp.  Give it a name and press ``<Enter>``.  If you want to connect
-to a previously disconnected Lisp, press ``<Enter>`` the first time and then press ``<Tab>``
-until you find it.
+.. figure:: /static/hacking/lim/docs/screenshots/disconnected.png
 
-You are now communicating with Lisp, through Vim.  Write some code, type ``\et`` and press ``<F12>``!
+   Vim started with a simple hello-world program.
 
-Booting Lisp Manually
-~~~~~~~~~~~~~~~~~~~~~~~~
-You can also boot a Lisp using the provided shell script, directly, and later attach to it 
-using Vim. Here's how you start a new Lisp and attach to it::
+.. figure:: /static/hacking/lim/docs/screenshots/connecting.png
 
-  $ $LIMRUNTIME/bin/lisp.sh -b my-lisp
-  $ $LIMRUNTIME/bin/lisp.sh my-lisp
+   Press ``<F12>`` to start a new Lisp.
 
-Use the flag ``-h/--help`` for more info.
+.. figure:: /static/hacking/lim/docs/screenshots/listener.png
 
-Behind the covers, a specially named ``screen`` session is started up that Vim connects to through the script. Communication is done using files named beginning with ``~/.lim_bridge_channel-``, one per running Lisp instance, and are removed automatically on exit.
+   Press ``<F12>`` again to go to the listener.
+
+.. figure:: /static/hacking/lim/docs/screenshots/sending-code.png
+
+   Press  ``<F12>`` to return to Vim.
+
+   Move the cursor somewhere inside the form and press ``\et`` *(Evaluate Top
+   form)*. The function definition will be sent to the running Lisp.
+
+.. figure:: /static/hacking/lim/docs/screenshots/listener-with-defun.png
+
+   Looking at the listener, you see that the code you just sent has been
+   compiled.
+
+.. figure:: /static/hacking/lim/docs/screenshots/highlighting-current-form.png
+
+   Let's add more code inside the function definition.  With the cursor
+   in the middle of the newly added form, you can now press ``\ec`` *(Evaluate
+   Current form)* to send only what's currently highlighted.
+
+.. figure:: /static/hacking/lim/docs/screenshots/evaluating-current-form.png
+
+   And here you can see the results.
+
+.. figure:: /static/hacking/lim/docs/screenshots/evaluate-prompt.png
+
+   We can also evaluate arbitrary expressions, such as looking at a symbol,
+   using ``\ex`` *(Evaluate eXpression)* and typing something at the prompt,
+   followed by enter to send it.
+
+.. figure:: /static/hacking/lim/docs/screenshots/expression-sent.png
+
+   Yes, it is indeed a symbol.
+
+.. figure:: /static/hacking/lim/docs/screenshots/defun-with-documentation.png
+
+   Let's remove that extra line of code in the function, and add a docstring
+   describing the function. Send the definition to Lisp with ``\et``.
+
+.. figure:: /static/hacking/lim/docs/screenshots/describe-symbol.png
+
+   With the cursor on the word ``say-hello``, we now press ``\hd`` *(Help
+   Describe)* to get detailed information from Lisp about the symbol.
+
+.. figure:: /static/hacking/lim/docs/screenshots/describe-results.png
+
+   This is what our Lisp believes ``SAY-HELLO`` to be.
+
+.. figure:: /static/hacking/lim/docs/screenshots/listing-lisps.png
+
+   If we exit Vim, our Lisp is still active. You can attach from it directly from the command line,
+   or from another Vim session.
 
 Usage
 =======
-Editing
-~~~~~~~~~
-When typing an opening bracket, paren or double-quote, it automatically adds the closing
-bracket. You can now either type the closing symbol yourself or skip it
-altogether.  Backspacing over it removes the pair.
 
 Documentation Lookup
 ~~~~~~~~~~~~~~~~~~~~
 Example 1::
 
-	(defun fib (n)
-	;   ^ cursor here
-	  (cond ((or (= n 0)
-				 (= n 1)) 1)
-			(t (+ (fib (- n 1))
-			   (fib (- n 2))))))
+    (defun fib (n)
+    ;   ^ cursor here
+      (cond ((or (= n 0)
+                 (= n 1)) 1)
+            (t (+ (fib (- n 1))
+               (fib (- n 2))))))
 
 With the cursor at the indicated spot, "K" (see below) will invoke your
 browser with file://localhost/path/to/hyperspec/Body/m_defun.htm#defun. This
@@ -134,27 +171,38 @@ find a tarball of the CLHS at http://www.xanalys.com.  If you use Debian or a de
 ``apt-get install hyperspec`` will put the HyperSpec in
 ``/usr/share/doc/hyperspec``.  lim-hyperspec.pl looks for it there, by default.
 
-Name Completion
+Completion
 ~~~~~~~~~~~~~~~~~~~
-Example 1::
+Name Completion
+-----------------
+Lim can complete the names of symbols. They tend to be rather long, so it's a useful thing.
 
-    least-
-    ;     ^ cursor here
+.. figure:: /static/hacking/lim/docs/screenshots/name-completion.png
 
-With the cursor at the indicated spot, ^N (Ctrl-N) will expand ``least-`` into
-``least-negative-long-float`` first, then (with another ^N)
-``least-positive-long-float``, then ``least-negative-short-float``, and so on.
+   First, type this in Vim...
 
-Example 2::
+.. figure:: /static/hacking/lim/docs/screenshots/name-completion-popup.png
 
-    p-n
-    ;  ^ cursor here
+   Then, hitting ^N (Ctrl-N) will expand ``least-`` into
+   ``least-negative-long-float`` first, then (with another ^N)
+   ``least-positive-long-float``, then ``least-negative-short-float``, and so on.
 
-With the cursor at the indicated spot, ^N^N (Ctrl-N twice) will expand the ``p-n``
-to ``package-name``.  ^N again will replace ``package-name`` with ``pathname-name``,
-and ^N yet again will replace that with ``pprint-newline``.  See Vim help for 
-``complete``, ``compl-generic``, and ``i_CTRL-X_CTRL-T``.  Also, see below for notes on
-this facility.
+
+Name Expansion
+---------------
+There's a convention to talk about dashed names by abbreviating them into the first letter of each word, e.g.:
+
+.. figure:: /static/hacking/lim/docs/screenshots/name-expansion.png
+   
+   First, type this in Vim...
+
+.. figure:: /static/hacking/lim/docs/screenshots/name-expansion-popup.png
+
+   Then, hitting ^N^N (Ctrl-N twice) will expand the ``p-n``
+   to ``package-name``.  ^N again will replace ``package-name`` with ``pathname-name``,
+   and ^N yet again will replace that with ``pprint-newline``.  See Vim help for 
+   ``complete``, ``compl-generic``, and ``i_CTRL-X_CTRL-T``.  Also, see below for notes on
+   this facility.
 
 Notes
 -----
@@ -179,8 +227,8 @@ Notes
 Finally, you should install `SuperTab <http://www.vim.org/scripts/script.php?script_id=1643>`_ and and use
 that instead of the default keys used for completion!
 
-Key Mappings
-~~~~~~~~~~~~
+Keyboard Reference
+~~~~~~~~~~~~~~~~~~~~~
 The default settings in Lim.
 
 ``<F12>``
@@ -239,24 +287,31 @@ Looks things up in the HyperSpec, by opening a browser pointing to a local copy 
 * ``\he``: *(Help Exact)*: Lookup exact symbol
 * ``\hp``: *(Help Prefix)*: Lookup symbol as prefix
 * ``\hs``: *(Help Prefix)*: Lookup symbol as suffix
-* ``\hg``: *(Help Grep)*: Lookup symbol by grep'ing
+* ``\hg``: *(Help Grep)*: Lookup symbol by greping through all symbols
 * ``\hi``: *(Help Index)*: Go the the index page of the first letter of the current word.  E.g., if you have the cursor on "member" and type \hi, takes you to the Permuted Symbol Index (M) page.
 * ``\hI``: *(Help Index page)*: Takes you to the Alphabetical Symbol Index & Permuted Symbol Index page.
 
-
 Moreover, ``K`` works as expected, doing an exact matching.
+
+Brackets
+----------
+When typing an opening bracket, paren or double-quote, it automatically adds the closing
+bracket. You can now either type the closing symbol yourself or skip it
+altogether.  Backspacing over it removes the pair.
 
 
 Download
 ========
 Current
 ~~~~~~~
-Version 0.2.1, April 26th, 2008: `lim-0.2.1.tar.gz </static/hacking/lim/lim-0.2.1.tar.gz>`_
+Version 0.2.2, April 26th, 2008: `lim-0.2.2.tar.gz </static/hacking/lim/lim-0.2.2.tar.gz>`_
 
 Older
 ~~~~~
+* `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.1.tar.gz>`_ (April 26, 2008)
 * `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.tar.gz>`_ (April 25, 2008)
 * `lim-0.1.tar.gz </static/hacking/lim/lim-0.1.tar.gz>`_ (April 21, 2008)
+
 
 Installation
 ============
@@ -266,14 +321,14 @@ The name of the directory isn't important either, as long as ``$LIMRUNTIME`` is 
 Step-by-step instructions::
 
   cd /usr/local
-  tar /path/to/lim-0.2.tar.gz
-  ln -sf /usr/local/lim-0.2/vim $HOME/.vim/lim
+  tar /path/to/lim-x.y.tar.gz
+  ln -sf /usr/local/lim-x.y/vim $HOME/.vim/lim
   ln -sf ../lim/lim.vim $HOME/.vim/plugin/lim.vim
   ln -sf ../lim/desert256.vim $HOME/.vim/colors/desert256.vim
 
 Lim relies on the variable ``$LIMRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
 
-  export LIMRUNTIME=/usr/local/lim-0.2
+  export LIMRUNTIME=/usr/local/lim-x.y
 
 The following step is not required for using Lim with Vim, but if you're planning on using the command line tool, make a symlink like this::
 
@@ -282,12 +337,20 @@ The following step is not required for using Lim with Vim, but if you're plannin
 
 Changelog
 =========
+Version 0.2.2
+~~~~~~~~~~~~~
+* 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + Typo in HyperSpec lookup code
+  + Updated documentation
+
 Version 0.2.1
 ~~~~~~~~~~~~~
 * 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
 
   + Fixed copy-paste typo for 'Goto Last'
   + Better connection status information
+
 
 Version 0.2
 ~~~~~~~~~~~
@@ -319,51 +382,4 @@ Charles E. Campbell, Jr.
   For `HiMtchBrkt <http://www.vim.org/scripts/script.php?script_id=1435>`_.
   Modified to highlight the contents inside the brackets, removed Vim (<7.x)
   backward compatibility.
-
-.. raw:: comment
-
-	TODO
-	====
-
-	Vim Event Loop
-	~~~~~~~~~~~~~~~
-	cursorhold / move key::
-
-	 augroup Eventloop
-	  au!
-	  au CursorHold,CursorHoldI * :call Eventhandler() | call  feedkeys((col('.')==1?"\<right>\<left>":"\<left>\<right>"),'t')
-	 augroup END
-
-	cursorhold / internal ignored key::
-	 
-	 setlocal autoread
-	 function! Tailf()
-	     " TODO: move to the appropriate buffer before doing the checktime and move to the bottom!
-	     checktime | normal G
-	      let K_IGNORE = "\x80\xFD\x35"   " internal key code that is ignored
-	       call feedkeys(K_IGNORE)
-	   endfunction
-	   augroup tailf
-		 au!
-		   au CursorHold,CursorHoldI * :call Tailf()
-	       augroup END
-
-	try eating key event::
-
-	 func! Loop()
-	  while 1
-	    "Get a char if one is available, don't eat it.
-	    if getchar(1)
-	      break
-	    endif
-	    sleep 100ms
-	    redraw | echo strftime("%H:%M:%S")
-	  endwhile
-	 endfun
-
-	 augroup Loop
-	  au!
-	  au CursorHold,CursorHoldI * call Loop()
-	 augroup END
-	 
 
