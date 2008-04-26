@@ -67,6 +67,7 @@ runtime limp/autoclose.vim
 "-------------------------------------------------------------------
 nmap <F12> 	          :call LimpBridge_boot_or_connect_or_display()<CR>
 nmap <C-F12> 	      :call LimpBridge_disconnect()<CR>
+nmap <S-F12> 	      :call LimpBridge_shutdown_lisp()<CR>
 
 "-------------------------------------------------------------------
 " key bindings
@@ -87,10 +88,7 @@ vnoremap <Leader>et  <Leader>leb
 vnoremap <Leader>ec  <Leader>leb
 
 " SBCL Abort Reset:   go up one level
-" SBCL Abort Quit:    quit the running Lisp
-
 noremap <Leader>ar    :call LimpBridge_send_to_lisp( "ABORT\n" )<CR>
-noremap <Leader>aq    :call LimpBridge_send_to_lisp( "(sb-ext:quit)\n" )<CR>
 
 " Abort Interrupt:    send ^C to interpreter
 noremap <Leader>ai    :call LimpBridge_send_to_lisp( "" )<CR>

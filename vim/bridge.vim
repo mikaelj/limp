@@ -19,6 +19,9 @@
 " Larry Clapp <vim@theclapp.org>
 
 " Changelog:
+" 2008-08-26 by Mikael Jansson <mail@mikael.jansson.be>
+" * Optionally specify core at startup and exit.
+"
 " 2008-08-25 by Mikael Jansson <mail@mikael.jansson.be>
 " * Now boots a new Lisp or connects to an existing via screen.
 "   No longer needs the funnel (although it does need a file to read to/from
@@ -79,9 +82,8 @@ fun! LimpBridge_connect(...)
 
         let g:limp_bridge_channel = g:limp_bridge_channel_base.name.".".pid
     else
-        "let s:limp_bridge_channel = input("Lisp? ", g:limp_bridge_channel_base, "file")
         let g:limp_bridge_channel = g:limp_bridge_channel_base
-        let g:limp_bridge_channel .= input("Lisp? ", "", "customlist,LimpBridge_complete_lisp")
+        let g:limp_bridge_channel .= input("Name of Lisp? ", "", "customlist,LimpBridge_complete_lisp")
         if 0 == filewritable(g:limp_bridge_channel) "|| g:limp_bridge_channel = g:limp_bridge_channel_base
             echom "Not a channel."
             return
@@ -147,6 +149,27 @@ fun! LimpBridge_disconnect()
 endfun
 
 "
+" optionally, specify the path of the core to save to
+"
+fun! LimpBridge_quit_lisp(...)
+    " we were given a file
+    if a:0 == 1
+        let core=a:1
+        call LimpBridge_send_to_lisp("(sb-ext:save-lisp-and-die \"".core."\")\n")
+        echom "Lisp ".g:limp_bridge_id." is gone, core saved to ".core."."
+    else
+        call LimpBridge_send_to_lisp("(sb-ext:quit)\n")
+        echom "Lisp ".g:limp_bridge_id." is gone."
+    endif
+    call LimpBridge_disconnect()
+endfun
+
+fun! LimpBridge_shutdown_lisp()
+    let core = input("Name of core to save [none]: ", "", "file")
+    call LimpBridge_quit_lisp(core)
+endfun
+
+"
 " when not connected, start new or connect to existing
 " otherwise, switch to Lisp (screen)
 fun! LimpBridge_boot_or_connect_or_display()
@@ -161,12 +184,19 @@ fun! LimpBridge_boot_or_connect_or_display()
         silent exe "!".cmd
         redraw!
     else
-        let name = input("Name the new Lisp [blank to connect to existing]: ")
+        let name = input("Name the new Lisp [connect to existing]: ")
         if name == ""
             call LimpBridge_connect()
         else
-            echom "Booting..."
-            let sty = system("$LIMRUNTIME/bin/lisp.sh -b ".name)
+            let core = input("Path to core to boot [use system-default]: ", "", "file")
+            let core_opt = ""
+            if filereadable(core)
+                let core_opt = "-c ".core
+                echom "Booting ".core."..."
+            else
+                echom "Booting..."
+            endif
+            let sty = system("$LIMRUNTIME/bin/lisp.sh ".core_opt." -b ".name)
             call LimpBridge_connect(sty)
         endif
   endif
