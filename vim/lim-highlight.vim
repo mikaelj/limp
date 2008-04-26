@@ -1,5 +1,5 @@
 " 
-" lim/vim/lim-highlight.vim
+" limp/vim/highlight.vim
 "
 " URL:
 " http://mikael.jansson.be/hacking
@@ -29,32 +29,32 @@
 "
 " Usage: {{{1
 "   Before loading: 
-"       let g:LimHighlight = 1
+"       let g:LimpHighlight = 1
 "   or after loading:
-"       call LimHighlight_start()
+"       call LimpHighlight_start()
 "
 " ---------------------------------------------------------------------
 " Load Once: {{{1
-if &cp || exists("g:loaded_lim_highlight")
+if &cp || exists("g:loaded_limp_highlight")
     finish
 endif
-let g:loaded_lim_highlight = "2008-04-20-lim"
+let g:loaded_limp_highlight = "2008-04-20-lim"
 let s:keepcpo = &cpo
 set cpo&vim
 
 " disable matchparen: we do that ourselves.
 let g:loaded_matchparen = 1
 
-fun! LimHighlight_start()
-    if exists("g:lim_highlight_active")
+fun! LimpHighlight_start()
+    if exists("g:limp_highlight_active")
         return
     endif
-    let g:lim_highlight_active = 1
+    let g:limp_highlight_active = 1
 
     if !exists("*Cursor_get")
-        " due to loading order, <plugin/lim-cursor.vim> may not have loaded yet.
+        " due to loading order, <limp/cursor.vim> may not have loaded yet.
         " attempt to force a load now.  Ditto for matchit!
-        silent! runtime plugin/lim-cursor.vim
+        silent! runtime limp/cursor.vim
     endif
     silent! runtime plugin/matchit.vim
 
@@ -62,24 +62,24 @@ fun! LimHighlight_start()
     let s:wwkeep = &ww
     set ww=b,s,<,>,[,]
 
-    augroup LimHighlight
+    augroup LimpHighlight
         au!
-        au CursorMoved * silent call s:LimHighlight_handler()
+        au CursorMoved * silent call s:LimpHighlight_handler()
     augroup END
 
     set lz
-    call s:LimHighlight_handler()
+    call s:LimpHighlight_handler()
     set nolz
 endfun
 
-fun! LimHighlight_stop()
+fun! LimpHighlight_stop()
     set lz
-    unlet g:lim_highlight_active
+    unlet g:limp_highlight_active
     match none
     2match none
  
     " remove cursorhold event for highlighting matching bracket
-    augroup LimHighlight
+    augroup LimpHighlight
         au!
     augroup END
  
@@ -89,9 +89,9 @@ endfun
 
 
 " ---------------------------------------------------------------------
-" LimHighlight_handler: this routine actually performs the highlighting of {{{1
+" LimpHighlight_handler: this routine actually performs the highlighting of {{{1
 " the matching bracket.
-fun! <SID>LimHighlight_handler()
+fun! <SID>LimpHighlight_handler()
     if mode() =~ '['."\<c-v>".'vV]'
         " don't try to highlight matching/surrounding brackets while in
         " visual-block mode
@@ -242,9 +242,9 @@ hi hlLevel10 ctermfg=238
 hi hlLevel11 ctermfg=238
 
 " ---------------------------------------------------------------------
-"  Auto Startup With LimHighlight: {{{1
-if exists("g:LimHighlight") && g:LimHighlight == 1
-    call LimHighlight_start()
+"  Auto Startup With LimpHighlight: {{{1
+if exists("g:LimpHighlight") && g:LimpHighlight == 1
+    call LimpHighlight_start()
 endif
 
 let &cpo = s:keepcpo
