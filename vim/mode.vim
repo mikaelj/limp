@@ -39,8 +39,8 @@ augroup LimpMode
 
  au BufEnter .limp_bridge_test*,*.lisp,*.asd setlocal iskeyword=&,*,+,45,/,48-57,:,<,=,>,@,A-Z,a-z,_
 
- au BufEnter .limp_bridge_test*,*.lisp,*.asd call LimHighlight_start()|call AutoClose_start()
- au BufLeave .limp_bridge_test*,*.lisp,*.asd call LimHighlight_stop()|call AutoClose_stop()
+ au BufEnter .limp_bridge_test*,*.lisp,*.asd call LimpHighlight_start()|call AutoClose_start()
+ au BufLeave .limp_bridge_test*,*.lisp,*.asd call LimpHighlight_stop()|call AutoClose_stop()
 
 augroup END
 
