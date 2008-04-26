@@ -38,7 +38,10 @@ else
   let g:lim_bridge_loaded = 1
 endif
 
-" only do this once
+" only do these things once
+
+" prefix for the pipe used for communication
+let g:lim_bridge_channel_base = $HOME . "/.lim_bridge_channel-"
 let s:lim_bridge_connected=0
 let s:LimBridge_location = expand("$LIMRUNTIME")
 exe "set complete+=s" . s:LimBridge_location . "/vim/thesaurus"
@@ -129,6 +132,14 @@ fun! LimBridge_connect(...)
     echom "Welcome to Lim. May your journey be pleasant."
 endfun
 
+fun! LimBridge_connection_status()
+    if s:lim_bridge_connected == 1
+        return "Connected to ".g:lim_bridge_id
+    else
+        return "Disconnected"
+    endif
+endfun
+
 fun! LimBridge_disconnect()
     echom "Lisp is gone!"
     let s:lim_bridge_connected = 0
@@ -164,7 +175,7 @@ endfun
 augroup LimBridge
     au!
     autocmd BufLeave .LimBridge_* set nobuflisted
-    autocmd BufLeave *.lsp,*.lisp let s:lim_bridge_last_lisp = bufname( "%" )
+    autocmd BufLeave *.lsp,*.lisp let g:lim_bridge_last_lisp = bufname( "%" )
 augroup END
 
 "-------------------------------------------------------------------

@@ -223,8 +223,10 @@ fun! s:PerformMatch(line1, col1, line2, col2)
     exe 'match Brackets /\%'.line1.'l\%'.col1.'v\|\%'.line2.'l\%'.col2.'v/'
 endfun
 
+let g:lisp_rainbow=1
+
 "
-" disable paren colors (for Lisp rainbow)
+" set all parens to gray
 "
 hi hlLevel0 ctermfg=238
 hi hlLevel1 ctermfg=238
