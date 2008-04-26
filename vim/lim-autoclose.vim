@@ -1,5 +1,5 @@
 " 
-" lim/vim/lim-autoclose.vim
+" limp/vim/autoclose.vim
 "
 " URL:
 " http://mikael.jansson.be/hacking

@@ -1,5 +1,5 @@
 " 
-" lim/vim/lim-sexp.vim
+" limp/vim/sexp.vim
 "
 " URL:
 " http://mikael.jansson.be/hacking

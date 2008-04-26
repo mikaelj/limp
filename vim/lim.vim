@@ -1,11 +1,11 @@
 " 
-" lim/vim/lim.vim
+" limp/vim/limp.vim
 "
 " URL:
 " http://mikael.jansson.be/hacking
 "
 " Description:
-" Setup the Lim environment
+" Setup the Limp environment
 "
 " Version:
 " 0.2
@@ -55,18 +55,18 @@ silent! runtime plugin/matchit.vim
 "-------------------------------------------------------------------
 
 " load the rest of the code
-runtime lim/lim-mode.vim
-runtime lim/lim-cursor.vim
-runtime lim/lim-highlight.vim
-runtime lim/lim-sexp.vim
-runtime lim/lim-bridge.vim
-runtime lim/lim-autoclose.vim
+runtime limp/mode.vim
+runtime limp/cursor.vim
+runtime limp/highlight.vim
+runtime limp/sexp.vim
+runtime limp/bridge.vim
+runtime limp/autoclose.vim
 
 "-------------------------------------------------------------------
 " boot Lim
 "-------------------------------------------------------------------
-nmap <F12> 	          :call LimBridge_boot_or_connect_or_display()<CR>
-nmap <C-F12> 	      :call LimBridge_disconnect()<CR>
+nmap <F12> 	          :call LimpBridge_boot_or_connect_or_display()<CR>
+nmap <C-F12> 	      :call LimpBridge_disconnect()<CR>
 
 "-------------------------------------------------------------------
 " key bindings
@@ -76,58 +76,58 @@ nmap <C-F12> 	      :call LimBridge_disconnect()<CR>
 " Eval Current:       send current s-exp to Lisp
 " Eval Expression:    send arbitrary code to Lisp
 
-noremap <Leader>et   :call LimBridge_eval_top_form()<CR>
-noremap <Leader>ec   :call LimBridge_eval_current_form()<CR>
-noremap <Leader>ex   :call LimBridge_prompt_eval_expression()<CR>
+noremap <Leader>et   :call LimpBridge_eval_top_form()<CR>
+noremap <Leader>ec   :call LimpBridge_eval_current_form()<CR>
+noremap <Leader>ex   :call LimpBridge_prompt_eval_expression()<CR>
 
 " Eval Block:         visual mode
 
-vnoremap <Leader>eb  :call LimBridge_eval_block()<cr>
+vnoremap <Leader>eb  :call LimpBridge_eval_block()<cr>
 vnoremap <Leader>et  <Leader>leb
 vnoremap <Leader>ec  <Leader>leb
 
 " SBCL Abort Reset:   go up one level
 " SBCL Abort Quit:    quit the running Lisp
 
-noremap <Leader>ar    :call LimBridge_send_to_lisp( "ABORT\n" )<CR>
-noremap <Leader>aq    :call LimBridge_send_to_lisp( "(sb-ext:quit)\n" )<CR>
+noremap <Leader>ar    :call LimpBridge_send_to_lisp( "ABORT\n" )<CR>
+noremap <Leader>aq    :call LimpBridge_send_to_lisp( "(sb-ext:quit)\n" )<CR>
 
 " Abort Interrupt:    send ^C to interpreter
-noremap <Leader>ai    :call LimBridge_send_to_lisp( "" )<CR>
+noremap <Leader>ai    :call LimpBridge_send_to_lisp( "" )<CR>
 
 " Test Current:       copy current s-exp to test buffer
-noremap <Leader>tc    :call  LimBridge_stuff_current_form()<CR>
-noremap <Leader>tt    :call  LimBridge_stuff_top_form()<CR>
+noremap <Leader>tc    :call  LimpBridge_stuff_current_form()<CR>
+noremap <Leader>tt    :call  LimpBridge_stuff_top_form()<CR>
 
 " Load File:          load /this/ file into Lisp
 " Load Any File:      load whichever version of this file (.lisp not given)
-noremap <Leader>lf    :call LimBridge_send_to_lisp( "(load \"" . expand( "%:p" ) . "\")\n")<CR>
-noremap <Leader>la    :call LimBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
+noremap <Leader>lf    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p" ) . "\")\n")<CR>
+noremap <Leader>la    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
 
 " Compile File:       compile the current file
 " Compile Load File:  compile, then load the current file
-noremap <Leader>cf    :call LimBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
+noremap <Leader>cf    :call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
 noremap <Leader>cl    <Leader>cf<Leader>la
 
 " Goto Test Buffer:
 " Goto Split:         split current buffer and goto test buffer
-noremap <Leader>gt   :call LimBridge_goto_buffer_or_window(g:lim_bridge_test)<CR>
-noremap <Leader>gs   :sb <bar> call LimBridge_goto_buffer_or_window(g:lim_bridge_test)<CR>
-"noremap <Leader>sb    :exe "hide bu" g:lim_bridge_scratch<cr>
+noremap <Leader>gt   :call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
+noremap <Leader>gs   :sb <bar> call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
+"noremap <Leader>sb    :exe "hide bu" g:limp_bridge_scratch<cr>
 
-" Goto Last:          return to g:lim_bridge_last_lisp, i.e. last buffer
-noremap <Leader>gl   :call LimBridge_goto_buffer_or_window(g:lim_bridge_last_lisp)<CR>
+" Goto Last:          return to g:limp_bridge_last_lisp, i.e. last buffer
+noremap <Leader>gl   :call LimpBridge_goto_buffer_or_window(g:limp_bridge_last_lisp)<CR>
 
 " HyperSpec:
-noremap <Leader>he   :call LimBridge_hyperspec("exact", 0)<CR>
-noremap <Leader>hp   :call LimBridge_hyperspec("prefix", 1)<CR>
-noremap <Leader>hs   :call LimBridge_hyperspec("suffix", 1)<CR>
-noremap <Leader>hg   :call LimBridge_hyperspec("grep", 1)<CR>
-noremap <Leader>hi   :call LimBridge_hyperspec("index", 0)<CR>
-noremap <Leader>hI   :call LimBridge_hyperspec("index-page", 0)<CR>
+noremap <Leader>he   :call LimpBridge_hyperspec("exact", 0)<CR>
+noremap <Leader>hp   :call LimpBridge_hyperspec("prefix", 1)<CR>
+noremap <Leader>hs   :call LimpBridge_hyperspec("suffix", 1)<CR>
+noremap <Leader>hg   :call LimpBridge_hyperspec("grep", 1)<CR>
+noremap <Leader>hi   :call LimpBridge_hyperspec("index", 0)<CR>
+noremap <Leader>hI   :call LimpBridge_hyperspec("index-page", 0)<CR>
 
 " Help Describe:      ask Lisp about the current symbol
-noremap <Leader>hd   :call LimBridge_send_to_lisp("(describe '".expand("<cword>").")")<CR>
+noremap <Leader>hd   :call LimpBridge_send_to_lisp("(describe '".expand("<cword>").")")<CR>
 
 " map the "man" command to do an exact lookup in the Hyperspec
 nmap K <Leader>he

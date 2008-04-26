@@ -1,12 +1,12 @@
 " 
-" lim/vim/lim-bridge.vim
+" limp/vim/bridge.vim
 "
 " URL:
 " http://mikael.jansson.be/hacking
 "
 " Description:
 " Handle communication between Vim and Lisp, including boot, connect and
-" display. Relies on 'lisp.sh' from the Lim package.
+" display. Relies on 'lisp.sh' from the Limp package.
 "
 " Version:
 " 0.2
@@ -32,25 +32,25 @@
 "-------------------------------------------------------------------
 " startup
 "-------------------------------------------------------------------
-if exists( "g:lim_bridge_loaded" )
+if exists( "g:limp_bridge_loaded" )
   finish
 else
-  let g:lim_bridge_loaded = 1
+  let g:limp_bridge_loaded = 1
 endif
 
 " only do these things once
 
 " prefix for the pipe used for communication
-let g:lim_bridge_channel_base = $HOME . "/.lim_bridge_channel-"
-let s:lim_bridge_connected=0
-let s:LimBridge_location = expand("$LIMRUNTIME")
-exe "set complete+=s" . s:LimBridge_location . "/vim/thesaurus"
+let g:limp_bridge_channel_base = $HOME . "/.limp_bridge_channel-"
+let s:limp_bridge_connected=0
+let s:LimpBridge_location = expand("$LIMRUNTIME")
+exe "set complete+=s" . s:LimpBridge_location . "/vim/thesaurus"
 
 "-------------------------------------------------------------------
-" talk to multiple Lisps using LimBridge_connect()
+" talk to multiple Lisps using LimpBridge_connect()
 "-------------------------------------------------------------------
-fun! LimBridge_complete_lisp(A,L,P)
-    let prefix = g:lim_bridge_channel_base
+fun! LimpBridge_complete_lisp(A,L,P)
+    let prefix = g:limp_bridge_channel_base
     echom "ls -1 ".prefix."*"
     let output = system("ls -1 ".prefix."*")
     if stridx(output, prefix."*") >= 0
@@ -66,23 +66,23 @@ fun! LimBridge_complete_lisp(A,L,P)
 endfun
 
 " optionally specify the screen id to connect to
-fun! LimBridge_connect(...)
-    if s:lim_bridge_connected == 1
+fun! LimpBridge_connect(...)
+    if s:limp_bridge_connected == 1
         echom "Already to connected to Lisp!"
         return
     endif
     if a:0 == 1 && a:1 != ""
-        " format: 7213.lim_listener-foo
+        " format: 7213.limp_listener-foo
         let pid = a:1[:stridx(a:1, '.')-1]
         let fullname = a:1[stridx(a:1, '.')+1:]
-        let name = fullname[strlen("lim_listener-"):]
+        let name = fullname[strlen("limp_listener-"):]
 
-        let g:lim_bridge_channel = g:lim_bridge_channel_base.name.".".pid
+        let g:limp_bridge_channel = g:limp_bridge_channel_base.name.".".pid
     else
-        "let s:lim_bridge_channel = input("Lisp? ", g:lim_bridge_channel_base, "file")
-        let g:lim_bridge_channel = g:lim_bridge_channel_base
-        let g:lim_bridge_channel .= input("Lisp? ", "", "customlist,LimBridge_complete_lisp")
-        if 0 == filewritable(g:lim_bridge_channel) "|| g:lim_bridge_channel = g:lim_bridge_channel_base
+        "let s:limp_bridge_channel = input("Lisp? ", g:limp_bridge_channel_base, "file")
+        let g:limp_bridge_channel = g:limp_bridge_channel_base
+        let g:limp_bridge_channel .= input("Lisp? ", "", "customlist,LimpBridge_complete_lisp")
+        if 0 == filewritable(g:limp_bridge_channel) "|| g:limp_bridge_channel = g:limp_bridge_channel_base
             echom "Not a channel."
             return
         endif
@@ -91,19 +91,19 @@ fun! LimBridge_connect(...)
     " (backward from screen sty naming to ease tab completion)
     
     " bridge id is the file used for communication between Vim and screen
-    let g:lim_bridge_id = strpart(g:lim_bridge_channel, strlen(g:lim_bridge_channel_base))
+    let g:limp_bridge_id = strpart(g:limp_bridge_channel, strlen(g:limp_bridge_channel_base))
 
     " bridge screenid is the screen in which the Lisp is running
-    let g:lim_bridge_screenid = g:lim_bridge_id[strridx(g:lim_bridge_id, '.')+1:]
-    "let g:lim_bridge_scratch = $HOME . "/.lim_bridge_scratch-" . g:lim_bridge_id
-    let g:lim_bridge_test = $HOME . '/.lim_bridge_test-' . g:lim_bridge_id
+    let g:limp_bridge_screenid = g:limp_bridge_id[strridx(g:limp_bridge_id, '.')+1:]
+    "let g:limp_bridge_scratch = $HOME . "/.limp_bridge_scratch-" . g:limp_bridge_id
+    let g:limp_bridge_test = $HOME . '/.limp_bridge_test-' . g:limp_bridge_id
 
-    silent exe "new" g:lim_bridge_channel
+    silent exe "new" g:limp_bridge_channel
         if exists( "#BufRead#*.lsp#" )
             doauto BufRead x.lsp
         endif
         set syntax=lisp
-        " XXX: in ViLisp, buftype=nowrite, but w/ lim_bridge_channel, vim
+        " XXX: in ViLisp, buftype=nowrite, but w/ limp_bridge_channel, vim
         " complains about the file being write-only.
         "set buftype=nowrite
         set bufhidden=hide
@@ -111,7 +111,7 @@ fun! LimBridge_connect(...)
         set noswapfile
     hide
 
-    silent exe "new" g:lim_bridge_test
+    silent exe "new" g:limp_bridge_test
         if exists( "#BufRead#*.lsp#" )
             doauto BufRead x.lsp
         endif
@@ -127,61 +127,61 @@ fun! LimBridge_connect(...)
     "normal! 
     redraw
 
-    let s:lim_bridge_connected=1
+    let s:limp_bridge_connected=1
 
     echom "Welcome to Lim. May your journey be pleasant."
 endfun
 
-fun! LimBridge_connection_status()
-    if s:lim_bridge_connected == 1
-        return "Connected to ".g:lim_bridge_id
+fun! LimpBridge_connection_status()
+    if s:limp_bridge_connected == 1
+        return "Connected to ".g:limp_bridge_id
     else
         return "Disconnected"
     endif
 endfun
 
-fun! LimBridge_disconnect()
+fun! LimpBridge_disconnect()
     echom "Lisp is gone!"
-    let s:lim_bridge_connected = 0
-    let g:lim_bridge_id = "<disconnected>"
+    let s:limp_bridge_connected = 0
+    let g:limp_bridge_id = "<disconnected>"
 endfun
 
 "
 " when not connected, start new or connect to existing
 " otherwise, switch to Lisp (screen)
-fun! LimBridge_boot_or_connect_or_display()
-    if s:lim_bridge_connected
+fun! LimpBridge_boot_or_connect_or_display()
+    if s:limp_bridge_connected
         " is it still running?
         let status = system("screen -ls")
-        if stridx(status, g:lim_bridge_screenid) == -1
-            call LimBridge_disconnect()
+        if stridx(status, g:limp_bridge_screenid) == -1
+            call LimpBridge_disconnect()
             return
         endif
-        let cmd = "screen -x ".g:lim_bridge_screenid
+        let cmd = "screen -x ".g:limp_bridge_screenid
         silent exe "!".cmd
         redraw!
     else
         let name = input("Name the new Lisp [blank to connect to existing]: ")
         if name == ""
-            call LimBridge_connect()
+            call LimpBridge_connect()
         else
             echom "Booting..."
             let sty = system("$LIMRUNTIME/bin/lisp.sh -b ".name)
-            call LimBridge_connect(sty)
+            call LimpBridge_connect(sty)
         endif
   endif
 endfun
 
-augroup LimBridge
+augroup LimpBridge
     au!
-    autocmd BufLeave .LimBridge_* set nobuflisted
-    autocmd BufLeave *.lsp,*.lisp let g:lim_bridge_last_lisp = bufname( "%" )
+    autocmd BufLeave .LimpBridge_* set nobuflisted
+    autocmd BufLeave *.lsp,*.lisp let g:limp_bridge_last_lisp = bufname( "%" )
 augroup END
 
 "-------------------------------------------------------------------
 " library
 "-------------------------------------------------------------------
-function! LimBridge_goto_buffer_or_window( buff )
+function! LimpBridge_goto_buffer_or_window( buff )
   if -1 == bufwinnr( a:buff )
     exe "hide bu" a:buff
   else
@@ -190,7 +190,7 @@ function! LimBridge_goto_buffer_or_window( buff )
 endfunction
 
 
-function! LimBridge_get_pos()
+function! LimpBridge_get_pos()
   " what buffer are we in?
   let bufname = bufname( "%" )
 
@@ -209,7 +209,7 @@ function! LimBridge_get_pos()
 endfunction
 
 
-function! LimBridge_goto_pos( pos )
+function! LimpBridge_goto_pos( pos )
   let mx = '\(\f\+\)|\(\d\+\),\(\d\+\),\(\d\+\)'
   let bufname = substitute( a:pos, mx, '\1', '' )
   let l_top = substitute( a:pos, mx, '\2', '' )
@@ -221,12 +221,12 @@ function! LimBridge_goto_pos( pos )
 endfunction
 
 
-function! LimBridge_yank( motion )
+function! LimpBridge_yank( motion )
   let value = ''
 
-  let p = LimBridge_get_pos()
+  let p = LimpBridge_get_pos()
   silent! exec 'normal!' a:motion
-  let new_p = LimBridge_get_pos()
+  let new_p = LimpBridge_get_pos()
 
   " did we move?
   if p != new_p
@@ -239,15 +239,15 @@ function! LimBridge_yank( motion )
       let @l = old_l
   endif
 
-  call LimBridge_goto_pos( p )
+  call LimpBridge_goto_pos( p )
 
   return( value )
 endfunction
 
 
 " copy an expression to a buffer
-function! LimBridge_send_sexp_to_buffer( sexp, buffer )
-  let p = LimBridge_get_pos()
+function! LimpBridge_send_sexp_to_buffer( sexp, buffer )
+  let p = LimpBridge_get_pos()
 
   " go to the given buffer, go to the bottom
   exe "hide bu" a:buffer
@@ -260,26 +260,26 @@ function! LimBridge_send_sexp_to_buffer( sexp, buffer )
   " normal! "lp
   let @l = old_l
 
-  call LimBridge_goto_pos( p )
+  call LimpBridge_goto_pos( p )
 endfunction
   
 
-" destroys contents of LimBridge_channel buffer
-function! LimBridge_send_to_lisp( sexp )
+" destroys contents of LimpBridge_channel buffer
+function! LimpBridge_send_to_lisp( sexp )
   if a:sexp == ''
     return
   endif
 
-  if !s:lim_bridge_connected
+  if !s:limp_bridge_connected
     echom "Not connected to Lisp!"
     return
   endif    
 
-  let p = LimBridge_get_pos()
+  let p = LimpBridge_get_pos()
 
-  " goto LimBridge_channel, delete it, put s-exp, write it to lisp
+  " goto LimpBridge_channel, delete it, put s-exp, write it to lisp
   try
-      exe "hide bu" g:lim_bridge_channel
+      exe "hide bu" g:limp_bridge_channel
       exe "%d"
       normal! 1G
 
@@ -290,50 +290,50 @@ function! LimBridge_send_to_lisp( sexp )
       let @l = old_l
 
       silent exe 'w!'
-      call system('screen -x '.g:lim_bridge_screenid.' -p 0 -X eval "readbuf" "paste ."')
+      call system('screen -x '.g:limp_bridge_screenid.' -p 0 -X eval "readbuf" "paste ."')
   catch /^Vim:E211:/
       echom "Lisp is gone!"
       " file not available, Lisp disappeared
-      call LimBridge_disconnect()
+      call LimpBridge_disconnect()
   endtry
 
-  call LimBridge_goto_pos( p )
+  call LimpBridge_goto_pos( p )
 endfunction
 
-function! LimBridge_prompt_eval_expression()
+function! LimpBridge_prompt_eval_expression()
   let whatwhat = input("Eval: ")
-  call LimBridge_send_to_lisp(whatwhat)
+  call LimpBridge_send_to_lisp(whatwhat)
 endfun
 
 
 " Actually evals current top level form
-function! LimBridge_eval_top_form()
+function! LimpBridge_eval_top_form()
   " save position
-  let p = LimBridge_get_pos()
+  let p = LimpBridge_get_pos()
 
   silent! exec "normal! 99[("
-  call LimBridge_send_to_lisp( LimBridge_yank( "%" ) )
+  call LimpBridge_send_to_lisp( LimpBridge_yank( "%" ) )
 
   " fix cursor position, in case of error below
-  call LimBridge_goto_pos( p )
+  call LimpBridge_goto_pos( p )
 endfunction
 
 
-function! LimBridge_eval_current_form()
+function! LimpBridge_eval_current_form()
   " save position
-  let pos = LimBridge_get_pos()
+  let pos = LimpBridge_get_pos()
 
   " find & yank current s-exp
   normal! [(
-  let sexp = LimBridge_yank( "%" )
-  call LimBridge_send_to_lisp( sexp )
-  call LimBridge_goto_pos( pos )
+  let sexp = LimpBridge_yank( "%" )
+  call LimpBridge_send_to_lisp( sexp )
+  call LimpBridge_goto_pos( pos )
 endfunction
 
 
-function! LimBridge_eval_block() range
+function! LimpBridge_eval_block() range
   " save position
-  let pos = LimBridge_get_pos()
+  let pos = LimpBridge_get_pos()
 
   " yank current visual block
   let old_l = @l
@@ -341,37 +341,37 @@ function! LimBridge_eval_block() range
   let sexp = @l
   let @l = old_l
 
-  call LimBridge_send_to_lisp( sexp )
-  call LimBridge_goto_pos( pos )
+  call LimpBridge_send_to_lisp( sexp )
+  call LimpBridge_goto_pos( pos )
 endfunction
 
 
-function! LimBridge_stuff_current_form()
+function! LimpBridge_stuff_current_form()
   " save position
-  let pos = LimBridge_get_pos()
+  let pos = LimpBridge_get_pos()
 
   " find & yank current s-exp
   normal! [(
-  call LimBridge_send_sexp_to_buffer( LimBridge_yank( "%" ), g:lim_bridge_test )
+  call LimpBridge_send_sexp_to_buffer( LimpBridge_yank( "%" ), g:limp_bridge_test )
 
-  call LimBridge_goto_pos( pos )
+  call LimpBridge_goto_pos( pos )
 endfunction
 
-function! LimBridge_stuff_top_form()
+function! LimpBridge_stuff_top_form()
   " save position
-  let pos = LimBridge_get_pos()
+  let pos = LimpBridge_get_pos()
 
   " find & yank top-level s-exp
   silent! exec "normal! 99[("
-  call LimBridge_send_sexp_to_buffer( LimBridge_yank( "%" ), g:lim_bridge_test )
+  call LimpBridge_send_sexp_to_buffer( LimpBridge_yank( "%" ), g:limp_bridge_test )
 
-  call LimBridge_goto_pos( pos )
+  call LimpBridge_goto_pos( pos )
 endfunction
 
-function! LimBridge_hyperspec(type, make_page)
+function! LimpBridge_hyperspec(type, make_page)
   " get current word under cursor
   let word = expand( "<cword>" )
-  let cmd = "! perl " . s:LimBridge_location . "/bin/lim-hyperspec.pl"
+  let cmd = "! perl " . s:LimpBridge_location . "/bin/lim-hyperspec.pl"
   let cmd = cmd . " " . a:type . " " . a:make_page . " '" .  word . "'"
   silent! exe cmd
   redraw!

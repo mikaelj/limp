@@ -1,5 +1,5 @@
 " 
-" lim/vim/lim-cursor.vim
+" limp/vim/cursor.vim
 "
 " URL:
 " http://mikael.jansson.be/hacking
@@ -33,7 +33,7 @@
 if &cp || exists("g:loaded_cursor")
  finish
 endif
-let g:loaded_cursor = "2008-04-18-lim"
+let g:loaded_cursor = "2008-04-18-limp"
 let s:keepcpo        = &cpo
 set cpo&vim
 
