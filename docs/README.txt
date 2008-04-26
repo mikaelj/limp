@@ -367,10 +367,10 @@ Version 0.3, April 26th, 2008: `limp-0.3.tar.gz </static/hacking/limp/limp-0.3.t
 
 Older
 ~~~~~
-* `lim-0.2.2.tar.gz </static/hacking/lim/lim-0.2.2.tar.gz>`_ (April 26, 2008)
-* `lim-0.2.1.tar.gz </static/hacking/lim/lim-0.2.1.tar.gz>`_ (April 26, 2008)
-* `lim-0.2.tar.gz </static/hacking/lim/lim-0.2.tar.gz>`_ (April 25, 2008)
-* `lim-0.1.tar.gz </static/hacking/lim/lim-0.1.tar.gz>`_ (April 21, 2008)
+* `lim-0.2.2.tar.gz </static/hacking/limp/lim-0.2.2.tar.gz>`_ (April 26, 2008)
+* `lim-0.2.1.tar.gz </static/hacking/limp/lim-0.2.1.tar.gz>`_ (April 26, 2008)
+* `lim-0.2.tar.gz </static/hacking/limp/lim-0.2.tar.gz>`_ (April 25, 2008)
+* `lim-0.1.tar.gz </static/hacking/limp/lim-0.1.tar.gz>`_ (April 21, 2008)
 
 
 Changelog
