@@ -107,7 +107,7 @@ You can save your Lisp's state and later restore it. Very handy.
    ``<F12>``, Enter, name it "test", Enter and Limp then asks for a core
    to boot.  Here, input the core we just saved.
 
-.. figure:: /static/hacking/limp/docs/screenshots/evaluate-saved-core.png
+.. figure:: /static/hacking/limp/docs/screenshots/evaluate-saved-code.png
 
    With the core booted, we should have the function ``say-hello`` available.
 
@@ -338,7 +338,7 @@ altogether.  Backspacing over it removes the pair.
 Installation
 ============
 I'm going to assume Limp will be installed /usr/local/limp-x.y, but you can place it wherever you want to. 
-The name of the directory isn't important either, as long as ``$LIMRUNTIME`` is properly set.
+The name of the directory isn't important either, as long as ``$LIMPRUNTIME`` is properly set.
 
 Step-by-step instructions::
 
@@ -348,7 +348,7 @@ Step-by-step instructions::
   ln -sf ../limp/limp.vim $HOME/.vim/plugin/limp.vim
   ln -sf ../limp/desert256.vim $HOME/.vim/colors/desert256.vim
 
-Limp relies on the variable ``$LIMRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
+Limp relies on the variable ``$LIMPRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
 
   export LIMPRUNTIME=/usr/local/limp-x.y
 
@@ -416,8 +416,13 @@ Known Issues
 * When the Lisp disappears, no warning is given when trying to send code to it. When that happens,
   disconnect (``<Control-F12>``) and reconnect.
 
-Includes Work By...
-====================
+Authors
+=======
+Mikael Jansson
+  Main developer, more info at http://mikael.jansson.be
+
+Includes Work By
+~~~~~~~~~~~~~~~~~
 Larry Clapp
   Without his hard work on `VIlisp <http://www.vim.org/scripts/script.php?script_id=221>`_, this would never have happened.
 
@@ -429,4 +434,3 @@ Charles E. Campbell, Jr.
   For `HiMtchBrkt <http://www.vim.org/scripts/script.php?script_id=1435>`_.
   Modified to highlight the contents inside the brackets, removed Vim (<7.x)
   backward compatibility.
-
