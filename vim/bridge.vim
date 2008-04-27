@@ -46,7 +46,7 @@ endif
 " prefix for the pipe used for communication
 let g:limp_bridge_channel_base = $HOME . "/.limp_bridge_channel-"
 let s:limp_bridge_connected=0
-let s:LimpBridge_location = expand("$LIMRUNTIME")
+let s:LimpBridge_location = expand("$LIMPRUNTIME")
 exe "set complete+=s" . s:LimpBridge_location . "/vim/thesaurus"
 
 "-------------------------------------------------------------------
@@ -218,7 +218,7 @@ fun! LimpBridge_boot_or_connect_or_display()
             else
                 echom "Booting..."
             endif
-            let sty = system("$LIMRUNTIME/bin/lisp.sh ".core_opt." -b ".name)
+            let sty = system("$LIMPRUNTIME/bin/lisp.sh ".core_opt." -b ".name)
             call LimpBridge_connect(sty)
         endif
   endif
