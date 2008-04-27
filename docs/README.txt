@@ -1,6 +1,10 @@
 =============================================
   Limp: When You Need More Than Just A Lisp
 =============================================
+:Author: Mikael Jansson
+:Version: 0.3.1
+:Download: `limp-0.3.1.tar.gz </static/hacking/limp/limp-0.3.1.tar.gz>`_ (April 27th, 2008)
+
 Pre-packaged & welded-together collection of Vim plugins working together for your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL) <http://www.sbcl.org>`_.  It is based on ViLisp and other great Vim plugins, and is an attempt at forming a usable Lisp environment for Vim users.
 
 .. While you can't have lengthy conversations with SWANK (yet...), what you *can* do is send code to your Lisp, ask the HyperSpec for documentation, and on top of that, fairly sane bracket-behaviour.
@@ -361,12 +365,13 @@ that installed, and that it's not *LIMP* RUNTIME, not *LIM* RUNTIME
 
 Download
 ========
-Current
-~~~~~~~
-Version 0.3, April 26th, 2008: `limp-0.3.tar.gz </static/hacking/limp/limp-0.3.tar.gz>`_
+Current Release
+~~~~~~~~~~~~~~~~
+Version 0.3.1, April 27th, 2008: `limp-0.3.1.tar.gz </static/hacking/limp/limp-0.3.1.tar.gz>`_
 
-Older
-~~~~~
+Older Releases
+~~~~~~~~~~~~~~
+* `lim-0.3.tar.gz </static/hacking/limp/lim-0.3.tar.gz>`_ (April 27, 2008)
 * `lim-0.2.2.tar.gz </static/hacking/limp/lim-0.2.2.tar.gz>`_ (April 26, 2008)
 * `lim-0.2.1.tar.gz </static/hacking/limp/lim-0.2.1.tar.gz>`_ (April 26, 2008)
 * `lim-0.2.tar.gz </static/hacking/limp/lim-0.2.tar.gz>`_ (April 25, 2008)
@@ -375,6 +380,13 @@ Older
 
 Changelog
 =========
+Version 0.3.1
+~~~~~~~~~~~~~
+* 2008-04-27 by Mikael Jansson <mail@mikael.jansson.be>
+
+ + Stray LIMRUNTIME.  Could make Limp connect to the wrong Lisp if both
+   LIMRUNTIME and LIMPRUNTIME was set and pointing at different locations.
+
 Version 0.3
 ~~~~~~~~~~~~~
 * 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
