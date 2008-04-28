@@ -3,11 +3,29 @@
 =============================================
 :Author: Mikael Jansson
 :Version: 0.3.1
-:Download: `limp-0.3.1.tar.gz </static/hacking/limp/limp-0.3.1.tar.gz>`_ (April 27th, 2008)
+:Download: `limp-0.3.1.tar.gz
+<http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th,
+2008)
 
-Pre-packaged & welded-together collection of Vim plugins working together for your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL) <http://www.sbcl.org>`_.  It is based on ViLisp and other great Vim plugins, and is an attempt at forming a usable Lisp environment for Vim users.
+Pre-packaged & welded-together collection of Vim plugins working together for
+your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL)
+<http://www.sbcl.org>`_.  It is based on ViLisp and other great Vim plugins,
+and is an attempt at forming a usable Lisp environment for Vim users.
 
-.. While you can't have lengthy conversations with SWANK (yet...), what you *can* do is send code to your Lisp, ask the HyperSpec for documentation, and on top of that, fairly sane bracket-behaviour.
+.. While you can't have lengthy conversations with SWANK (yet...), what you
+*can* do is send code to your Lisp, ask the HyperSpec for documentation, and
+on top of that, fairly sane bracket-behaviour.
+
+Limp will do this for you:
+
+* boot/attach/detach a Lisp from Vim or script, optionally specifying a core;
+* automatically close brackets;
+* highlight current form under the cursor;
+* lookup documentation from the HyperSpec;
+* complete names;
+* ...and finally, suck less than manual copy-and-paste!
+
+
 
 Table of Contents
 ==================
@@ -15,14 +33,6 @@ Table of Contents
    :class: rightalignplain
 
 .. contents::
-
-Features
-=========
-* Boot/attach/detach a Lisp from Vim or script, optionally specifying a core.
-* Automatic brackets closing
-* Form highlighting
-* HyperSpec documentation lookup and name completion
-* Sucks less than manual copy-and-paste.
 
 Quickstart
 ============
@@ -95,7 +105,7 @@ Shell
    or from another Vim session.
 
 Freezing and Thawing
---------------------
+~~~~~~~~~~~~~~~~~~~~
 You can save your Lisp's state and later restore it. Very handy.
 
 .. figure:: /static/hacking/limp/docs/screenshots/save-lisp-and-die.png
@@ -279,8 +289,9 @@ Some people prefer ``set mapleader = ","``.
 
 Listener
 --------
-This is a regular screen session.  Escape is ``^z``, ``<F12>`` is map to
-detach.
+This is a regular screen session.  Escape is ``C-z``, ``<F12>`` is mapped to
+detach. (Which you can also reach with ``C-z d``, i.e. standard screen
+behaviour.)
 
 Lisp Interaction
 -----------------
@@ -307,7 +318,7 @@ Source transformation.
 * ``\ft``: *(Format current Top level form)*: Reindent/format current form to the top level 
 * ``\sw``: *(S-exp Wrap)*: Wrap the current form inside another list
 * ``\sp``: *(S-exp Peel)*: Peel off a list around the current s-exp
-* ``\cc`` :*(S-exp Comment)*: Comment current form
+* ``\sc`` :*(S-exp Comment)*: Comment current form
 
 Limp
 ----
@@ -367,7 +378,7 @@ Download
 ========
 Current Release
 ~~~~~~~~~~~~~~~~
-Version 0.3.1, April 27th, 2008: `limp-0.3.1.tar.gz </static/hacking/limp/limp-0.3.1.tar.gz>`_
+Version 0.3.1, April 27th, 2008: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_
 
 Older Releases
 ~~~~~~~~~~~~~~
@@ -380,6 +391,18 @@ Older Releases
 
 Changelog
 =========
+Version 0.3.2
+~~~~~~~~~~~~~
+* 2008-04-28 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + TWEAK: Only change colorscheme and nocompatible when not previously set.
+  + FIXED: Last occurance of "Lim" found in the HyperSpec helper. Now
+    documentation should work properly.
+
+* 2008-04-27 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + FIXED: Connect-or-boot, without a name given to boot.
+
 Version 0.3.1
 ~~~~~~~~~~~~~
 * 2008-04-27 by Mikael Jansson <mail@mikael.jansson.be>
