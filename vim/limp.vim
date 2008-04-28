@@ -11,19 +11,24 @@
 " 0.2
 "
 " Date:
-" 2008-04-20
+" 2008-04-28
 "
 " Authors:
 " Mikael Jansson <mail@mikael.jansson.be>
 "
 " Changelog:
+" * 2008-04-28 by Mikael Jansson <mail@mikael.jansson.be>
+"   Only change colorscheme and nocompatible when not previously set.
+"
 " * 2008-04-25 by Mikael Jansson <mail@mikael.jansson.be>
 "   Catch-all key <F12> for Lisp boot, connect & display
 "
 " * 2008-04-20 by Mikael Jansson <mail@mikael.jansson.be>
 "   Initial version.
 
-set nocompatible
+if &co == 1
+    set nocompatible
+endif
 syntax on
 filetype plugin indent on
 
@@ -36,7 +41,9 @@ set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
 " coloring
 "-------------------------------------------------------------------
 set t_Co=256
-color desert256
+if !exists("g:colors_name")
+    color desert256
+endif
 
 hi Brackets      ctermbg=53 ctermfg=white 
 hi BracketsBlock ctermbg=235 guibg=lightgray
