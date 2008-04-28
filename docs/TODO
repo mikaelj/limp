@@ -1,8 +1,21 @@
+======
 TODO
 ======
-Broken in 0.3.1
-~~~~~~~~~~~~~~~~
-* can't start screen, i.e., <F12>, from gvim
-* on `uname` == Darwin, SBCL is *usually* installed as /opt/local/bin/sbcl
 
+Broken in 0.3.1
+==================
+* can't start screen, i.e., <F12>, from gvim
+* on `uname` == Darwin, SBCL is *usually* installed as /opt/local/bin/sbcl,
+  and because of other issues in OS X, PATH is reset when doing the screen
+  dance.
+
+Should be changed in 0.3.1
+============================
+* only set nocompatible if not previously set (resets old settings)
+* only set color scheme if none was already set
+
+Wishlist
+===========
+* Start Lisp mode without opening up a lisp file; F12 should be clever enough
+  to understand that.
 
