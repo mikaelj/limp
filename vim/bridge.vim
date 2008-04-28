@@ -205,7 +205,7 @@ fun! LimpBridge_boot_or_connect_or_display()
         if what <= 0
             " user didn't want to connect, let's boot!
             let name = input("Name the Lisp: ")
-            if name == "" && a:1 != ""
+            if name == "" && a:0 == 1 && a:1 != ""
                 " give up
                 return
             endif
