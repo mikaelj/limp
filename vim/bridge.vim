@@ -423,7 +423,7 @@ endfunction
 function! LimpBridge_hyperspec(type, make_page)
   " get current word under cursor
   let word = expand( "<cword>" )
-  let cmd = "! perl " . s:LimpBridge_location . "/bin/lim-hyperspec.pl"
+  let cmd = "! perl " . s:LimpBridge_location . "/bin/limp-hyperspec.pl"
   let cmd = cmd . " " . a:type . " " . a:make_page . " '" .  word . "'"
   silent! exe cmd
   redraw!
