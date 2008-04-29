@@ -1,11 +1,13 @@
 =============================================
   Limp: When You Need More Than Just A Lisp
 =============================================
+.. image:: /static/hacking/limp/crutches-250.png
+   :class: rightalignplain
+
+
 :Author: Mikael Jansson
 :Version: 0.3.1
-:Download: `limp-0.3.1.tar.gz
-<http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th,
-2008)
+:Download: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th, 2008)
 
 Pre-packaged & welded-together collection of Vim plugins working together for
 your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL)
@@ -25,14 +27,10 @@ Limp will do this for you:
 * complete names;
 * ...and finally, suck less than manual copy-and-paste!
 
-
-
-Table of Contents
-==================
-.. image:: /static/hacking/limp/square-wheel.jpg
-   :class: rightalignplain
+----
 
 .. contents::
+
 
 Quickstart
 ============
@@ -289,9 +287,8 @@ Some people prefer ``set mapleader = ","``.
 
 Listener
 --------
-This is a regular screen session.  Escape is ``C-z``, ``<F12>`` is mapped to
-detach. (Which you can also reach with ``C-z d``, i.e. standard screen
-behaviour.)
+This is a regular screen session.  Escape is ``^z``, ``<F12>`` is map to
+detach.
 
 Lisp Interaction
 -----------------
@@ -395,50 +392,51 @@ Version 0.3.2
 ~~~~~~~~~~~~~
 * 2008-04-28 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + TWEAK: Only change colorscheme and nocompatible when not previously set.
-  + FIXED: Last occurance of "Lim" found in the HyperSpec helper. Now
+  + **ADDED**: TODO file in the distro.
+  + *FIXED*: Last occurance of "Lim" found in the HyperSpec helper. Now
     documentation should work properly.
+  + TWEAK: Only change colorscheme and nocompatible when not previously set.
 
 * 2008-04-27 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + FIXED: Connect-or-boot, without a name given to boot.
+  + *FIXED*: Connect-or-boot, without a name given to boot.
 
 Version 0.3.1
 ~~~~~~~~~~~~~
 * 2008-04-27 by Mikael Jansson <mail@mikael.jansson.be>
 
- + Stray LIMRUNTIME.  Could make Limp connect to the wrong Lisp if both
-   LIMRUNTIME and LIMPRUNTIME was set and pointing at different locations.
+  + *FIXED*: Stray LIMRUNTIME.  Could make Limp connect to the wrong Lisp if both
+    LIMRUNTIME and LIMPRUNTIME was set and pointing at different locations.
 
 Version 0.3
 ~~~~~~~~~~~~~
 * 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + Optionally specify core at startup and shutdown.
-  + Added "quit Lisp" mapping on Shift-F12 and removed the ``\aq`` mapping.
-  + (Hopefully) fixed lisp.sh to work on OS X and other non-GNU systems. Thanks to Nico Weber for patches!
-  + Renamed Lim to Limp.
+  + **ADDED**: Optionally specify core at startup and shutdown.
+  + **ADDED** Added "quit Lisp" mapping on Shift-F12 and removed the ``\aq`` mapping.
+  + *FIXED*: (Hopefully) fixed lisp.sh to work on OS X and other non-GNU systems. Thanks to Nico Weber for patches!
+  + TWEAK: Renamed Lim to Limp.
 
 Version 0.2.2
 ~~~~~~~~~~~~~
 * 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + Typo in HyperSpec lookup code
-  + Updated documentation
+  + *FIXED*: Typo in HyperSpec lookup code
+  + TWEAK: Updated documentation
 
 Version 0.2.1
 ~~~~~~~~~~~~~
 * 2008-04-26 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + Fixed copy-paste typo for 'Goto Last'
-  + Better connection status information
+  + *FIXED*: Fixed copy-paste typo for 'Goto Last'
+  + TWEAK: Better connection status information
 
 
 Version 0.2
 ~~~~~~~~~~~
 * 2008-04-25 by Mikael Jansson <mail@mikael.jansson.be>
 
-  Replaced the Perl funnel betwen Vim and Lisp with screen.
+  + **ADDED**: Replaced the Perl funnel betwen Vim and Lisp with screen.
 
 Version 0.1
 ~~~~~~~~~~~
@@ -469,3 +467,4 @@ Charles E. Campbell, Jr.
   For `HiMtchBrkt <http://www.vim.org/scripts/script.php?script_id=1435>`_.
   Modified to highlight the contents inside the brackets, removed Vim (<7.x)
   backward compatibility.
+
