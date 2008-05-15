@@ -285,6 +285,16 @@ The default settings in Limp.
 The rest of the bindings assumes ``<Leader>`` == "\\", which is the default.
 Some people prefer ``set mapleader = ","``.
 
+OS X Notes
+--------------
+Depending on your keyboard preferences, you might have to press
+``Cmd-(Shift-)F12``.  Also, ``Ctrl-F12`` seems to be chomped by the system, so
+you'll have to change ``vim/limp.vim`` to use something else than ``<C-F12>`` for
+disconnect. (Or, you can simply quit Vim; that'll have the same effect.)
+
+Also, if Vim doesn't say you're connected after booting Lisp, you might have
+to set the proper location to SBCL/SBCL_HOME in ``bin/lisp.sh``.
+
 Listener
 --------
 This is a regular screen session.  Escape is ``^z``, ``<F12>`` is map to
@@ -388,6 +398,20 @@ Older Releases
 
 Changelog
 =========
+Version 0.3.3
+~~~~~~~~~~~~~
+* 2008-05-15 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + Configurable location of SBCL in the Lisp script.
+  + Updated documentation about Cmd for Fn-keys in OS X
+
+.. raw:: comment
+
+    * 2008-04-30 by Mikael Jansson <mail@mikael.jansson.be>
+
+      + Load Limp only when F12 is pressed. Alas, no "reset back to previous
+        state", yet.
+
 Version 0.3.2
 ~~~~~~~~~~~~~
 * 2008-04-28 by Mikael Jansson <mail@mikael.jansson.be>
