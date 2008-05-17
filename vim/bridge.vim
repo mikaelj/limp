@@ -46,8 +46,7 @@ endif
 " prefix for the pipe used for communication
 let g:limp_bridge_channel_base = $HOME . "/.limp_bridge_channel-"
 let s:limp_bridge_connected=0
-let s:LimpBridge_location = expand("$LIMPRUNTIME")
-exe "set complete+=s" . s:LimpBridge_location . "/vim/thesaurus"
+exe "set complete+=s" . g:Limp_location . "/vim/thesaurus"
 
 "-------------------------------------------------------------------
 " talk to multiple Lisps using LimpBridge_connect()
@@ -113,8 +112,8 @@ fun! LimpBridge_connect(...)
     let g:limp_bridge_test = $HOME . '/.limp_bridge_test-' . g:limp_bridge_id
 
     silent exe "new" g:limp_bridge_channel
-        if exists( "#BufRead#*.lsp#" )
-            doauto BufRead x.lsp
+        if exists( "#BufEnter#*.lisp#" )
+            doauto BufEnter x.lisp
         endif
         set syntax=lisp
         " XXX: in ViLisp, buftype=nowrite, but w/ limp_bridge_channel, vim
@@ -126,8 +125,8 @@ fun! LimpBridge_connect(...)
     hide
 
     silent exe "new" g:limp_bridge_test
-        if exists( "#BufRead#*.lsp#" )
-            doauto BufRead x.lsp
+        if exists( "#BufEnter#*.lisp#" )
+            doauto BufEnter x.lisp
         endif
         set syntax=lisp
         " set buftype=nofile
@@ -143,7 +142,7 @@ fun! LimpBridge_connect(...)
 
     let s:limp_bridge_connected=1
 
-    echom "Welcome to Lim. May your journey be pleasant."
+    echom "Welcome to Limp. May your journey be pleasant."
 
     return 1
 endfun
@@ -227,7 +226,7 @@ endfun
 augroup LimpBridge
     au!
     autocmd BufLeave .LimpBridge_* set nobuflisted
-    autocmd BufLeave *.lsp,*.lisp let g:limp_bridge_last_lisp = bufname( "%" )
+    autocmd BufLeave *.lisp let g:limp_bridge_last_lisp = bufname( "%" )
 augroup END
 
 "-------------------------------------------------------------------
@@ -423,7 +422,7 @@ endfunction
 function! LimpBridge_hyperspec(type, make_page)
   " get current word under cursor
   let word = expand( "<cword>" )
-  let cmd = "! perl " . s:LimpBridge_location . "/bin/limp-hyperspec.pl"
+  let cmd = "! perl " . g:Limp_location . "/bin/limp-hyperspec.pl"
   let cmd = cmd . " " . a:type . " " . a:make_page . " '" .  word . "'"
   silent! exe cmd
   redraw!
