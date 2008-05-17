@@ -27,7 +27,7 @@ noremap <Leader>mt   99[(V%
 " Format Current:     reindent/format
 " Format Top:    
 noremap <Leader>fc   [(=%`'
-noremap <Leader>ft   99<Leader>fc
+noremap <Leader>ft   99[(=%`'
 
 " Sexp Wrap: 	     wrap the current form in a list
 noremap <Leader>sw   :call Cursor_push()<CR>[(%a)<ESC>h%i(<ESC>:call Cursor_pop()<CR>
