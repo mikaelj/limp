@@ -30,10 +30,7 @@
 "
 
 " Load Once: {{{1
-if &cp || exists("g:loaded_cursor")
- finish
-endif
-let g:loaded_cursor = "2008-04-18-limp"
+
 let s:keepcpo        = &cpo
 set cpo&vim
 

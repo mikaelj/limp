@@ -41,11 +41,7 @@
 "           released the first as 1.0, April 3, 2007
 
 " Setup -----------------------------------------------------{{{1
-if exists('g:autoclose_loaded') || &cp
-    finish
-endif
 
-let g:autoclose_loaded = 1
 let s:omni_active = 0
 let s:cotstate = &completeopt
 
