@@ -35,12 +35,6 @@
 "-------------------------------------------------------------------
 " startup
 "-------------------------------------------------------------------
-if exists( "g:limp_bridge_loaded" )
-  finish
-else
-  let g:limp_bridge_loaded = 1
-endif
-
 " only do these things once
 
 " prefix for the pipe used for communication
