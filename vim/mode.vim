@@ -20,12 +20,6 @@
 " 2008-04-20
 " * Initial version.
 
-augroup LimpMode
-  au!
-  au BufEnter .limp_bridge_test*,*.lisp,*.asd   call LimpMode_enter()
-  au BufLeave .limp_bridge_test*,*.lisp,*.asd   call LimpMode_leave()
-augroup END
-
 fun! LimpMode_enter()
 
   " ls = laststatus (always visible for ls=2)
@@ -37,17 +31,32 @@ fun! LimpMode_enter()
   " tw = textwidth (don't break lines)
   " nocul = nocursorline
 
-  setlocal lisp syntax=lisp filetype=lisp
+  setlocal syntax=lisp lisp
   setlocal ls=2 bs=2 si et sw=2 ts=2 tw=0 nocul
   setlocal statusline=%<%f\ \(%{LimpBridge_connection_status()}\)\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
   setlocal iskeyword=&,*,+,45,/,48-57,:,<,=,>,@,A-Z,a-z,_
  
   call LimpHighlight_start()
   call AutoClose_start()
+
+  let g:Limp_active = 1
+
 endfun
+
+"-------------------------------------------------------------------
 
 fun! LimpMode_leave()
   call LimpHighlight_stop()
   call AutoClose_stop()
+  let g:Limp_active = 0
 endfun
+
+"-------------------------------------------------------------------
+
+augroup LimpMode
+  au!
+  "XXX: filetype plugin!
+  au FileType lisp call LimpMode_enter()|au BufEnter <buffer> call LimpMode_enter()|au BufLeave <buffer> call LimpMode_leave()
+
+augroup END
 

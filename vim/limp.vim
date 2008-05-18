@@ -26,6 +26,16 @@
 " * 2008-04-20 by Mikael Jansson <mail@mikael.jansson.be>
 "   Initial version.
 
+"-------------------------------------------------------------------
+
+if exists("g:limp_loaded")
+    finish
+else
+    let g:limp_loaded = 1
+endif
+
+"-------------------------------------------------------------------
+
 if &co == 1
     set nocompatible
 endif
@@ -33,15 +43,10 @@ syntax on
 filetype plugin indent on
 
 "-------------------------------------------------------------------
-" display info about Lisp
-"-------------------------------------------------------------------
-set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
-
-"-------------------------------------------------------------------
 " coloring
 "-------------------------------------------------------------------
-set t_Co=256
 if !exists("g:colors_name")
+    set t_Co=256
     color desert256
 endif
 
@@ -58,10 +63,11 @@ hi PmenuSel      ctermbg=255 ctermfg=53
 silent! runtime plugin/matchit.vim
 
 "-------------------------------------------------------------------
-" the Lim library
+" the Limp library
 "-------------------------------------------------------------------
 
 " load the rest of the code
+let g:Limp_location = expand("$LIMPRUNTIME")
 runtime limp/mode.vim
 runtime limp/cursor.vim
 runtime limp/highlight.vim
@@ -70,7 +76,7 @@ runtime limp/bridge.vim
 runtime limp/autoclose.vim
 
 "-------------------------------------------------------------------
-" boot Lim
+" boot Limp
 "-------------------------------------------------------------------
 nmap <F12> 	          :call LimpBridge_boot_or_connect_or_display()<CR>
 nmap <C-F12> 	      :call LimpBridge_disconnect()<CR>
