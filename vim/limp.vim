@@ -28,20 +28,15 @@
 
 "-------------------------------------------------------------------
 
-if exists("g:limp_loaded")
-    finish
-else
-    let g:limp_loaded = 1
+if exists("b:did_ftplugin")
+  finish
 endif
+let b:did_ftplugin = 1
+
+setlocal nocompatible
+syntax on
 
 "-------------------------------------------------------------------
-
-if &co == 1
-    set nocompatible
-endif
-syntax on
-filetype plugin indent on
-
 "-------------------------------------------------------------------
 " coloring
 "-------------------------------------------------------------------
@@ -67,79 +62,81 @@ silent! runtime plugin/matchit.vim
 "-------------------------------------------------------------------
 
 " load the rest of the code
-let g:Limp_location = expand("$LIMPRUNTIME")
-runtime limp/mode.vim
-runtime limp/cursor.vim
-runtime limp/highlight.vim
-runtime limp/sexp.vim
-runtime limp/bridge.vim
-runtime limp/autoclose.vim
+runtime ftplugin/lisp/limp/mode.vim
+runtime ftplugin/lisp/limp/cursor.vim
+runtime ftplugin/lisp/limp/highlight.vim
+runtime ftplugin/lisp/limp/sexp.vim
+runtime ftplugin/lisp/limp/bridge.vim
+runtime ftplugin/lisp/limp/autoclose.vim
+
+
+setlocal syntax=lisp lisp
+setlocal ls=2 bs=2 si et sw=2 ts=2 tw=0 nocul
+setlocal statusline=%<%f\ \(%{LimpBridge_connection_status()}\)\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
+setlocal iskeyword=&,*,+,45,/,48-57,:,<,=,>,@,A-Z,a-z,_
+
+call LimpHighlight_start()
+call AutoClose_start()
 
 "-------------------------------------------------------------------
-" boot Limp
-"-------------------------------------------------------------------
-nmap <F12> 	          :call LimpBridge_boot_or_connect_or_display()<CR>
-nmap <C-F12> 	      :call LimpBridge_disconnect()<CR>
-nmap <S-F12> 	      :call LimpBridge_shutdown_lisp()<CR>
-
-"-------------------------------------------------------------------
-" key bindings
+" reset to previous values
 "-------------------------------------------------------------------
 
-" Eval Top:           send top-level s-exp to Lisp
-" Eval Current:       send current s-exp to Lisp
-" Eval Expression:    send arbitrary code to Lisp
+" to allow for line continuations
+let s:save_cpo = &cpo
+set cpo&vim
 
-noremap <Leader>et   :call LimpBridge_eval_top_form()<CR>
-noremap <Leader>ec   :call LimpBridge_eval_current_form()<CR>
-noremap <Leader>ex   :call LimpBridge_prompt_eval_expression()<CR>
+let b:undo_ftplugin = "setlocal syntax< lisp< ls< bs< si< et< sw<"
+    \ . "ts< tw< nocompatible< nocul< statusline< iskeyword<"
+    \ . "| call LimpHighlight_stop()"
+    \ . "| call AutoClose_stop()"
 
-" Eval Block:         visual mode
+" restore line continuations
+let &cpo = s:save_cpo
+unlet s:save_cpo
 
-vnoremap <Leader>eb  :call LimpBridge_eval_block()<cr>
-vnoremap <Leader>et  <Leader>leb
-vnoremap <Leader>ec  <Leader>leb
+"-------------------------------------------------------------------
+" plugin <-> function mappings
+"-------------------------------------------------------------------
 
-" SBCL Abort Reset:   go up one level
-noremap <Leader>ar    :call LimpBridge_send_to_lisp( "ABORT\n" )<CR>
+nnoremap <buffer> <unique> <Plug>LimpBootConnectDisplay  :call LimpBridge_boot_or_connect_or_display()<CR>
+nnoremap <buffer> <unique> <Plug>LimpDisconnect          :call LimpBridge_disconnect()<CR>
+nnoremap <buffer> <unique> <Plug>LimpShutdownLisp        :call LimpBridge_shutdown_lisp()<CR>
 
-" Abort Interrupt:    send ^C to interpreter
-noremap <Leader>ai    :call LimpBridge_send_to_lisp( "" )<CR>
+nnoremap <buffer> <unique> <Plug>EvalTop        :call LimpBridge_eval_top_form()<CR>
+nnoremap <buffer> <unique> <Plug>EvalCurrent    :call LimpBridge_eval_current_form()<CR>
+nnoremap <buffer> <unique> <Plug>EvalExpression :call LimpBridge_prompt_eval_expression()<CR>
 
-" Test Current:       copy current s-exp to test buffer
-noremap <Leader>tc    :call  LimpBridge_stuff_current_form()<CR>
-noremap <Leader>tt    :call  LimpBridge_stuff_top_form()<CR>
+vnoremap <buffer> <unique> <Plug>EvalBlock      :call LimpBridge_eval_block()<cr>
 
-" Load File:          load /this/ file into Lisp
-" Load Any File:      load whichever version of this file (.lisp not given)
-noremap <Leader>lf    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p" ) . "\")\n")<CR>
-noremap <Leader>la    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
+nnoremap <buffer> <unique> <Plug>AbortReset     :call LimpBridge_send_to_lisp( "ABORT\n" )<CR>
+nnoremap <buffer> <unique> <Plug>AbortInterrupt :call LimpBridge_send_to_lisp( "" )<CR>
 
-" Compile File:       compile the current file
-" Compile Load File:  compile, then load the current file
-noremap <Leader>cf    :call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
-noremap <Leader>cl    <Leader>cf<Leader>la
+nnoremap <buffer> <unique> <Plug>TestCurrent    :call  LimpBridge_stuff_current_form()<CR>
+nnoremap <buffer> <unique> <Plug>TestTop        :call  LimpBridge_stuff_top_form()<CR>
+
+nnoremap <buffer> <unique> <Plug>LoadThisFile    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p" ) . "\")\n")<CR>
+nnoremap <buffer> <unique> <Plug>LoadAnyFile     :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
+
+nnoremap <buffer> <unique> <Plug>CompileFile        :call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
+nnoremap <buffer> <unique> <Plug>CompileAndLoadFile <Plug>CompileFile<Plug>LoadAnyFile
 
 " Goto Test Buffer:
 " Goto Split:         split current buffer and goto test buffer
-noremap <Leader>gt   :call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
-noremap <Leader>gs   :sb <bar> call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
-"noremap <Leader>sb    :exe "hide bu" g:limp_bridge_scratch<cr>
+nnoremap <buffer> <unique> <Plug>GotoTestBuffer           :call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
+nnoremap <buffer> <unique> <Plug>GotoTestBufferAndSplit   :sb <bar> call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
 
 " Goto Last:          return to g:limp_bridge_last_lisp, i.e. last buffer
-noremap <Leader>gl   :call LimpBridge_goto_buffer_or_window(g:limp_bridge_last_lisp)<CR>
+nnoremap <buffer> <unique> <Plug>GotoLastLispBuffer   :call LimpBridge_goto_buffer_or_window(g:limp_bridge_last_lisp)<CR>
 
 " HyperSpec:
-noremap <Leader>he   :call LimpBridge_hyperspec("exact", 0)<CR>
-noremap <Leader>hp   :call LimpBridge_hyperspec("prefix", 1)<CR>
-noremap <Leader>hs   :call LimpBridge_hyperspec("suffix", 1)<CR>
-noremap <Leader>hg   :call LimpBridge_hyperspec("grep", 1)<CR>
-noremap <Leader>hi   :call LimpBridge_hyperspec("index", 0)<CR>
-noremap <Leader>hI   :call LimpBridge_hyperspec("index-page", 0)<CR>
+nnoremap <buffer> <unique> <Plug>HyperspecExact    :call LimpBridge_hyperspec("exact", 0)<CR>
+nnoremap <buffer> <unique> <Plug>HyperspecPrefix   :call LimpBridge_hyperspec("prefix", 1)<CR>
+nnoremap <buffer> <unique> <Plug>HyperspecSuffix   :call LimpBridge_hyperspec("suffix", 1)<CR>
+nnoremap <buffer> <unique> <Plug>HyperspecGrep             :call LimpBridge_hyperspec("grep", 1)<CR>
+nnoremap <buffer> <unique> <Plug>HyperspecFirstLetterIndex :call LimpBridge_hyperspec("index", 0)<CR>
+nnoremap <buffer> <unique> <Plug>HyperspecFullIndex   :call LimpBridge_hyperspec("index-page", 0)<CR>
 
 " Help Describe:      ask Lisp about the current symbol
-noremap <Leader>hd   :call LimpBridge_send_to_lisp("(describe '".expand("<cword>").")")<CR>
-
-" map the "man" command to do an exact lookup in the Hyperspec
-nmap K <Leader>he
+nnoremap <buffer> <unique> <Plug>HelpDescribe   :call LimpBridge_send_to_lisp("(describe '".expand("<cword>").")")<CR>
 
