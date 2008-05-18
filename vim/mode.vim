@@ -75,3 +75,23 @@ nmap <buffer>          K                    <Plug>HyperspecExact
 " Help Describe:      ask Lisp about the current symbol
 nmap <buffer> <unique> <LocalLeader>hd      <Plug>HelpDescribe
 
+" Mark Top:           mark visual block
+nmap <buffer> <unique> <LocalLeader>mt      <Plug>MarkTop
+
+" Format Current:     reindent/format
+" Format Top:    
+nmap <buffer> <unique> <LocalLeader>fc      <Plug>FormatCurrent
+nmap <buffer> <unique> <LocalLeader>ft      <Plug>FormatTop
+
+" Sexp Wrap: 	     wrap the current form in a list
+" Sexp Peel:         peel a list off the current form
+nmap <buffer> <unique> <LocalLeader>sw      <Plug>SexpWrap
+
+nmap <buffer> <unique> <LocalLeader>sp      <Plug>SexpPeel
+
+" Sexp Comment:      comment all the way from the top level
+nmap <buffer> <unique> <LocalLeader>sc      <Plug>SexpComment
+
+" Sexp Comment Current:    comment current form
+nmap <buffer> <unique> <LocalLeader>sC      <Plug>SexpCommentCurrent
+
