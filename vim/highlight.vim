@@ -35,10 +35,7 @@
 "
 " ---------------------------------------------------------------------
 " Load Once: {{{1
-if &cp || exists("g:loaded_limp_highlight")
-    finish
-endif
-let g:loaded_limp_highlight = "2008-04-20-lim"
+
 let s:keepcpo = &cpo
 set cpo&vim
 
@@ -225,6 +222,21 @@ endfun
 
 let g:lisp_rainbow=1
 
+"-------------------------------------------------------------------
+" coloring
+"-------------------------------------------------------------------
+if !exists("g:colors_name")
+    set t_Co=256
+    color desert256
+endif
+
+hi Brackets      ctermbg=53 ctermfg=white 
+hi BracketsBlock ctermbg=235 guibg=lightgray
+hi StatusLine    ctermbg=white ctermfg=160
+hi StatusLineNC  ctermbg=black ctermfg=gray
+hi Pmenu         ctermbg=53 ctermfg=255
+hi PmenuSel      ctermbg=255 ctermfg=53
+
 "
 " set all parens to gray
 "
@@ -240,12 +252,6 @@ hi hlLevel8 ctermfg=238
 hi hlLevel9 ctermfg=238
 hi hlLevel10 ctermfg=238
 hi hlLevel11 ctermfg=238
-
-" ---------------------------------------------------------------------
-"  Auto Startup With LimpHighlight: {{{1
-if exists("g:LimpHighlight") && g:LimpHighlight == 1
-    call LimpHighlight_start()
-endif
 
 let &cpo = s:keepcpo
 unlet s:keepcpo
