@@ -6,7 +6,7 @@
 
 
 :Author: Mikael Jansson
-:Version: 0.3.1
+:Version: 0.3.3
 :Download: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th, 2008)
 
 Pre-packaged & welded-together collection of Vim plugins working together for
@@ -282,6 +282,13 @@ The default settings in Limp.
 ``<Shift-F12>``
   Quit Lisp, optionally saving the core in a file (prompted for).
 
+Moreover, Limp mode is automatically set when evaluating the following::
+
+  :set filetype=lisp
+
+Useful for editing files not automatically detected as Lisp files (such as
+.asd, .sbclrc, etc.)
+
 The rest of the bindings assumes ``<Leader>`` == "\\", which is the default.
 Some people prefer ``set mapleader = ","``.
 
@@ -404,6 +411,8 @@ Version 0.3.3
 
   + Configurable location of SBCL in the Lisp script.
   + Updated documentation about Cmd for Fn-keys in OS X
+  + Enters Limp mode automatically for Lisp filetypes (but not yet a real
+    filetype plugin, so it has to be loaded first).
 
 .. raw:: comment
 
