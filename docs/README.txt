@@ -388,6 +388,16 @@ The following step is not required for using Limp with Vim, but if you're planni
 Note that you probably will want to remove older versions of Lim if you've got
 that installed, and that it's not *LIMP* RUNTIME, not *LIM* RUNTIME
 
+Moreover, in order to get the Lisp symbol thesaurus (for auto-completion) working in
+Vim, you need to regenerate the data for Vim.  This is a change from earlier
+versions of Limp that distributed the generated file. The following commands
+will create the the file ``$LIMPRUNTIME/vim/thesaurus``, assuming you have the
+HyperSpec installed in ``/usr/share/doc/hyperspec`` (default location for ``apt-get
+install hyperspec``)::
+
+  cd $LIMPRUNTIME/bin
+  ./make-thesaurus.sh
+
 Download
 ========
 Current Release
