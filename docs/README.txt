@@ -268,6 +268,14 @@ Notes
 Finally, you should install `SuperTab <http://www.vim.org/scripts/script.php?script_id=1643>`_ and and use
 that instead of the default keys used for completion!
 
+Commands
+~~~~~~~~~
+Limp defines a buffer-level command, ``:Eval``. 
+
+``:Eval <sexp>`` will evaluate an s-exp, e.g.::
+
+  :Eval (format t "Hello, world!~%")
+
 Keyboard Reference
 ~~~~~~~~~~~~~~~~~~~~~
 The default settings in Limp.
@@ -417,12 +425,19 @@ Changelog
 =========
 Version 0.3.3
 ~~~~~~~~~~~~~
+* 2008-05-20 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + New command, ``:Eval``, same functionality as ``\ex``.
+
+* 2008-05-19 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + Enters Limp mode automatically for Lisp filetypes (but not yet a real
+    filetype plugin, so it has to be loaded first).
+
 * 2008-05-15 by Mikael Jansson <mail@mikael.jansson.be>
 
   + Configurable location of SBCL in the Lisp script.
   + Updated documentation about Cmd for Fn-keys in OS X
-  + Enters Limp mode automatically for Lisp filetypes (but not yet a real
-    filetype plugin, so it has to be loaded first).
 
 .. raw:: comment
 
