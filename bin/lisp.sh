@@ -6,8 +6,31 @@
 # Boot a new Lisp, or attach to an existing.
 #
 
+# full path to location of the SBCL binary and its default core.
+# default is to guess the correct location, which usually gets it right.
+SBCL=
+SBCL_CORE=
+
+# ----------------------------
+
 progname=lisp.sh
 version=$Revision$
+
+if [[ "$SBCL" == "" ]]; then
+    # guess for OS X
+    if [[ "$(uname)" == "Darwin" ]]; then
+        SBCL=/opt/usr/local/bin/sbcl
+        [[ "$SBCL_CORE" == "" ]] && SBCL_CORE=/opt/usr/local/lib/sbcl/sbcl.core
+    else
+        # default to something in PATH
+        SBCL=`which sbcl`
+        [[ "$SBCL_CORE" == "" ]] && SBCL_CORE=$(dirname $(dirname $SBCL))/lib/sbcl/sbcl.core
+
+        if [[ "$SBCL" == "" || ! -x "$SBCL" ]]; then
+            echo "lisp.sh: sbcl binary not found. Set location of SBCL in lisp.sh"
+        fi
+    fi
+fi
 
 print_version() {
     echo "$progname $version."
@@ -91,7 +114,7 @@ if [[ "$DO_BOOT" == "1" ]]; then
     id=$(echo $STY | cut -d '.' -f 1)
     # in case someone gives it a name like 'lots-of-silly-parens-and-silly-dashes'
     name=$(echo $STY | cut -d '-' -f 2,3,4,5,6,7,8,9)
-    lisp=$(sbcl --version)
+    lisp=$($SBCL --version)
     LIMP_BRIDGE_CHANNEL="$HOME/.limp_bridge_channel-$name.$id"
     touch $LIMP_BRIDGE_CHANNEL
 
@@ -118,7 +141,7 @@ if [[ "$DO_BOOT" == "1" ]]; then
 
     # command to disable aliases/functions
     echo -e "Welcome to Limp. May your journey be pleasant.\n"
-	$RLWRAP sbcl --noinform $core
+	$RLWRAP $SBCL --noinform $core
 
     # cleanup 
     rm -rf "$LIMP_BRIDGE_CHANNEL"
@@ -137,6 +160,8 @@ elif [[ "$BOOT" == "1" ]]; then
     core_opt=""
     if [[ "$CORE_PATH" != "" ]]; then
         core_opt="-c $CORE_PATH"
+    else
+        core_opt="-c $SBCL_CORE"
     fi
 
     initfile=$(mktemp /tmp/limp_bridge-screenrc.XXXXXX)
