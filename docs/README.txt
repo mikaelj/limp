@@ -6,8 +6,10 @@
 
 
 :Author: Mikael Jansson
-:Version: 0.3.3
-:Download: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th, 2008)
+:Version: 0.3.3 (May 20th, 2008)
+:Download: `Limp at Vim.org Scripts Repository <http://www.vim.org/scripts/script.php?script_id=2219>`_ 
+
+.. :Download: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th, 2008)
 
 Pre-packaged & welded-together collection of Vim plugins working together for
 your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL)
@@ -295,10 +297,10 @@ Moreover, Limp mode is automatically set when evaluating the following::
   :set filetype=lisp
 
 Useful for editing files not automatically detected as Lisp files (such as
-.asd, .sbclrc, etc.)
+.asd-files, ``$HOME/.sbclrc``, etc.)
 
-The rest of the bindings assumes ``<Leader>`` == "\\", which is the default.
-Some people prefer ``set mapleader = ","``.
+The rest of the bindings assumes ``<LocalLeader>`` == "\\", which is the default.
+Some people prefer ``set maplocalleader = ","``.
 
 OS X Notes
 --------------
@@ -309,6 +311,19 @@ disconnect. (Or, you can simply quit Vim; that'll have the same effect.)
 
 Also, if Vim doesn't say you're connected after booting Lisp, you might have
 to set the proper location to SBCL/SBCL_HOME in ``bin/lisp.sh``.
+
+Useful Vim Commands
+--------------------
+Vim comes with support for a few useful things out-of-the-box. You should try
+these out::
+
+[<CTRL-I>
+  Jump to the definition of the word under the cursor
+[I
+  Display all lines containing the word under the cursor.
+
+Exuberant Ctags works perfectly well for Lisp source code, so you can use the
+tag system to navigate in your Lisp source code.
 
 Listener
 --------
@@ -406,21 +421,6 @@ install hyperspec``)::
   cd $LIMPRUNTIME/bin
   ./make-thesaurus.sh
 
-Download
-========
-Current Release
-~~~~~~~~~~~~~~~~
-Version 0.3.1, April 27th, 2008: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_
-
-Older Releases
-~~~~~~~~~~~~~~
-* `lim-0.3.tar.gz </static/hacking/limp/lim-0.3.tar.gz>`_ (April 27, 2008)
-* `lim-0.2.2.tar.gz </static/hacking/limp/lim-0.2.2.tar.gz>`_ (April 26, 2008)
-* `lim-0.2.1.tar.gz </static/hacking/limp/lim-0.2.1.tar.gz>`_ (April 26, 2008)
-* `lim-0.2.tar.gz </static/hacking/limp/lim-0.2.tar.gz>`_ (April 25, 2008)
-* `lim-0.1.tar.gz </static/hacking/limp/lim-0.1.tar.gz>`_ (April 21, 2008)
-
-
 Changelog
 =========
 Version 0.3.3
@@ -428,25 +428,18 @@ Version 0.3.3
 * 2008-05-20 by Mikael Jansson <mail@mikael.jansson.be>
 
   + New command, ``:Eval``, same functionality as ``\ex``.
+  + Easier keyboard configuration (keys.vim)
 
 * 2008-05-19 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + Enters Limp mode automatically for Lisp filetypes (but not yet a real
-    filetype plugin, so it has to be loaded first).
+  + It is now a Lisp filetype plugin, so Limp will start automatically for
+    Lisp files.
 
 * 2008-05-15 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + Configurable location of SBCL in the Lisp script.
+  + Configurable location of SBCL in lisp.sh
   + Updated documentation about Cmd for Fn-keys in OS X
 
-.. raw:: comment
-
-    * 2008-04-30 by Mikael Jansson <mail@mikael.jansson.be>
-
-      + Load Limp only when F12 is pressed. Alas, no "reset back to previous
-        state", yet.
-
-Version 0.3.2
 ~~~~~~~~~~~~~
 * 2008-04-28 by Mikael Jansson <mail@mikael.jansson.be>
 
