@@ -193,8 +193,11 @@ fun! LimpBridge_boot_or_connect_or_display()
             return
         endif
         let cmd = "screen -x ".s:limp_bridge_screenid
-        if has("gui_running")
-            let cmd = "xterm -e " . cmd . " &"
+        if has("gui_running") || b:listener_always_open_window == 1
+            let cmd = "xterm -e " . cmd
+            if b:listener_keep_open == 1
+                let cmd .= " &"
+            endif
         endif
         silent exe "!".cmd
         redraw!
