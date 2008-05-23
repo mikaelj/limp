@@ -1,12 +1,13 @@
 =============================================
   Limp: When You Need More Than Just A Lisp
 =============================================
-.. image:: /static/hacking/limp/crutches-250.png
-   :class: rightalignplain
+..
+    .. image:: gfx/limp.png
+       :class: rightalignplain
 
 
 :Author: Mikael Jansson
-:Version: 0.3.3 (May 20th, 2008)
+:Version: 0.3.3 (May?, 2008)
 :Download: `Limp at Vim.org Scripts Repository <http://www.vim.org/scripts/script.php?script_id=2219>`_ 
 
 .. :Download: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th, 2008)
@@ -17,8 +18,8 @@ your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL)
 and is an attempt at forming a usable Lisp environment for Vim users.
 
 .. While you can't have lengthy conversations with SWANK (yet...), what you
-*can* do is send code to your Lisp, ask the HyperSpec for documentation, and
-on top of that, fairly sane bracket-behaviour.
+   *can* do is send code to your Lisp, ask the HyperSpec for documentation, and
+   on top of that, fairly sane bracket-behaviour.
 
 Limp will do this for you:
 
@@ -38,68 +39,68 @@ Quickstart
 ============
 First, follow the instructions for installing Limp.
 
-.. figure:: /static/hacking/limp/docs/screenshots/disconnected.png
+.. figure:: screenshots/disconnected.png
 
    Vim started with a simple hello-world program.
 
-.. figure:: /static/hacking/limp/docs/screenshots/connecting.png
+.. figure:: screenshots/connecting.png
 
    Press ``<F12>`` and Enter to start a new Lisp.
 
-.. figure:: /static/hacking/limp/docs/screenshots/listener.png
+.. figure:: screenshots/listener.png
 
    Press ``<F12>`` again to go to the listener.
 
-.. figure:: /static/hacking/limp/docs/screenshots/sending-code.png
+.. figure:: screenshots/sending-code.png
 
    Press  ``<F12>`` to return to Vim.
 
    Move the cursor somewhere inside the form and press ``\et`` *(Evaluate Top
    form)*. The function definition will be sent to the running Lisp.
 
-.. figure:: /static/hacking/limp/docs/screenshots/listener-with-defun.png
+.. figure:: screenshots/listener-with-defun.png
 
    Looking at the listener, you see that the code you just sent has been
    compiled.
 
-.. figure:: /static/hacking/limp/docs/screenshots/highlighting-current-form.png
+.. figure:: screenshots/highlighting-current-form.png
 
    Let's add more code inside the function definition.  With the cursor
    in the middle of the newly added form, you can now press ``\ec`` *(Evaluate
    Current form)* to send only what's currently highlighted.
 
-.. figure:: /static/hacking/limp/docs/screenshots/evaluating-current-form.png
+.. figure:: screenshots/evaluating-current-form.png
 
    And here you can see the results.
 
-.. figure:: /static/hacking/limp/docs/screenshots/evaluate-prompt.png
+.. figure:: screenshots/evaluate-prompt.png
 
    We can also evaluate arbitrary expressions, such as looking at a symbol,
    using ``\ex`` *(Evaluate eXpression)* and typing something at the prompt,
    followed by enter to send it.
 
-.. figure:: /static/hacking/limp/docs/screenshots/expression-sent.png
+.. figure:: screenshots/expression-sent.png
 
    Yes, it is indeed a symbol.
 
-.. figure:: /static/hacking/limp/docs/screenshots/defun-with-documentation.png
+.. figure:: screenshots/defun-with-documentation.png
 
    Let's remove that extra line of code in the function, and add a docstring
    describing the function. Send the definition to Lisp with ``\et``.
 
-.. figure:: /static/hacking/limp/docs/screenshots/describe-symbol.png
+.. figure:: screenshots/describe-symbol.png
 
    With the cursor on the word ``say-hello``, we now press ``\hd`` *(Help
    Describe)* to get detailed information from Lisp about the symbol.
 
-.. figure:: /static/hacking/limp/docs/screenshots/describe-results.png
+.. figure:: screenshots/describe-results.png
 
    This is what our Lisp believes ``SAY-HELLO`` to be.
 
 Shell
 ~~~~~
 
-.. figure:: /static/hacking/limp/docs/screenshots/listing-lisps.png
+.. figure:: screenshots/listing-lisps.png
 
    If we exit Vim, our Lisp is still active. You can attach from it directly from the command line,
    or from another Vim session.
@@ -108,24 +109,24 @@ Freezing and Thawing
 ~~~~~~~~~~~~~~~~~~~~
 You can save your Lisp's state and later restore it. Very handy.
 
-.. figure:: /static/hacking/limp/docs/screenshots/save-lisp-and-die.png
+.. figure:: screenshots/save-lisp-and-die.png
 
    Here, I've booted up a fresh Lisp and evaluated the function definition.
    Then, ``<Shift-F12>`` asks for the path of a file to save the core in. 
    The Lisp core is now frozen in time.
 
-.. figure:: /static/hacking/limp/docs/screenshots/custom-core.png
+.. figure:: screenshots/custom-core.png
 
    I quit Vim and opened up a completely empty file, empty.lisp, to really
    point out that I will not evaluate any code from the Lisp file.  Press
    ``<F12>``, Enter, name it "test", Enter and Limp then asks for a core
    to boot.  Here, input the core we just saved.
 
-.. figure:: /static/hacking/limp/docs/screenshots/evaluate-saved-code.png
+.. figure:: screenshots/evaluate-saved-code.png
 
    With the core booted, we should have the function ``say-hello`` available.
 
-.. figure:: /static/hacking/limp/docs/screenshots/listener-from-core.png
+.. figure:: screenshots/listener-from-core.png
 
    Yup. Nice!
 
@@ -220,11 +221,11 @@ Name Completion
 -----------------
 Limp can complete the names of symbols. They tend to be rather long, so it's a useful thing.
 
-.. figure:: /static/hacking/limp/docs/screenshots/name-completion.png
+.. figure:: screenshots/name-completion.png
 
    First, type this in Vim...
 
-.. figure:: /static/hacking/limp/docs/screenshots/name-completion-popup.png
+.. figure:: screenshots/name-completion-popup.png
 
    Then, hitting ^N (Ctrl-N) will expand ``least-`` into
    ``least-negative-long-float`` first, then (with another ^N)
@@ -235,11 +236,11 @@ Name Expansion
 ---------------
 There's a convention to talk about dashed names by abbreviating them into the first letter of each word, e.g.:
 
-.. figure:: /static/hacking/limp/docs/screenshots/name-expansion.png
+.. figure:: screenshots/name-expansion.png
    
    First, type this in Vim...
 
-.. figure:: /static/hacking/limp/docs/screenshots/name-expansion-popup.png
+.. figure:: screenshots/name-expansion-popup.png
 
    Then, hitting ^N^N (Ctrl-N twice) will expand the ``p-n``
    to ``package-name``.  ^N again will replace ``package-name`` with ``pathname-name``,
@@ -315,12 +316,13 @@ to set the proper location to SBCL/SBCL_HOME in ``bin/lisp.sh``.
 Useful Vim Commands
 --------------------
 Vim comes with support for a few useful things out-of-the-box. You should try
-these out::
+these out:
 
 [<CTRL-I>
-  Jump to the definition of the word under the cursor
+    Jump to the definition of the word under the cursor
+
 [I
-  Display all lines containing the word under the cursor.
+    Display all lines containing the word under the cursor.
 
 Exuberant Ctags works perfectly well for Lisp source code, so you can use the
 tag system to navigate in your Lisp source code.
@@ -425,6 +427,11 @@ Changelog
 =========
 Version 0.3.3
 ~~~~~~~~~~~~~
+* 2008-05-23 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + CompileFile/CompileAndLoadFile now saves the file before telling Lisp to
+    load it (#4).
+
 * 2008-05-20 by Mikael Jansson <mail@mikael.jansson.be>
 
   + New command, ``:Eval``, same functionality as ``\ex``.
@@ -440,7 +447,9 @@ Version 0.3.3
   + Configurable location of SBCL in lisp.sh
   + Updated documentation about Cmd for Fn-keys in OS X
 
+Version 0.3.2
 ~~~~~~~~~~~~~
+
 * 2008-04-28 by Mikael Jansson <mail@mikael.jansson.be>
 
   + **ADDED**: TODO file in the distro.
