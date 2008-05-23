@@ -100,39 +100,39 @@ function <SID>OpenSpecial(ochar,cchar) " ---{{{2
 endfunction
 
 function <SID>CloseStackPush(char) " ---{{{2
-    echom "push"
+    "echom "push"
     let line = getline('.')
     let col = col('.')-2
     if (col) < 0
         call setline('.',a:char.line)
     else
-        echom string(col).':'.line[:(col)].'|'.line[(col+1):]
+        "echom string(col).':'.line[:(col)].'|'.line[(col+1):]
         call setline('.',line[:(col)].a:char.line[(col+1):])
     endif
     call insert(s:closeStack, a:char)
-    echom join(s:closeStack,'').' -- '.a:char
+    "echom join(s:closeStack,'').' -- '.a:char
     return ''
 endf
 
 function <SID>CloseStackPop(char) " ---{{{2
-    echom "pop"
+    "echom "pop"
     if len(s:closeStack) == 0
         return a:char
     endif
     let popped = ''
     let lastpop = ''
-    echom join(s:closeStack,'').' || '.lastpop
+    "echom join(s:closeStack,'').' || '.lastpop
     while len(s:closeStack) > 0 && ((lastpop == '' && popped == '') || lastpop != a:char)
         let lastpop = remove(s:closeStack,0)
         let popped .= lastpop
-        echom join(s:closeStack,'').' || '.lastpop.' || '.popped
+        "echom join(s:closeStack,'').' || '.lastpop.' || '.popped
     endwhile
-    echom ' --> '.popped
+    "echom ' --> '.popped
     let col = col('.') - 2
     let line = getline('.')
     let splits = split(line[:col],popped,1)
-    echom string(splits)
-    echom col.' '.line[(col+2):].' '.popped
+    "echom string(splits)
+    "echom col.' '.line[(col+2):].' '.popped
     call setline('.',join(splits,popped).line[(col+strlen(popped)+1):])
     return popped
 endf
@@ -184,7 +184,7 @@ function <SID>OpenCloseBackspace() " ---{{{2
 endf
 
 " Initialization ----------------------------------------{{{1
-if g:autoclose_on
-    let g:autoclose_on = 0
-    silent call AutoClose_start()
-endif
+"if g:autoclose_on
+"    let g:autoclose_on = 0
+"    silent call AutoClose_start()
+"endif

@@ -49,7 +49,7 @@ exe "setlocal complete+=s" . s:Limp_location . "/vim/thesaurus"
 "-------------------------------------------------------------------
 fun! LimpBridge_complete_lisp(A,L,P)
     let prefix = s:limp_bridge_channel_base
-    echom "ls -1 ".prefix."*"
+    "echom "ls -1 ".prefix."*"
     let output = system("ls -1 ".prefix."*")
     if stridx(output, prefix."*") >= 0
         echom "No Lisps started yet?"
