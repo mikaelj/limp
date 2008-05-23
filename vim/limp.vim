@@ -60,9 +60,6 @@ setlocal ls=2 bs=2 si et sw=2 ts=2 tw=0
 setlocal statusline=%<%f\ \(%{LimpBridge_connection_status()}\)\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
 setlocal iskeyword=&,*,+,45,/,48-57,:,<,=,>,@,A-Z,a-z,_
 
-call LimpHighlight_start()
-call AutoClose_start()
-
 "-------------------------------------------------------------------
 " reset to previous values
 "-------------------------------------------------------------------
@@ -71,9 +68,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let b:undo_ftplugin = "setlocal syntax< lisp< ls< bs< si< et< sw<"
-    \ . "ts< tw< nocursorline< nocompatible< statusline< iskeyword<"
-    \ . "| call LimpHighlight_stop()"
-    \ . "| call AutoClose_stop()"
+    \ . "ts< tw< complete< nocursorline< nocompatible< statusline< iskeyword<"
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

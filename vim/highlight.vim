@@ -67,11 +67,15 @@ fun! LimpHighlight_start()
     set lz
     call s:LimpHighlight_handler()
     set nolz
+
 endfun
 
 fun! LimpHighlight_stop()
+    "echom "Stopping highlight"
     set lz
-    unlet g:limp_highlight_active
+    if exists("g:limp_highlight_active")
+        unlet g:limp_highlight_active
+    endif
     match none
     2match none
  
@@ -220,39 +224,7 @@ fun! s:PerformMatch(line1, col1, line2, col2)
     exe 'match Brackets /\%'.line1.'l\%'.col1.'v\|\%'.line2.'l\%'.col2.'v/'
 endfun
 
-let g:lisp_rainbow=1
-
-"-------------------------------------------------------------------
-" coloring
-"-------------------------------------------------------------------
-if !exists("g:colors_name")
-    set t_Co=256
-    color desert256
-endif
-
-hi Brackets      ctermbg=53 ctermfg=white 
-hi BracketsBlock ctermbg=235 guibg=lightgray
-hi StatusLine    ctermbg=white ctermfg=160
-hi StatusLineNC  ctermbg=black ctermfg=gray
-hi Pmenu         ctermbg=53 ctermfg=255
-hi PmenuSel      ctermbg=255 ctermfg=53
-
-"
-" set all parens to gray
-"
-hi hlLevel0 ctermfg=238
-hi hlLevel1 ctermfg=238
-hi hlLevel2 ctermfg=238
-hi hlLevel3 ctermfg=238
-hi hlLevel4 ctermfg=238
-hi hlLevel5 ctermfg=238
-hi hlLevel6 ctermfg=238
-hi hlLevel7 ctermfg=238
-hi hlLevel8 ctermfg=238
-hi hlLevel9 ctermfg=238
-hi hlLevel10 ctermfg=238
-hi hlLevel11 ctermfg=238
-
 let &cpo = s:keepcpo
 unlet s:keepcpo
+
 
