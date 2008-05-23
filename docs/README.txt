@@ -279,6 +279,25 @@ Limp defines a buffer-level command, ``:Eval``.
 
   :Eval (format t "Hello, world!~%")
 
+Limp mode is automatically set when evaluating the following::
+
+  :set filetype=lisp
+
+Useful for editing files not automatically detected as Lisp files (such as
+.asd-files, ``$HOME/.sbclrc``, etc.)
+
+GVim notes
+-----------------
+The default behaviour when running gvim is to open an xterm.  There are two
+flags you can adjust:
+
+b:listener_always_open_window
+    Open a separate xterm even if running console vim
+
+b:listener_keep_open
+    Open the xterm in the background. Will not prevent you from pressing F12
+    multiple times (and thus open many xterms).
+
 Keyboard Reference
 ~~~~~~~~~~~~~~~~~~~~~
 The default settings in Limp.
@@ -293,12 +312,6 @@ The default settings in Limp.
 ``<Shift-F12>``
   Quit Lisp, optionally saving the core in a file (prompted for).
 
-Moreover, Limp mode is automatically set when evaluating the following::
-
-  :set filetype=lisp
-
-Useful for editing files not automatically detected as Lisp files (such as
-.asd-files, ``$HOME/.sbclrc``, etc.)
 
 The rest of the bindings assumes ``<LocalLeader>`` == "\\", which is the default.
 Some people prefer ``set maplocalleader = ","``.
