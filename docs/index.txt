@@ -7,10 +7,8 @@
 
 
 :Author: Mikael Jansson
-:Version: 0.3.3 (May?, 2008)
+:Version: 0.3.3 (May 24th, 2008)
 :Download: `Limp at Vim.org Scripts Repository <http://www.vim.org/scripts/script.php?script_id=2219>`_ 
-
-.. :Download: `limp-0.3.1.tar.gz <http://www.vim.org/scripts/download_script.php?src_id=8609>`_ (April 27th, 2008)
 
 Pre-packaged & welded-together collection of Vim plugins working together for
 your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL)
@@ -338,7 +336,11 @@ these out:
     Display all lines containing the word under the cursor.
 
 Exuberant Ctags works perfectly well for Lisp source code, so you can use the
-tag system to navigate in your Lisp source code.
+tag system to navigate in your Lisp source code. For non-US keyboards, the
+default keybinding can be impossible to type in. Here's a better mapping,
+``<Ctrl-Space>`` (... which generates C-@)::
+
+  map <C-@> <C-]>
 
 Listener
 --------
@@ -370,7 +372,8 @@ Source transformation.
 * ``\ft``: *(Format current Top level form)*: Reindent/format current form to the top level 
 * ``\sw``: *(S-exp Wrap)*: Wrap the current form inside another list
 * ``\sp``: *(S-exp Peel)*: Peel off a list around the current s-exp
-* ``\sc`` :*(S-exp Comment)*: Comment current form
+* ``\sc`` :*(S-exp Comment top)*: Comment top form
+* ``\sC`` :*(S-exp comment Current)*: Comment current form
 
 Limp
 ----
@@ -453,7 +456,7 @@ Version 0.3.3
 * 2008-05-19 by Mikael Jansson <mail@mikael.jansson.be>
 
   + It is now a Lisp filetype plugin, so Limp will start automatically for
-    Lisp files.
+    Lisp files. (``set filetype=lisp``)
 
 * 2008-05-15 by Mikael Jansson <mail@mikael.jansson.be>
 
