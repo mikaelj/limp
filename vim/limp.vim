@@ -42,34 +42,12 @@ silent! runtime plugin/matchit.vim
 " the Limp library
 "-------------------------------------------------------------------
 
-runtime ftplugin/lisp/limp/mode.vim
 runtime ftplugin/lisp/limp/cursor.vim
 runtime ftplugin/lisp/limp/highlight.vim
 runtime ftplugin/lisp/limp/sexp.vim
 runtime ftplugin/lisp/limp/bridge.vim
 runtime ftplugin/lisp/limp/autoclose.vim
 runtime ftplugin/lisp/limp/keys.vim
+runtime ftplugin/lisp/limp/mode.vim
 
-"-------------------------------------------------------------------
-" init filetype plugin
-"-------------------------------------------------------------------
-syntax on
-setlocal nocompatible nocursorline
-setlocal lisp syntax=lisp
-setlocal ls=2 bs=2 si et sw=2 ts=2 tw=0 
-setlocal statusline=%<%f\ \(%{LimpBridge_connection_status()}\)\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ of\ %L\ \(%.45{getcwd()}\)
-setlocal iskeyword=&,*,+,45,/,48-57,:,<,=,>,@,A-Z,a-z,_
-
-"-------------------------------------------------------------------
-" reset to previous values
-"-------------------------------------------------------------------
-
-let s:save_cpo = &cpo
-set cpo&vim
-
-let b:undo_ftplugin = "setlocal syntax< lisp< ls< bs< si< et< sw<"
-    \ . "ts< tw< complete< nocursorline< nocompatible< statusline< iskeyword<"
-
-let &cpo = s:save_cpo
-unlet s:save_cpo
 
