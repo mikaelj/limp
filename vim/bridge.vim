@@ -455,8 +455,11 @@ nnoremap <buffer> <unique> <Plug>TestTop        :call  LimpBridge_stuff_top_form
 nnoremap <buffer> <unique> <Plug>LoadThisFile    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p" ) . "\")\n")<CR>
 nnoremap <buffer> <unique> <Plug>LoadAnyFile     :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
 
-nnoremap <buffer> <unique> <Plug>CompileFile        :call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
-nnoremap <buffer> <unique> <Plug>CompileAndLoadFile <Plug>CompileFile<Plug>LoadAnyFile
+nnoremap <buffer> <unique> <Plug>CompileFile        :w! <bar> call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
+
+" XXX: What's the proprer syntax for calling >1 Plug?
+""nnoremap <buffer> <unique> <Plug>CompileAndLoadFile <Plug>CompileFile <bar> <Plug>LoadAnyFile
+nnoremap <buffer> <unique> <Plug>CompileAndLoadFile   :w! <bar> call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n") <bar> call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
 
 " Goto Test Buffer:
 " Goto Split:         split current buffer and goto test buffer
