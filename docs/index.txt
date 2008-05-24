@@ -1,23 +1,17 @@
-=============================================
-  Limp: When You Need More Than Just A Lisp
-=============================================
-..
-    .. image:: gfx/limp.png
-       :class: rightalignplain
+.. image:: gfx/limp.png
+   :class: rightalignplain
 
-
+Limp: When You Need More Than Just A Lisp
+=============================================
 :Author: Mikael Jansson
-:Version: 0.3.3 (May 24th, 2008)
+:Date: $Date$
+:Revision: $Revision$
 :Download: `Limp at Vim.org Scripts Repository <http://www.vim.org/scripts/script.php?script_id=2219>`_ 
 
 Pre-packaged & welded-together collection of Vim plugins working together for
 your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL)
 <http://www.sbcl.org>`_.  It is based on ViLisp and other great Vim plugins,
 and is an attempt at forming a usable Lisp environment for Vim users.
-
-.. While you can't have lengthy conversations with SWANK (yet...), what you
-   *can* do is send code to your Lisp, ask the HyperSpec for documentation, and
-   on top of that, fairly sane bracket-behaviour.
 
 Limp will do this for you:
 
@@ -30,7 +24,9 @@ Limp will do this for you:
 
 ----
 
+.. section-numbering::
 .. contents::
+   :depth: 2
 
 
 Quickstart
