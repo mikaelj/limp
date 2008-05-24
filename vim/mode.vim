@@ -27,8 +27,8 @@ fun! LimpMode_start()
     "-------------------------------------------------------------------
     let g:lisp_rainbow=1
 
+    set t_Co=256
     if !exists("g:colors_name")
-        set t_Co=256
         colorscheme desert256
     endif
 

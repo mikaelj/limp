@@ -42,6 +42,12 @@ set cpo&vim
 " disable matchparen: we do that ourselves.
 let g:loaded_matchparen = 1
 
+" assume that all of the file has been loaded & defined once
+" if one of the functions are defined.
+if exists("*LimpHighlight_start")
+    finish
+endif
+
 fun! LimpHighlight_start()
     if exists("g:limp_highlight_active")
         return
