@@ -295,7 +295,7 @@ b:listener_keep_open
 
 Keyboard Reference
 ~~~~~~~~~~~~~~~~~~~~~
-The default settings in Limp.
+The default settings in Limp. All bindings can be easily changed in ``$LIMPRUNTIME/vim/keys.vim``.
 
 ``<F12>``
   Connect to a running Lisp or start a new Lisp, optionally specifying a core
@@ -309,7 +309,7 @@ The default settings in Limp.
 
 
 The rest of the bindings assumes ``<LocalLeader>`` == "\\", which is the default.
-Some people prefer ``set maplocalleader = ","``.
+Some people prefer ``let maplocalleader = ","``.
 
 OS X Notes
 --------------
@@ -341,8 +341,8 @@ default keybinding can be impossible to type in. Here's a better mapping,
 
 Listener
 --------
-This is a regular screen session.  Escape is ``^z``, ``<F12>`` is map to
-detach.
+This is a regular screen session.  Escape is ``<Ctrl-z>``, and ``<F12>`` is mapped to
+detach (``<Ctrl-z> d``).
 
 Lisp Interaction
 -----------------
@@ -402,18 +402,31 @@ When typing an opening bracket, paren or double-quote, it automatically adds the
 bracket. You can now either type the closing symbol yourself or skip it
 altogether.  Backspacing over it removes the pair.
 
+Upgrading
+=========
+From <= 0.3.2 to 0.3.3
+~~~~~~~~~~~~~~~~~~~~~~~~
+Limp is now a filetype plugin.  If you're using 0.3.2 or earlier, you need to
+remove your old installation of Limp, i.e. ``rm -rf ~/.vim/plugin/limp.vim && rm -rf ~/.vim/limp``, then
+proceed with the installation as described below.
+
 Installation
 ============
 I'm going to assume Limp will be installed /usr/local/limp-x.y, but you can place it wherever you want to. 
 The name of the directory isn't important either, as long as ``$LIMPRUNTIME`` is properly set.
+NOTE: It must be set regardless of the installation directory, even /usr/local!
 
 Step-by-step instructions::
 
   cd /usr/local
   tar /path/to/limp-x.y.tar.gz
-  ln -sf /usr/local/limp-x.y/vim $HOME/.vim/limp
-  ln -sf ../limp/limp.vim $HOME/.vim/plugin/limp.vim
-  ln -sf ../limp/desert256.vim $HOME/.vim/colors/desert256.vim
+  mkdir -p ~/.vim/ftplugin/lisp
+  ln -sf /usr/local/limp-x.y/vim $HOME/.vim/ftplugin/lisp/limp
+  ln -sf limp/limp.vim $HOME/.vim/ftplugin/lisp/limp.vim
+
+Optionally, for the 256-color colorscheme::
+
+   ln -sf ../limp/desert256.vim $HOME/.vim/colors/desert256.vim
 
 Limp relies on the variable ``$LIMPRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
 
