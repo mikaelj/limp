@@ -1,12 +1,13 @@
-.. image:: gfx/limp.png
-   :class: rightalignplain
-
+=============================================
 Limp: When You Need More Than Just A Lisp
 =============================================
 :Author: Mikael Jansson
 :Date: $Date$
 :Revision: $Revision$
 :Download: `Limp at Vim.org Scripts Repository <http://www.vim.org/scripts/script.php?script_id=2219>`_ 
+
+.. image:: gfx/limp.png
+   :class: rightalignplain
 
 Pre-packaged & welded-together collection of Vim plugins working together for
 your Lispy desires!  It defaults to `Steel Bank Common Lisp (SBCL)
