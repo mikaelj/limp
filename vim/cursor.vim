@@ -39,6 +39,13 @@ set cpo&vim
 " -----------------------
 let s:modifier= "sil keepj "
 
+
+" assume that all of the file has been loaded & defined once
+" if one of the functions are defined.
+if exists("*Cursor_get")
+    finish
+endif
+
 " Cursor_get: {{{1
 " Return the current cursor (as an executable command!)
 "
