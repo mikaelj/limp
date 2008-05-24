@@ -420,13 +420,13 @@ Step-by-step instructions::
 
   cd /usr/local
   tar /path/to/limp-x.y.tar.gz
-  mkdir -p ~/.vim/ftplugin/lisp
+  mkdir -p $HOME/.vim/ftplugin/lisp
   ln -sf /usr/local/limp-x.y/vim $HOME/.vim/ftplugin/lisp/limp
   ln -sf limp/limp.vim $HOME/.vim/ftplugin/lisp/limp.vim
 
 Optionally, for the 256-color colorscheme::
 
-   ln -sf ../limp/desert256.vim $HOME/.vim/colors/desert256.vim
+   cp $LIMPRUNTIME/vim/desert256.vim $HOME/.vim/colors/desert256.vim
 
 Limp relies on the variable ``$LIMPRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
 
