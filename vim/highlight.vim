@@ -139,11 +139,11 @@ fun! <SID>LimpHighlight_handler()
         if &mps =~ curchr.':'
             let stopline           = line("w$")
             let chrmatch           = substitute(&mps,'^.*'.curchr.':\(.\).*$','\1','')
-            let [mtchline,mtchcol] = searchpairpos(escape(curchr,'[]'),'',escape(chrmatch,'[]'),'n','',stopline)
+            let [mtchline,mtchcol] = searchpairpos(escape(curchr,'[]'),'',escape(chrmatch,'[]'),'n','synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|comment"',stopline)
         else
             let stopline           = line("w0")
             let chrmatch           = substitute(&mps,'^.*\(.\):'.curchr.'.*$','\1','')
-            let [mtchline,mtchcol] = searchpairpos(escape(chrmatch,'[]'),'',escape(curchr,'[]'),'bn','',stopline)
+            let [mtchline,mtchcol] = searchpairpos(escape(chrmatch,'[]'),'',escape(curchr,'[]'),'bn','synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|comment"',stopline)
         endif
 
         if mtchline != 0 && mtchcol != 0
@@ -167,7 +167,7 @@ fun! <SID>LimpHighlight_handler()
         let swp        = Cursor_get()
         let openers    = '['.escape(substitute(&mps,':.,\=',"","g"),']').']'
         let closers    = '['.escape(substitute(&mps,',\=.:',"","g"),']').']'
-        call searchpair(openers,"",closers,'','',line("w$"))
+        call searchpair(openers,"",closers,'','synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|comment"')
         silent! norm! yl
         if stridx(mps,@0) != -1
             let mtchline1 = line('.')
