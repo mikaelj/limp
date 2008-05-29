@@ -25,6 +25,20 @@ Limp will do this for you:
 
 ----
 
+.. raw:: html
+
+    <p>
+    <b>Subscribe to <a href="http://groups.google.com/group/limp-devel">Limp
+    Development</a> at Google Groups</b>
+    <form action="http://groups.google.com/group/limp-devel/boxsubscribe">
+    Email: <input type=text name=email>
+    <input type=submit name="sub" value="Subscribe">
+    </form>
+    </p>
+
+
+----
+
 .. section-numbering::
 .. contents::
    :depth: 2
