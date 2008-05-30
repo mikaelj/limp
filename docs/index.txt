@@ -4,9 +4,13 @@ Limp: When You Need More Than Just A Lisp
 :Author: Mikael Jansson
 :Date: $Date$
 :Revision: $Revision$
-:Download: `Limp at Vim.org Scripts Repository <http://www.vim.org/scripts/script.php?script_id=2219>`_ 
+:HeadURL: $HeadURL$
+:Web: | `Download Limp <http://www.vim.org/scripts/script.php?script_id=2219>`_ (Vim.org)
+      | `Limp Issues and Documentation <http://mikael.jansson.be/hacking/limp>`_ (Mikael.Jansson.be)
+      | `Limp Development  <http://groups.google.com/group/limp-devel>`_ (Google Groups)
 
-.. image:: gfx/limp.png
+
+.. image:: limp.png
    :class: rightalignplain
 
 Pre-packaged & welded-together collection of Vim plugins working together for
@@ -22,22 +26,6 @@ Limp will do this for you:
 * lookup documentation from the HyperSpec;
 * complete names;
 * ...and finally, suck less than manual copy-and-paste!
-
-----
-
-.. raw:: html
-
-    <p>
-    <b>Subscribe to <a href="http://groups.google.com/group/limp-devel">Limp
-    Development</a> at Google Groups</b>
-    <form action="http://groups.google.com/group/limp-devel/boxsubscribe">
-    Email: <input type=text name=email>
-    <input type=submit name="sub" value="Subscribe">
-    </form>
-    </p>
-
-
-----
 
 .. section-numbering::
 .. contents::
