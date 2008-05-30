@@ -4,10 +4,11 @@ Limp: When You Need More Than Just A Lisp
 :Author: Mikael Jansson
 :Date: $Date$
 :Revision: $Revision$
-:HeadURL: $HeadURL$
 :Web: | `Download Limp <http://www.vim.org/scripts/script.php?script_id=2219>`_ (Vim.org)
       | `Limp Issues and Documentation <http://mikael.jansson.be/hacking/limp>`_ (Mikael.Jansson.be)
       | `Limp Development  <http://groups.google.com/group/limp-devel>`_ (Google Groups)
+
+.. footer:: Document generated from $HeadURL$
 
 
 .. image:: limp.png
@@ -555,4 +556,6 @@ Charles E. Campbell, Jr.
   For `HiMtchBrkt <http://www.vim.org/scripts/script.php?script_id=1435>`_.
   Modified to highlight the contents inside the brackets, removed Vim (<7.x)
   backward compatibility.
+
+
 
