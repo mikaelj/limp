@@ -1,12 +1,10 @@
 =============================================
 Limp: When You Need More Than Just A Lisp
 =============================================
-:Goal: To provide a compelling alternative to SLIME for Vim
 :Web: | `Download Limp <http://www.vim.org/scripts/script.php?script_id=2219>`_ (Vim.org)
       | `Limp Issues and Documentation <http://mikael.jansson.be/hacking/limp>`_ (Mikael.Jansson.be)
       | `Limp Development  <http://groups.google.com/group/limp-devel>`_ (Google Groups)
 :Date: $Date$
-:Revision: $Revision$
 :Author: Mikael Jansson <mail@mikael.jansson.be>
 
 .. footer:: Document generated from $HeadURL$
@@ -24,10 +22,15 @@ Limp: When You Need More Than Just A Lisp
 
     Limp will do this for you:
 
-Limp is a filetype plugin for Vim that lets you interact with a running Lisp
-(SBCL). Features include:
+.. Limp is a filetype plugin for Vim that lets you interact with a running Lisp (SBCL).
 
-* booting/attaching/detaching a Lisp from Vim or a command-line script, optionally specifying a core;
+----
+
+*Limp's goal is to provide a compelling alternative to SLIME for Vim.*
+
+Features include:
+
+* booting/attaching/detaching a Lisp (SBCL) from Vim or a command-line script, optionally specifying a core;
 * send code to the attached Lisp (and limited introspection, see *Help Describe*);
 * automatically close brackets;
 * highlight current form under the cursor;
