@@ -293,6 +293,7 @@ ml_open(buf)
 
     buf->b_ml.ml_mfp = mfp;
     buf->b_ml.ml_flags = ML_EMPTY;
+    buf->b_ml.ml_line_max = 0;
     buf->b_ml.ml_line_count = 1;
 #ifdef FEAT_LINEBREAK
     curwin->w_nrwidth_line_count = 0;
@@ -2179,6 +2180,88 @@ ml_append(lnum, line, len, newfile)
     return ml_append_int(curbuf, lnum, line, len, newfile, FALSE);
 }
 
+/*
+ * Append string to line lnum, with buffering, in current buffer.
+ *
+ * Always makes a copy of the incoming string
+ *
+ * Check: The caller of this function should probably also call
+ * changed_lines(), unless update_screen(NOT_VALID) is used.
+ *
+ * return FAIL for failure, OK otherwise
+ */
+    int
+ml_append_string(lnum, string, slen)
+    linenr_T    lnum;
+    char_u  *string;
+    int     slen;
+{
+    int append_len = 0;
+    int line_len = 0;
+    if (slen == -1)
+        append_len = STRLEN(string);
+    else
+        append_len = slen;
+    if (string == NULL)     /* just checking... */
+        return FAIL;
+
+    if (lnum == 0)
+        ml_append (lnum, string, slen, 0);
+
+    /* When starting up, we might still need to create the memfile */
+    if (curbuf->b_ml.ml_mfp == NULL && open_buffer(FALSE, NULL) == FAIL)
+        return FAIL;
+
+#ifdef FEAT_NETBEANS_INTG
+    /*
+#error I am 99% sure this is broken
+    if (usingNetbeans)
+    {
+        netbeans_removed(curbuf, lnum, 0, (long)STRLEN(ml_get(lnum)));
+        netbeans_inserted(curbuf, lnum, 0, string, (int)STRLEN(string));
+    }
+    */
+#endif
+    if ((curbuf->b_ml.ml_line_lnum != lnum) ||   /* other line buffered */ 
+        (curbuf->b_ml.ml_flags & ML_LINE_DIRTY == 0))
+    {
+        ml_flush_line(curbuf);              /* flush it, this frees ml_line_ptr */
+
+        /* Take a pointer to the existing line, will get re-alloced right
+         * away below because it is not big enough */
+        curbuf->b_ml.ml_line_ptr = ml_get(lnum);
+        curbuf->b_ml.ml_flags &= ~ML_LINE_DIRTY;
+        curbuf->b_ml.ml_line_max = STRLEN(curbuf->b_ml.ml_line_ptr);
+        curbuf->b_ml.ml_line_lnum = lnum;
+    }
+    /* By here, 
+     * curbuf->b_ml.ml_line_ptr - is filled with the correct existing line
+     * curbuf->b_ml.ml_line_max - is the alloced size of the line
+     */
+    line_len = STRLEN(curbuf->b_ml.ml_line_ptr);
+    if (curbuf->b_ml.ml_line_max < line_len + append_len + 1)
+    {
+        int new_len = (curbuf->b_ml.ml_line_max + append_len + 2) * 2;
+        char_u *new_line;
+        if (new_len < 80) new_len = 80;
+        new_line = vim_strnsave(curbuf->b_ml.ml_line_ptr, new_len);
+        if (curbuf->b_ml.ml_flags & ML_LINE_DIRTY)
+                vim_free(curbuf->b_ml.ml_line_ptr);
+        curbuf->b_ml.ml_line_ptr = new_line;
+        curbuf->b_ml.ml_line_max = new_len;
+        curbuf->b_ml.ml_flags = (curbuf->b_ml.ml_flags | ML_LINE_DIRTY) & ~ML_EMPTY;
+    }
+    /* by here:
+     * ml_line_ptr is allocated to fit the current line + the append
+     * ml_line_max is the total alloced size of the line
+     */
+    STRCPY (&curbuf->b_ml.ml_line_ptr[line_len], string);  /* Append our string */
+    curbuf->b_ml.ml_line_ptr[line_len + append_len] = NUL; /* End the line */
+    return OK;
+}
+
+
+
 #if defined(FEAT_SPELL) || defined(PROTO)
 /*
  * Like ml_append() but for an arbitrary buffer.  The buffer must already have
@@ -2738,6 +2821,7 @@ ml_replace(lnum, line, copy)
 	vim_free(curbuf->b_ml.ml_line_ptr);	    /* free it */
     curbuf->b_ml.ml_line_ptr = line;
     curbuf->b_ml.ml_line_lnum = lnum;
+    curbuf->b_ml.ml_line_max = 0;
     curbuf->b_ml.ml_flags = (curbuf->b_ml.ml_flags | ML_LINE_DIRTY) & ~ML_EMPTY;
 
     return OK;
