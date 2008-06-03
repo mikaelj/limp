@@ -1153,7 +1153,6 @@
  * +mzscheme		MzScheme interface: "--enable-mzscheme"
  * +perl		Perl interface: "--enable-perlinterp"
  * +python		Python interface: "--enable-pythoninterp"
- * +ecl			ECL interface: "--enable-eclinterp"
  * +tcl			TCL interface: "--enable-tclinterp"
  * +sniff		Sniff interface: "--enable-sniff"
  * +sun_workshop	Sun Workshop integration

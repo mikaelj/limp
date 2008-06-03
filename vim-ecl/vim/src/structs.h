@@ -566,7 +566,6 @@ typedef struct memline
     int		ml_numchunks;
     int		ml_usedchunks;
 #endif
-    int         ml_line_max;
 } memline_T;
 
 #if defined(FEAT_SIGNS) || defined(PROTO)

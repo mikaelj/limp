@@ -182,11 +182,6 @@ static char *(features[]) =
 #else
 	"-ebcdic",
 #endif
-#ifdef FEAT_ECL
-	"+ecl",
-#else
-	"-ecl",
-#endif
 #ifdef FEAT_EMACS_TAGS
 	"+emacs_tags",
 #else

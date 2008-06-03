@@ -581,59 +581,6 @@ AC_SUBST(PERL_PRO)
 AC_SUBST(PERL_CFLAGS)
 AC_SUBST(PERL_LIBS)
 
-AC_MSG_CHECKING(--enable-eclinterp argument)
-AC_ARG_ENABLE(eclinterp,
-	[  --enable-eclinterp      Include ECL compiler.], ,
-	[enable_eclinterp="no"])
-AC_MSG_RESULT($enable_eclinterp)
-if test "$enable_eclinterp" = "yes"; then
-  dnl -- find the ecl-config executable
-  AC_PATH_PROG(vi_cv_path_ecl_config, ecl-config)
-  if test "X$vi_cv_path_ecl_config" != "X"; then
-
-    dnl -- Ask ecl-config where to find ecl's libraries
-    AC_CACHE_VAL(vi_cv_path_ecl_plibs,
-    [
-	vi_cv_path_ecl_plibs=`ecl-config --libs`
-    ])
-
-    ECL_LIBS="${vi_cv_path_ecl_plibs}"
-    AC_CACHE_VAL(vi_cv_path_ecl_cflags,
-    [
-	vi_cv_path_ecl_cflags=`ecl-config --cflags`
-    ])
-    ECL_CFLAGS="${vi_cv_path_ecl_cflags}"
-
-    ECL_SRC="if_ecl.c"
-    ECL_OBJ="objects/if_ecl.o"
-
-    dnl check that compiling a simple program still works with the flags
-    dnl added for ECL.
-    AC_MSG_CHECKING([if compile and link flags for ECL are sane])
-    cflags_save=$CFLAGS
-    libs_save=$LIBS
-    CFLAGS="$CFLAGS $ECL_CFLAGS"
-    LIBS="$LIBS $ECL_LIBS"
-    AC_TRY_LINK(,[ ],
-	   AC_MSG_RESULT(yes); ecl_ok=yes,
-	   AC_MSG_RESULT(no: ECL DISABLED); ecl_ok=no)
-    CFLAGS=$cflags_save
-    LIBS=$libs_save
-    if test $ecl_ok = yes; then
-      AC_DEFINE(FEAT_ECL)
-    else
-      ECL_SRC=
-      ECL_OBJ=
-      ECL_LIBS=
-      ECL_CFLAGS=
-    fi
-  fi
-fi
-AC_SUBST(ECL_LIBS)
-AC_SUBST(ECL_CFLAGS)
-AC_SUBST(ECL_SRC)
-AC_SUBST(ECL_OBJ)
-
 AC_MSG_CHECKING(--enable-pythoninterp argument)
 AC_ARG_ENABLE(pythoninterp,
 	[  --enable-pythoninterp   Include Python interpreter.], ,

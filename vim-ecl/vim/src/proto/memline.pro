@@ -19,7 +19,6 @@ char_u *ml_get_cursor __ARGS((void));
 char_u *ml_get_buf __ARGS((buf_T *buf, linenr_T lnum, int will_change));
 int ml_line_alloced __ARGS((void));
 int ml_append __ARGS((linenr_T lnum, char_u *line, colnr_T len, int newfile));
-int ml_append_string __ARGS((linenr_T lnum, char_u *string, int slen));
 int ml_append_buf __ARGS((buf_T *buf, linenr_T lnum, char_u *line, colnr_T len, int newfile));
 int ml_replace __ARGS((linenr_T lnum, char_u *line, int copy));
 int ml_delete __ARGS((linenr_T lnum, int message));
