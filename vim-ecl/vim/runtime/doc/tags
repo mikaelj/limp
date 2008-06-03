@@ -702,8 +702,10 @@ $VIMRUNTIME	starting.txt	/*$VIMRUNTIME*
 'qe'	options.txt	/*'qe'*
 'quote	motion.txt	/*'quote*
 'quoteescape'	options.txt	/*'quoteescape'*
+'rdt'	options.txt	/*'rdt'*
 'readonly'	options.txt	/*'readonly'*
 'redraw'	vi_diff.txt	/*'redraw'*
+'redrawtime'	options.txt	/*'redrawtime'*
 'remap'	options.txt	/*'remap'*
 'report'	options.txt	/*'report'*
 'restorescreen'	options.txt	/*'restorescreen'*
@@ -1227,6 +1229,7 @@ $VIMRUNTIME	starting.txt	/*$VIMRUNTIME*
 --servername	remote.txt	/*--servername*
 --socketid	starting.txt	/*--socketid*
 --version	starting.txt	/*--version*
+--windowid	starting.txt	/*--windowid*
 -A	starting.txt	/*-A*
 -C	starting.txt	/*-C*
 -D	starting.txt	/*-D*
@@ -2051,6 +2054,7 @@ $VIMRUNTIME	starting.txt	/*$VIMRUNTIME*
 :echom	eval.txt	/*:echom*
 :echomsg	eval.txt	/*:echomsg*
 :echon	eval.txt	/*:echon*
+:ecl	if_ecl.txt	/*:ecl*
 :edit	editing.txt	/*:edit*
 :edit!	editing.txt	/*:edit!*
 :edit!_f	editing.txt	/*:edit!_f*
@@ -2153,6 +2157,7 @@ $VIMRUNTIME	starting.txt	/*$VIMRUNTIME*
 :highlight-link	syntax.txt	/*:highlight-link*
 :highlight-normal	syntax.txt	/*:highlight-normal*
 :highlight-verbose	syntax.txt	/*:highlight-verbose*
+:his	cmdline.txt	/*:his*
 :history	cmdline.txt	/*:history*
 :history-indexing	cmdline.txt	/*:history-indexing*
 :i	insert.txt	/*:i*
@@ -4079,8 +4084,13 @@ E794	eval.txt	/*E794*
 E795	eval.txt	/*E795*
 E796	editing.txt	/*E796*
 E797	spell.txt	/*E797*
+E798	eval.txt	/*E798*
+E799	eval.txt	/*E799*
 E80	message.txt	/*E80*
 E800	arabic.txt	/*E800*
+E801	eval.txt	/*E801*
+E802	eval.txt	/*E802*
+E803	eval.txt	/*E803*
 E81	map.txt	/*E81*
 E82	message.txt	/*E82*
 E83	message.txt	/*E83*
@@ -4777,6 +4787,7 @@ chill.vim	syntax.txt	/*chill.vim*
 cindent()	eval.txt	/*cindent()*
 cinkeys-format	indent.txt	/*cinkeys-format*
 cinoptions-values	indent.txt	/*cinoptions-values*
+clearmatches()	eval.txt	/*clearmatches()*
 client-server	remote.txt	/*client-server*
 clientserver	remote.txt	/*clientserver*
 clipboard	gui.txt	/*clipboard*
@@ -5095,6 +5106,8 @@ dtd2vim	insert.txt	/*dtd2vim*
 dying-variable	eval.txt	/*dying-variable*
 e	motion.txt	/*e*
 easy	starting.txt	/*easy*
+ecl	if_ecl.txt	/*ecl*
+ecl-commands	if_ecl.txt	/*ecl-commands*
 edit-a-file	editing.txt	/*edit-a-file*
 edit-binary	editing.txt	/*edit-binary*
 edit-dialogs	editing.txt	/*edit-dialogs*
@@ -5297,6 +5310,7 @@ fname_diff-variable	eval.txt	/*fname_diff-variable*
 fname_in-variable	eval.txt	/*fname_in-variable*
 fname_new-variable	eval.txt	/*fname_new-variable*
 fname_out-variable	eval.txt	/*fname_out-variable*
+fnameescape()	eval.txt	/*fnameescape()*
 fnamemodify()	eval.txt	/*fnamemodify()*
 fo-table	change.txt	/*fo-table*
 fold-behavior	fold.txt	/*fold-behavior*
@@ -5649,6 +5663,8 @@ getftype()	eval.txt	/*getftype()*
 getlatestvimscripts-install	pi_getscript.txt	/*getlatestvimscripts-install*
 getline()	eval.txt	/*getline()*
 getloclist()	eval.txt	/*getloclist()*
+getmatches()	eval.txt	/*getmatches()*
+getpid()	eval.txt	/*getpid()*
 getpos()	eval.txt	/*getpos()*
 getqflist()	eval.txt	/*getqflist()*
 getreg()	eval.txt	/*getreg()*
@@ -5752,6 +5768,7 @@ gui-w32-dialogs	gui_w32.txt	/*gui-w32-dialogs*
 gui-w32-printing	gui_w32.txt	/*gui-w32-printing*
 gui-w32-start	gui_w32.txt	/*gui-w32-start*
 gui-w32-various	gui_w32.txt	/*gui-w32-various*
+gui-w32-windowid	gui_w32.txt	/*gui-w32-windowid*
 gui-w32s	gui_w32.txt	/*gui-w32s*
 gui-win32-maximized	gui_w32.txt	/*gui-win32-maximized*
 gui-x11	gui_x11.txt	/*gui-x11*
@@ -5828,7 +5845,6 @@ highlight-stop	syntax.txt	/*highlight-stop*
 highlight-term	syntax.txt	/*highlight-term*
 highlightID()	eval.txt	/*highlightID()*
 highlight_exists()	eval.txt	/*highlight_exists()*
-his	cmdline.txt	/*his*
 hist-names	eval.txt	/*hist-names*
 histadd()	eval.txt	/*histadd()*
 histdel()	eval.txt	/*histdel()*
@@ -6031,6 +6047,7 @@ ident-search	tips.txt	/*ident-search*
 idl-syntax	syntax.txt	/*idl-syntax*
 idl.vim	syntax.txt	/*idl.vim*
 if_cscop.txt	if_cscop.txt	/*if_cscop.txt*
+if_ecl.txt	if_ecl.txt	/*if_ecl.txt*
 if_mzsch.txt	if_mzsch.txt	/*if_mzsch.txt*
 if_ole.txt	if_ole.txt	/*if_ole.txt*
 if_perl.txt	if_perl.txt	/*if_perl.txt*
@@ -6264,7 +6281,9 @@ masm.vim	syntax.txt	/*masm.vim*
 match()	eval.txt	/*match()*
 match-highlight	pattern.txt	/*match-highlight*
 match-parens	tips.txt	/*match-parens*
+matchadd()	eval.txt	/*matchadd()*
 matcharg()	eval.txt	/*matcharg()*
+matchdelete()	eval.txt	/*matchdelete()*
 matchend()	eval.txt	/*matchend()*
 matchit-install	usr_05.txt	/*matchit-install*
 matchlist()	eval.txt	/*matchlist()*
@@ -6626,6 +6645,7 @@ omni-sql-completion	sql.txt	/*omni-sql-completion*
 online-help	various.txt	/*online-help*
 opening-window	windows.txt	/*opening-window*
 operator	motion.txt	/*operator*
+operator-variable	eval.txt	/*operator-variable*
 option-backslash	options.txt	/*option-backslash*
 option-list	quickref.txt	/*option-list*
 option-summary	options.txt	/*option-summary*
@@ -7000,6 +7020,7 @@ setbufvar()	eval.txt	/*setbufvar()*
 setcmdpos()	eval.txt	/*setcmdpos()*
 setline()	eval.txt	/*setline()*
 setloclist()	eval.txt	/*setloclist()*
+setmatches()	eval.txt	/*setmatches()*
 setpos()	eval.txt	/*setpos()*
 setqflist()	eval.txt	/*setqflist()*
 setreg()	eval.txt	/*setreg()*
@@ -7244,6 +7265,7 @@ synload-3	syntax.txt	/*synload-3*
 synload-4	syntax.txt	/*synload-4*
 synload-5	syntax.txt	/*synload-5*
 synload-6	syntax.txt	/*synload-6*
+synstack()	eval.txt	/*synstack()*
 syntax	syntax.txt	/*syntax*
 syntax-highlighting	syntax.txt	/*syntax-highlighting*
 syntax-loading	syntax.txt	/*syntax-loading*
@@ -7668,6 +7690,7 @@ v:lnum	eval.txt	/*v:lnum*
 v:mouse_col	eval.txt	/*v:mouse_col*
 v:mouse_lnum	eval.txt	/*v:mouse_lnum*
 v:mouse_win	eval.txt	/*v:mouse_win*
+v:operator	eval.txt	/*v:operator*
 v:prevcount	eval.txt	/*v:prevcount*
 v:profiling	eval.txt	/*v:profiling*
 v:progname	eval.txt	/*v:progname*
@@ -7834,11 +7857,36 @@ vim-mac	intro.txt	/*vim-mac*
 vim-modes	intro.txt	/*vim-modes*
 vim-modes-intro	intro.txt	/*vim-modes-intro*
 vim-multibyte	intro.txt	/*vim-multibyte*
+vim-package	if_ecl.txt	/*vim-package*
 vim-script-intro	usr_41.txt	/*vim-script-intro*
 vim-variable	eval.txt	/*vim-variable*
 vim.vim	syntax.txt	/*vim.vim*
 vim7	version7.txt	/*vim7*
 vim:	options.txt	/*vim:*
+vim:add-input-listener	if_ecl.txt	/*vim:add-input-listener*
+vim:buffer-line-count	if_ecl.txt	/*vim:buffer-line-count*
+vim:buffer-lines	if_ecl.txt	/*vim:buffer-lines*
+vim:buffers	if_ecl.txt	/*vim:buffers*
+vim:cmd	if_ecl.txt	/*vim:cmd*
+vim:current-buffer	if_ecl.txt	/*vim:current-buffer*
+vim:current-window	if_ecl.txt	/*vim:current-window*
+vim:execute	if_ecl.txt	/*vim:execute*
+vim:expr	if_ecl.txt	/*vim:expr*
+vim:get-line	if_ecl.txt	/*vim:get-line*
+vim:map	if_ecl.txt	/*vim:map*
+vim:map!	if_ecl.txt	/*vim:map!*
+vim:maparg	if_ecl.txt	/*vim:maparg*
+vim:msg	if_ecl.txt	/*vim:msg*
+vim:range	if_ecl.txt	/*vim:range*
+vim:remove-input-listener	if_ecl.txt	/*vim:remove-input-listener*
+vim:replace-lines	if_ecl.txt	/*vim:replace-lines*
+vim:unmap	if_ecl.txt	/*vim:unmap*
+vim:unmap!	if_ecl.txt	/*vim:unmap!*
+vim:window-buffer	if_ecl.txt	/*vim:window-buffer*
+vim:window-cursor	if_ecl.txt	/*vim:window-cursor*
+vim:window-height	if_ecl.txt	/*vim:window-height*
+vim:window-width	if_ecl.txt	/*vim:window-width*
+vim:windows	if_ecl.txt	/*vim:windows*
 vimball	pi_vimball.txt	/*vimball*
 vimball-contents	pi_vimball.txt	/*vimball-contents*
 vimball-extract	pi_vimball.txt	/*vimball-extract*

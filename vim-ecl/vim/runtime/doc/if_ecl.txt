@@ -1,0 +1,231 @@
+*if_ecl.txt*      For Vim version 6.4.  Last change: 2006 09 March
+
+
+			     VIM REFERENCE MANUAL
+				      by
+		       Eirik A. Nygaard and Larry Clapp
+
+
+Ecl							*ecl*
+
+1. ECL commands			|ecl-commands|
+2. Vim package			|vim-package|
+
+==============================================================================
+1. ECL commands						*ecl-commands*
+
+							*:ecl*
+:ecl {cmd}		Executes {cmd} as a lisp expression.
+
+:ecl << {endpattern}
+{script}
+{endpattern}
+			Executes {script} as a lisp expression. If the
+			{endpattern} is omitted it defaults to '.' (a dot).
+
+Example script:
+	function! ECL_version()
+		ecl << EOF
+			(format t "Running ~A ~A"
+			  (CL:LISP-IMPLEMENTATION-TYPE)
+			  (CL:LISP-IMPLEMENTATION-VERSION))
+		EOF
+	endfunction
+
+:[range]ecl		Executes the content in [range] as a lisp expression.
+
+==============================================================================
+2. Vim package						*vim-package*
+
+To access Vim with ECL you have to use functions in the VIM package.  We don't
+recommend that you USE-PACKAGE the VIM package directly, because it contains
+Vim homographs of several CL functions (e.g. vim:append, vim:funcall,
+vim:setq, vim:search, and vim:map) that do wildly different things than their
+CL counterparts.  Just use a vim: prefix.
+
+Overview (not complete and a bit out of date; see if_ecl.lisp)
+
+							*vim:msg*
+vim:msg string		Print a message. 
+
+							*vim:cmd*
+vim:cmd string		Execute a Vim ex command, as if typed at the colon
+			prompt.  DOESN'T interpret special <> characters.
+
+							*vim:execute*
+vim:execute string	Executes a string using Vim's |:execute| command.
+			DOES interpret special <> characters.
+
+							*vim:expr*
+vim:expr string		Evaluates string as a Vim expression.
+			Returns the result as a string, or NIL on failure.
+
+							*vim:add-input-listener*
+vim:add-input-listener stream callback
+			Register callback to be invoked when data arrives on
+			stream.
+
+							*vim:remove-input-listener*
+vim:remove-input-listener stream
+			Unregister callback on stream.
+
+							*vim:range*
+vim:range		A variable containing a cons of start line and end
+			line, set when :ecl is called.
+
+							*vim:windows*
+vim:windows		Returns a list of Vim's windows.
+
+							*vim:current-window*
+vim:current-window	Returns the current window.
+
+							*vim:window-width*
+vim:window-width &optional window
+			Returns width of window, if no argument is given, it
+			defaults to the current window.
+
+							*vim:window-height*
+vim:window-height &optional window
+			Returns height of window, if no argument is given, it
+			defaults to the current window.
+
+							*vim:window-cursor*
+vim:window-cursor &optional window
+			Returns the position of the curser as a cons (lnum .
+			col) in window, window defaults to the current window.
+
+							*vim:window-buffer*
+vim:window-buffer &optional window
+			Returns the buffer in window, defaults to the current
+			window.
+
+							*vim:buffers*
+vim:buffers		Returns all buffers.
+
+							*vim:current-buffer*
+vim:current-buffer	Returns the current buffer.
+
+							*vim:buffer-line-count*
+vim:buffer-line-count &optional buffer
+			Number of lines in buffer, the buffer defaults to the
+			current buffer.
+
+							*vim:buffer-lines*
+vim:buffer-lines &key buffer start end
+			Returns the lines in buffer from start to end
+			(inclusive). Defaults: start 1, end lines in buffer,
+			and buffer to the current buffer.
+
+							*vim:get-line*
+vim:get-line n	Returns line number n.
+
+							*vim:replace-lines*
+vim:replace-lines lines :start x :end y :buffer buf
+			Replace lines from x to y (inclusive) with the content
+			of the lines (a list of strings) in buffer buf.
+			Defaults: :start 1, :end lines in buffer, and :buffer
+			to the current buffer.
+
+
+Mapping
+
+							*vim:maparg*
+vim:maparg {name} &key {mode} {abbr}
+
+  {name} - a string
+  {mode} - a keyword or string; see below
+  {abbr} - a generalized boolean
+
+  Returns the rhs ("right hand side") of mapping {name} in mode {mode}.  When
+  there is no mapping for {name}, returns NIL.
+
+  {mode} can be one of these keywords or strings (or NIL):
+
+    :normal             "n"
+    :visual-select      "v"
+    :operator-pending   "o"
+    :insert             "i"
+    :command            "c"
+    :lang-arg           "l"
+    NIL                 ""
+
+  When {mode} is omitted or NIL, the modes for "" are used (i.e. Normal,
+  Visual, and Operator-pending).
+
+  When {abbr} is non-NIL, use abbreviations instead of mappings.
+
+  See also |maparg()|.
+
+							*vim:map*
+vim:map {lhs} {rhs} &key {mode} {noremap} {flags}
+
+  Make a Vim mapping.  See |:map|.
+
+  {lhs}     - a string
+  {rhs}     - a string or function designator
+  {mode}    - a list designator
+  {noremap} - a generalized boolean
+  {flags}   - a list designator
+
+  {rhs} can be a string or a Lisp function.  A mapping to a Lisp function is
+  translated into a mapping that calls the function.
+
+  {mode} can be one of these keywords or strings, or a list thereof, or a
+  single multi-character string (e.g. "nvo"):
+
+    :normal             "n"
+    :visual-select      "v"
+    :visual		"x"
+    :select		"s"
+    :operator-pending   "o"
+    :insert             "i"
+    :command            "c"
+    :lang-arg           "l"
+    NIL                 ""
+
+  If you supply multiple {mode}s, vim:map will make one map per mode.
+
+  If {noremap} is non-NIL, then the mapping is not remapped.
+
+  {flags} can be one of these keywords or strings, or a list thereof:
+
+    :buffer		"<buffer>"		|:map-<buffer>|
+    :silent		"<silent>"		|:map-<silent>|
+    :special		"<special>"		|:map-<special>|
+    :script		"<script>"		|:map-<script>|
+    :unique		"<unique>"		|:map-<unique>|
+    :expr		"<expr>"		|:map-<expr>|
+
+							*vim:map!*
+vim:map! {lhs} {rhs} &key {noremap} {flags}
+
+  Convenience function.  Calls |vim:map| with modes :insert and :command.
+  Passes through {noremap} and {flags}.
+
+  See also |:map!|.
+
+							*vim:unmap*
+vim:unmap {lhs} &key {mode} {flags}
+
+  Remove the mappings of {lhs} for the specified modes.  The mapping may
+  remain defined for other modes where it applies.
+
+  {mode} and {flags} can take on the same values as in |vim:map|.
+
+  Returns whatever {lhs} was mapped to before you unmapped it.  If you specify
+  multiple modes, or "", returns multiple values.
+
+  See also |:unmap|.
+
+							*vim:unmap!*
+vim:unmap! {lhs} &key {flags}
+
+  Convenience function.  Calls vim:unmap with modes :insert and :command.
+
+  {flags} can take on the same values as in |vim:map|.
+
+  See also |:unmap!|.
+
+
+
+ vim:tw=78:ts=8:ft=help:norl:isk+=-

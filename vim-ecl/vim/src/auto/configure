@@ -309,7 +309,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS SET_MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP EGREP AWK STRIP CPP_MM OS_EXTRA_SRC OS_EXTRA_OBJ VIMNAME EXNAME VIEWNAME line_break dovimdiff dogvimdiff compiledby vi_cv_path_mzscheme MZSCHEME_SRC MZSCHEME_OBJ MZSCHEME_PRO MZSCHEME_LIBS MZSCHEME_CFLAGS vi_cv_path_perl vi_cv_perllib shrpenv PERL_SRC PERL_OBJ PERL_PRO PERL_CFLAGS PERL_LIBS vi_cv_path_python PYTHON_CONFDIR PYTHON_LIBS PYTHON_GETPATH_CFLAGS PYTHON_CFLAGS PYTHON_SRC PYTHON_OBJ vi_cv_path_tcl TCL_SRC TCL_OBJ TCL_PRO TCL_CFLAGS TCL_LIBS vi_cv_path_ruby RUBY_SRC RUBY_OBJ RUBY_PRO RUBY_CFLAGS RUBY_LIBS WORKSHOP_SRC WORKSHOP_OBJ NETBEANS_SRC NETBEANS_OBJ SNIFF_SRC SNIFF_OBJ xmkmfpath X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS X_LIB GTK_CONFIG GTK12_CONFIG PKG_CONFIG GTK_CFLAGS GTK_LIBS GTK_LIBNAME GNOME_LIBS GNOME_LIBDIR GNOME_INCLUDEDIR GNOME_CONFIG MOTIF_LIBNAME NARROW_PROTO GUI_INC_LOC GUI_LIB_LOC GUITYPE GUI_X_LIBS HANGULIN_SRC HANGULIN_OBJ TAGPRG INSTALL_LANGS INSTALL_TOOL_LANGS MSGFMT MAKEMO DEPEND_CFLAGS_FILTER LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS SET_MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP EGREP AWK STRIP CPP_MM OS_EXTRA_SRC OS_EXTRA_OBJ VIMNAME EXNAME VIEWNAME line_break dovimdiff dogvimdiff compiledby vi_cv_path_mzscheme MZSCHEME_SRC MZSCHEME_OBJ MZSCHEME_PRO MZSCHEME_LIBS MZSCHEME_CFLAGS vi_cv_path_perl vi_cv_perllib shrpenv PERL_SRC PERL_OBJ PERL_PRO PERL_CFLAGS vi_cv_path_ecl_config ECL_LIBS ECL_CFLAGS ECL_SRC ECL_OBJ PERL_LIBS vi_cv_path_python PYTHON_CONFDIR PYTHON_LIBS PYTHON_GETPATH_CFLAGS PYTHON_CFLAGS PYTHON_SRC PYTHON_OBJ vi_cv_path_tcl TCL_SRC TCL_OBJ TCL_PRO TCL_CFLAGS TCL_LIBS vi_cv_path_ruby RUBY_SRC RUBY_OBJ RUBY_PRO RUBY_CFLAGS RUBY_LIBS WORKSHOP_SRC WORKSHOP_OBJ NETBEANS_SRC NETBEANS_OBJ SNIFF_SRC SNIFF_OBJ xmkmfpath X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS X_LIB GTK_CONFIG GTK12_CONFIG PKG_CONFIG GTK_CFLAGS GTK_LIBS GTK_LIBNAME GNOME_LIBS GNOME_LIBDIR GNOME_INCLUDEDIR GNOME_CONFIG MOTIF_LIBNAME NARROW_PROTO GUI_INC_LOC GUI_LIB_LOC GUITYPE GUI_X_LIBS HANGULIN_SRC HANGULIN_OBJ TAGPRG INSTALL_LANGS INSTALL_TOOL_LANGS MSGFMT MAKEMO DEPEND_CFLAGS_FILTER LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -850,6 +850,7 @@ Optional Features:
   --disable-xsmp-interact Disable XSMP interaction
   --enable-mzschemeinterp   Include MzScheme interpreter.
   --enable-perlinterp     Include Perl interpreter.
+  --enable-eclinterp      Include ECL compiler.
   --enable-pythoninterp   Include Python interpreter.
   --enable-tclinterp      Include Tcl interpreter.
   --enable-rubyinterp     Include Ruby interpreter.
@@ -4167,6 +4168,152 @@ fi
 
 
 
+{ echo "$as_me:$LINENO: checking --enable-eclinterp argument" >&5
+echo $ECHO_N "checking --enable-eclinterp argument... $ECHO_C" >&6; }
+# Check whether --enable-eclinterp was given.
+if test "${enable_eclinterp+set}" = set; then
+  enableval=$enable_eclinterp;
+else
+  enable_eclinterp="no"
+fi
+
+{ echo "$as_me:$LINENO: result: $enable_eclinterp" >&5
+echo "${ECHO_T}$enable_eclinterp" >&6; }
+if test "$enable_eclinterp" = "yes"; then
+    # Extract the first word of "ecl-config", so it can be a program name with args.
+set dummy ecl-config; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_vi_cv_path_ecl_config+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $vi_cv_path_ecl_config in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_vi_cv_path_ecl_config="$vi_cv_path_ecl_config" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_vi_cv_path_ecl_config="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+vi_cv_path_ecl_config=$ac_cv_path_vi_cv_path_ecl_config
+if test -n "$vi_cv_path_ecl_config"; then
+  { echo "$as_me:$LINENO: result: $vi_cv_path_ecl_config" >&5
+echo "${ECHO_T}$vi_cv_path_ecl_config" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+  if test "X$vi_cv_path_ecl_config" != "X"; then
+
+        if test "${vi_cv_path_ecl_plibs+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+	vi_cv_path_ecl_plibs=`ecl-config --libs`
+
+fi
+
+
+    ECL_LIBS="${vi_cv_path_ecl_plibs}"
+    if test "${vi_cv_path_ecl_cflags+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+	vi_cv_path_ecl_cflags=`ecl-config --cflags`
+
+fi
+
+    ECL_CFLAGS="${vi_cv_path_ecl_cflags}"
+
+    ECL_SRC="if_ecl.c"
+    ECL_OBJ="objects/if_ecl.o"
+
+            { echo "$as_me:$LINENO: checking if compile and link flags for ECL are sane" >&5
+echo $ECHO_N "checking if compile and link flags for ECL are sane... $ECHO_C" >&6; }
+    cflags_save=$CFLAGS
+    libs_save=$LIBS
+    CFLAGS="$CFLAGS $ECL_CFLAGS"
+    LIBS="$LIBS $ECL_LIBS"
+    cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }; ecl_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	{ echo "$as_me:$LINENO: result: no: ECL DISABLED" >&5
+echo "${ECHO_T}no: ECL DISABLED" >&6; }; ecl_ok=no
+fi
+
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+    CFLAGS=$cflags_save
+    LIBS=$libs_save
+    if test $ecl_ok = yes; then
+      cat >>confdefs.h <<\_ACEOF
+#define FEAT_ECL 1
+_ACEOF
+
+    else
+      ECL_SRC=
+      ECL_OBJ=
+      ECL_LIBS=
+      ECL_CFLAGS=
+    fi
+  fi
+fi
 echo "$as_me:$LINENO: checking --enable-pythoninterp argument" >&5
 echo $ECHO_N "checking --enable-pythoninterp argument... $ECHO_C" >&6
 # Check whether --enable-pythoninterp or --disable-pythoninterp was given.
@@ -16188,6 +16335,11 @@ s,@PERL_OBJ@,$PERL_OBJ,;t t
 s,@PERL_PRO@,$PERL_PRO,;t t
 s,@PERL_CFLAGS@,$PERL_CFLAGS,;t t
 s,@PERL_LIBS@,$PERL_LIBS,;t t
+s,@vi_cv_path_ecl_config@,$vi_cv_path_ecl_config,;t t
+s,@ECL_LIBS@,$ECL_LIBS,;t t
+s,@ECL_CFLAGS@,$ECL_CFLAGS,;t t
+s,@ECL_SRC@,$ECL_SRC,;t t
+s,@ECL_OBJ@,$ECL_OBJ,;t t
 s,@vi_cv_path_python@,$vi_cv_path_python,;t t
 s,@PYTHON_CONFDIR@,$PYTHON_CONFDIR,;t t
 s,@PYTHON_LIBS@,$PYTHON_LIBS,;t t

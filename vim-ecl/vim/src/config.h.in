@@ -288,6 +288,9 @@
 /* Define if you want to include the Perl interpreter. */
 #undef FEAT_PERL
 
+/* Define if you want to include the ECL compiler. */
+#undef FEAT_ECL
+
 /* Define if you want to include the Python interpreter. */
 #undef FEAT_PYTHON
 
