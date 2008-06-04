@@ -8,7 +8,6 @@
   '(; These functions are implemented in if_ecl.c and probably use "internal"
     ; data structures.
     cmd expr
-    add-input-listener remove-input-listener
     windows current-window window-width window-height window-column window-cursor window-buffer
     buffers current-buffer buffer-line-count buffer-lines buffer-name
     replace-lines append-line-to-buffer append-to-buffer
@@ -85,39 +84,6 @@
   "Evaluates a Vim expression; returns the result as a string, or NIL"
   (check-type str string)
   (expr-int str))
-
-(let ((first t))
-  ; Make sure only one callback at a time.
-  (defun make-network-callback (stream callback)
-    "Make a callback.  Ensure that only one callback can be called at a time, system-wide."
-    (lambda ()
-      (when (and first (listen stream))
-	(unwind-protect
-	  (progn
-	    (setf first nil)
-	    (ignore-errors
-	      (cl:funcall callback stream)))
-	  (setf first t))))))
-
-(let ((callbacks (make-hash-table)))
-  ;; the hashtable is kept to ensure callback closures
-  ;; are not garbage collected.
-
-  (defun add-input-listener (stream callback)
-    "Registers a callback to be invoked when data arrives to a stream"
-    (check-type stream stream)
-    (check-type callback function)
-    (let ((network-callback (make-network-callback stream callback)))
-      (setf (gethash stream callbacks) network-callback)
-      (add-input-listener-int stream network-callback))
-    t)
-
-  (defun remove-input-listener (stream)
-    "Unregisters the input-listener for a stream"
-    (check-type stream stream)
-    (remove-input-listener-int stream)
-    (remhash stream callbacks)
-    t))
 
 ; Really need to change this to a "deftype" or something and use "check-type".
 (defun validate-window (w)

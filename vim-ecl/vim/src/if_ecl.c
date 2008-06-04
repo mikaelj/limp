@@ -39,8 +39,6 @@ static const char *g_vim_package_definition =
 "  (:export #:msg                                                           \n"
 "           #:execute                                                       \n"
 "	    #:expr							    \n"
-"           #:add-input-listener                                            \n"
-"           #:remove-input-listener                                         \n"
 "           ;; a cons of (start-line . end-line) set when :ecl is called    \n"
 "           #:range                                                         \n"
 "                                                                           \n"
@@ -294,40 +292,6 @@ static cl_object cl_vim_expr_int(cl_object cmd)
     return cl_result;
 }
 
-
-/*
- * Async socket reading.
- */
-static int listener_callback(int fd, void *data)
-{
-    cl_funcall(1, (cl_object) data);
-#ifdef FEAT_GUI    
-    if (gui.in_use)
-    {
-	gui_update_screen();
-    } else
-#endif
-    {
-	setcursor();
-	out_flush();
-	update_screen(NOT_VALID);
-    }
-    return 1;
-}
-
-static int cl_stream_fd(cl_object stream)
-{
-#ifdef FEAT_GUI_W32
-    int mode = stream->stream.mode;
-    if (mode == smm_input_wsock || mode == smm_output_wsock || mode == smm_io_wsock)
-	return (int) stream->stream.file;
-    else
-	return fileno(stream->stream.file);
-#else
-    return fileno(stream->stream.file);
-#endif
-}
-
 static cl_object cl_vim_kill_int (cl_object pid, cl_object sig)
 {
 #ifndef FEAT_GUI_W32
@@ -338,24 +302,6 @@ static cl_object cl_vim_kill_int (cl_object pid, cl_object sig)
     else
         return Cnil;
 #endif
-}
-
-static cl_object cl_vim_add_input_listener_int(cl_object stream, cl_object form)
-{
-#if 0
-    nwio_register_input_handler(cl_stream_fd(stream),
-                                listener_callback,
-                                (void *)form);
-#endif
-    return Ct;
-}
-
-static cl_object cl_vim_remove_input_listener_int(cl_object stream)
-{
-#if 0
-    nwio_unregister_input_handler(cl_stream_fd(stream));
-#endif
-    return Ct;
 }
 
 /*
@@ -686,11 +632,7 @@ RunEclCommand(exarg_T *eap, const char *cmd)
         cl_def_c_function_va(intern_vim("MSG-INT"), cl_vim_msg_int);
         cl_def_c_function(intern_vim("EXECUTE-INT"), cl_vim_execute_int, 1);
         cl_def_c_function(intern_vim("EXPR-INT"), cl_vim_expr_int, 1);
-        cl_def_c_function(intern_vim("ADD-INPUT-LISTENER-INT"), 
-                          cl_vim_add_input_listener_int, 2);
         cl_def_c_function(intern_vim("KILL-INT"), cl_vim_kill_int, 2);
-        cl_def_c_function(intern_vim("REMOVE-INPUT-LISTENER-INT"), 
-                          cl_vim_remove_input_listener_int, 1);
 
         g_window_symbol = intern_vim("WINDOW");
 

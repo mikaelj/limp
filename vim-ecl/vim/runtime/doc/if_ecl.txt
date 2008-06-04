@@ -60,15 +60,6 @@ vim:execute string	Executes a string using Vim's |:execute| command.
 vim:expr string		Evaluates string as a Vim expression.
 			Returns the result as a string, or NIL on failure.
 
-							*vim:add-input-listener*
-vim:add-input-listener stream callback
-			Register callback to be invoked when data arrives on
-			stream.
-
-							*vim:remove-input-listener*
-vim:remove-input-listener stream
-			Unregister callback on stream.
-
 							*vim:range*
 vim:range		A variable containing a cons of start line and end
 			line, set when :ecl is called.
