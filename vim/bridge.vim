@@ -258,49 +258,49 @@ augroup END
 " plugin <-> function mappings
 "-------------------------------------------------------------------
 
-nnoremap <buffer> <unique> <Plug>LimpBootConnectDisplay  :call LimpBridge_boot_or_connect_or_display()<CR>
-nnoremap <buffer> <unique> <Plug>LimpDisconnect          :call LimpBridge_disconnect()<CR>
-nnoremap <buffer> <unique> <Plug>LimpShutdownLisp        :call LimpBridge_shutdown_lisp()<CR>
+nnoremap <silent> <buffer> <Plug>LimpBootConnectDisplay  :call LimpBridge_boot_or_connect_or_display()<CR>
+nnoremap <silent> <buffer> <Plug>LimpDisconnect          :call LimpBridge_disconnect()<CR>
+nnoremap <silent> <buffer> <Plug>LimpShutdownLisp        :call LimpBridge_shutdown_lisp()<CR>
 
-nnoremap <buffer> <unique> <Plug>EvalTop        :call LimpBridge_eval_top_form()<CR>
-nnoremap <buffer> <unique> <Plug>EvalCurrent    :call LimpBridge_eval_current_form()<CR>
-nnoremap <buffer> <unique> <Plug>EvalExpression :call LimpBridge_prompt_eval_expression()<CR>
+nnoremap <silent> <buffer> <Plug>EvalTop        :call LimpBridge_eval_top_form()<CR>
+nnoremap <silent> <buffer> <Plug>EvalCurrent    :call LimpBridge_eval_current_form()<CR>
+nnoremap <silent> <buffer> <Plug>EvalExpression :call LimpBridge_prompt_eval_expression()<CR>
 
-vnoremap <buffer> <unique> <Plug>EvalBlock      :call LimpBridge_eval_block()<cr>
+vnoremap <silent> <buffer> <Plug>EvalBlock      :call LimpBridge_eval_block()<cr>
 
-nnoremap <buffer> <unique> <Plug>AbortReset     :call LimpBridge_send_to_lisp( "ABORT\n" )<CR>
-nnoremap <buffer> <unique> <Plug>AbortInterrupt :call LimpBridge_send_to_lisp( "" )<CR>
+nnoremap <silent> <buffer> <Plug>AbortReset     :call LimpBridge_send_to_lisp( "ABORT\n" )<CR>
+nnoremap <silent> <buffer> <Plug>AbortInterrupt :call LimpBridge_send_to_lisp( "" )<CR>
 
-nnoremap <buffer> <unique> <Plug>TestCurrent    :call  LimpBridge_stuff_current_form()<CR>
-nnoremap <buffer> <unique> <Plug>TestTop        :call  LimpBridge_stuff_top_form()<CR>
+nnoremap <silent> <buffer> <Plug>TestCurrent    :call  LimpBridge_stuff_current_form()<CR>
+nnoremap <silent> <buffer> <Plug>TestTop        :call  LimpBridge_stuff_top_form()<CR>
 
-nnoremap <buffer> <unique> <Plug>LoadThisFile    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p" ) . "\")\n")<CR>
-nnoremap <buffer> <unique> <Plug>LoadAnyFile     :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
+nnoremap <silent> <buffer> <Plug>LoadThisFile    :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p" ) . "\")\n")<CR>
+nnoremap <silent> <buffer> <Plug>LoadAnyFile     :call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
 
-nnoremap <buffer> <unique> <Plug>CompileFile        :w! <bar> call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
+nnoremap <silent> <buffer> <Plug>CompileFile        :w! <bar> call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n")<CR>
 
 " XXX: What's the proprer syntax for calling >1 Plug?
-""nnoremap <buffer> <unique> <Plug>CompileAndLoadFile <Plug>CompileFile <bar> <Plug>LoadAnyFile
-nnoremap <buffer> <unique> <Plug>CompileAndLoadFile   :w! <bar> call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n") <bar> call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
+""nnoremap <buffer> <Plug>CompileAndLoadFile <Plug>CompileFile <bar> <Plug>LoadAnyFile
+nnoremap <silent> <buffer> <Plug>CompileAndLoadFile   :w! <bar> call LimpBridge_send_to_lisp("(compile-file \"".expand("%:p")."\")\n") <bar> call LimpBridge_send_to_lisp( "(load \"" . expand( "%:p:r" ) . "\")\n")<CR>
 
 " Goto Test Buffer:
 " Goto Split:         split current buffer and goto test buffer
-nnoremap <buffer> <unique> <Plug>GotoTestBuffer           :call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
-nnoremap <buffer> <unique> <Plug>GotoTestBufferAndSplit   :sb <bar> call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
+nnoremap <silent> <buffer> <Plug>GotoTestBuffer           :call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
+nnoremap <silent> <buffer> <Plug>GotoTestBufferAndSplit   :sb <bar> call LimpBridge_goto_buffer_or_window(g:limp_bridge_test)<CR>
 
 " Goto Last:          return to g:limp_bridge_last_lisp, i.e. last buffer
-nnoremap <buffer> <unique> <Plug>GotoLastLispBuffer   :call LimpBridge_goto_buffer_or_window(g:limp_bridge_last_lisp)<CR>
+nnoremap <silent> <buffer> <Plug>GotoLastLispBuffer   :call LimpBridge_goto_buffer_or_window(g:limp_bridge_last_lisp)<CR>
 
 " HyperSpec:
-nnoremap <buffer> <unique> <Plug>HyperspecExact    :call LimpBridge_hyperspec("exact", 0)<CR>
-nnoremap <buffer> <unique> <Plug>HyperspecPrefix   :call LimpBridge_hyperspec("prefix", 1)<CR>
-nnoremap <buffer> <unique> <Plug>HyperspecSuffix   :call LimpBridge_hyperspec("suffix", 1)<CR>
-nnoremap <buffer> <unique> <Plug>HyperspecGrep             :call LimpBridge_hyperspec("grep", 1)<CR>
-nnoremap <buffer> <unique> <Plug>HyperspecFirstLetterIndex :call LimpBridge_hyperspec("index", 0)<CR>
-nnoremap <buffer> <unique> <Plug>HyperspecFullIndex   :call LimpBridge_hyperspec("index-page", 0)<CR>
+nnoremap <silent> <buffer> <Plug>HyperspecExact    :call LimpBridge_hyperspec("exact", 0)<CR>
+nnoremap <silent> <buffer> <Plug>HyperspecPrefix   :call LimpBridge_hyperspec("prefix", 1)<CR>
+nnoremap <silent> <buffer> <Plug>HyperspecSuffix   :call LimpBridge_hyperspec("suffix", 1)<CR>
+nnoremap <silent> <buffer> <Plug>HyperspecGrep             :call LimpBridge_hyperspec("grep", 1)<CR>
+nnoremap <silent> <buffer> <Plug>HyperspecFirstLetterIndex :call LimpBridge_hyperspec("index", 0)<CR>
+nnoremap <silent> <buffer> <Plug>HyperspecFullIndex   :call LimpBridge_hyperspec("index-page", 0)<CR>
 
 " Help Describe:      ask Lisp about the current symbol
-nnoremap <buffer> <unique> <Plug>HelpDescribe   :call LimpBridge_send_to_lisp("(describe '".expand("<cword>").")")<CR>
+nnoremap <silent> <buffer> <Plug>HelpDescribe   :call LimpBridge_send_to_lisp("(describe '".expand("<cword>").")")<CR>
 
 
 "-------------------------------------------------------------------

@@ -22,21 +22,21 @@
 " * Based on ViLisp.vim by Larry Clapp <vim@theclapp.org>
 
 " Mark Top:           mark visual block
-nnoremap <buffer> <unique> <Plug>MarkTop 99[(V%
+nnoremap <buffer> <Plug>MarkTop 99[(V%
 
 " Format Current:     reindent/format
 " Format Top:    
-nnoremap <buffer> <unique> <Plug>FormatCurrent   [(=%`'
-nnoremap <buffer> <unique> <Plug>FormatTop       99[(=%`'
+nnoremap <buffer> <Plug>FormatCurrent   [(=%`'
+nnoremap <buffer> <Plug>FormatTop       99[(=%`'
 
 " Sexp Wrap: 	     wrap the current form in a list
 " Sexp Peel:         peel a list off the current form
-nnoremap <buffer> <unique> <Plug>SexpWrap   :call Cursor_push()<CR>[(%a)<ESC>h%i(<ESC>:call Cursor_pop()<CR>
-nnoremap <buffer> <unique> <Plug>SexpPeel   :call Cursor_push()<CR>[(:call Cursor_push()<CR>%x:call Cursor_pop()<CR>x:call Cursor_pop()<CR>
+nnoremap <silent> <buffer> <Plug>SexpWrap   :call Cursor_push()<CR>[(%a)<ESC>h%i(<ESC>:call Cursor_pop()<CR>
+nnoremap <silent> <buffer> <Plug>SexpPeel   :call Cursor_push()<CR>[(:call Cursor_push()<CR>%x:call Cursor_pop()<CR>x:call Cursor_pop()<CR>
 
 " Sexp Comment:      comment all the way from the top level
-nnoremap <buffer> <unique> <Plug>SexpComment   :call Cursor_push()<CR>99[(%a\|#<ESC>hh%i#\|<ESC>:call Cursor_pop()<CR>
+nnoremap <silent> <buffer> <Plug>SexpComment   :call Cursor_push()<CR>99[(%a\|#<ESC>hh%i#\|<ESC>:call Cursor_pop()<CR>
 
 " Sexp Comment Current:    comment current form
-nnoremap <buffer> <unique> <Plug>SexpCommentCurrent :call Cursor_push()<CR>[(%a\|#<ESC>hh%i#\|<ESC>:call Cursor_pop()<CR>
+nnoremap <silent> <buffer> <Plug>SexpCommentCurrent :call Cursor_push()<CR>[(%a\|#<ESC>hh%i#\|<ESC>:call Cursor_pop()<CR>
 
