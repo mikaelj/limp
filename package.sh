@@ -1,34 +1,27 @@
 #!/bin/bash
 
-fail() {
-    echo $*
-    exit 1
-}
+VERSION=0.3.4
+PACKAGE=limp-$VERSION
+INSTALL=$PACKAGE/$VERSION
 
-if [[ "$1" == "" ]]; then
-    fail "Must specify the name of the tag."
-fi
+mkdir -p $INSTALL
+mkdir $INSTALL/docs
 
-TAG=$1
+echo "Generating documentation..."
+cd docs && rst2html.py index.txt index.html; cd ..
 
-if [[ ! -d "tag/$TAG" ]]; then
-    # not there, try svn up-ing it first.
-    echo "Checking out $TAG"
-    svn up tag/$TAG > /dev/null
-    if [[ "$?" -gt 0 ]]; then
-        fail "Invalid tag name, or connection error."
-    fi
-fi
-PACKAGE=lim-$TAG
-rm -rf $PACKAGE
+echo "Copying..."
+cp -r docs/{index.html,screenshots,*png} $INSTALL/docs
+cp -r bin vim $INSTALL
 
-cd tag
-cp -r $TAG $PACKAGE
+cp -r install.sh $PACKAGE
+
 echo "Removing Subversion files."
 find $PACKAGE -name .svn -type d -exec rm -rf "{}" 2> /dev/null \; 
+
 echo "Packing..."
 tar czf ${PACKAGE}.tar.gz $PACKAGE
 rm -rf $PACKAGE
 mv ${PACKAGE}.tar.gz ..
-echo "Packaged $TAG in ${PACKAGE}.tar.gz"
+echo "Packaged $VERSION in ${PACKAGE}.tar.gz"
 
