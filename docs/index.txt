@@ -41,9 +41,77 @@ Features include:
 .. contents::
    :depth: 2
 
+Installation
+============
+Upgrading from 0.3.2 and earlier
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Limp is now a filetype plugin.  If you're using 0.3.2 or earlier, you need to
+remove your old installation of Limp, i.e.::
+
+  $ rm -rf ~/.vim/plugin/limp.vim
+  $ rm -rf ~/.vim/limp
+
+then proceed with the installation as described below.
+
+Dependencies
+~~~~~~~~~~~~~
+Limp relies on a few application and packages.
+
+* Vim7.x with +eval
+* SBCL
+* rlwrap for SBCL command-line editing
+* UNIX SCREEN for SBCL communication
+* The Common Lisp Hyperspec for the For the Lisp thesaurus
+* Perl for generating the Lisp thesaurus
+
+These are easily installable on Debian-based systems such as Ubuntu::
+
+  $ sudo aptitude install vim-full sbcl hyperspec rlwrap screen perl
+
+Automatic
+~~~~~~~~~~
+Unpack the archive, change to the newly created directory and run the
+installation script::
+
+  $ sudo ./install.sh
+
+This will install Limp in ``/usr/local/limp/0.3.4``, symlink it to ``latest``
+in the same directory, and finally make a symlink in your Vim configuration
+directory's ``ftplugin/lisp`` pointing to Limp (creating it if it doesn't
+already exist).
+
+Optional
+--------
+I've also included a nifty color scheme, for 256-color-capable terminals:
+``0.3.4/vim/desert256.vim``. Copy it to your ``$HOME/.vim/colors`` directory.
+
+If you're planning on using the command line tool ``lisp.sh`` to
+list/boot/connect to Lisp listeners, make a symlink like this::
+
+  $ ln -sf /usr/local/limp/0.3.4/bin/lisp.sh /usr/local/bin
+
+Manual
+~~~~~~
+Unless installed in ``/usr/local/limp/0.3.4``, Limp needs to have the variable
+``$LIMPRUNTIME`` pointing to the base directory, so add this to your
+``~/.bash_profile`` (or equivalent settings file for your shell)::
+
+  export LIMPRUNTIME=/path/to/limp/0.3.4
+
+Place 0.3.4 in the directory pointed out by ``$LIMPRUNTIME`` and setup the
+following symlinks::
+
+  $ ln -sf $LIMPRUNTIME/vim $HOME/.vim/ftplugin/lisp/limp
+  $ ln -sf limp/limp.vim $HOME/.vim/ftplugin/lisp/limp.vim
+
+Finally, generate the Lisp thesaurus::
+
+  $ cd $LIMPRUNTIME/bin
+  $ ./make-thesaurus.sh
+
 Quickstart
 ============
-First, follow the instructions for installing Limp.
+This should get you going with Limp!
 
 .. figure:: screenshots/disconnected.png
 
@@ -322,34 +390,6 @@ The default settings in Limp. All bindings can be easily changed in ``$LIMPRUNTI
 The rest of the bindings assumes ``<LocalLeader>`` == "\\", which is the default.
 Some people prefer ``let maplocalleader = ","``.
 
-OS X Notes
---------------
-Depending on your keyboard preferences, you might have to press
-``Cmd-(Shift-)F12``.  Also, ``Ctrl-F12`` seems to be chomped by the system, so
-you'll have to change ``vim/limp.vim`` to use something else than ``<C-F12>`` for
-disconnect. (Or, you can simply quit Vim; that'll have the same effect.)
-
-Also, if Vim doesn't say you're connected after booting Lisp, you might have
-to set the proper location to SBCL/SBCL_HOME in ``bin/lisp.sh``.
-
-Useful Vim Commands
---------------------
-Vim comes with support for a few useful things out-of-the-box. You should try
-these out:
-
-[<CTRL-I>
-    Jump to the definition of the word under the cursor
-
-[I
-    Display all lines containing the word under the cursor.
-
-Exuberant Ctags works perfectly well for Lisp source code, so you can use the
-tag system to navigate in your Lisp source code. For non-US keyboards, the
-default keybinding can be impossible to type in. Here's a better mapping,
-``<Ctrl-Space>`` (... which generates C-@)::
-
-  map <C-@> <C-]>
-
 Listener
 --------
 This is a regular screen session.  Escape is ``<Ctrl-z>``, and ``<F12>`` is mapped to
@@ -413,55 +453,45 @@ When typing an opening bracket, paren or double-quote, it automatically adds the
 bracket. You can now either type the closing symbol yourself or skip it
 altogether.  Backspacing over it removes the pair.
 
-Upgrading
-=========
-From <= 0.3.2 to 0.3.3
-~~~~~~~~~~~~~~~~~~~~~~~~
-Limp is now a filetype plugin.  If you're using 0.3.2 or earlier, you need to
-remove your old installation of Limp, i.e. ``rm -rf ~/.vim/plugin/limp.vim && rm -rf ~/.vim/limp``, then
-proceed with the installation as described below.
+OS X Notes
+--------------
+Depending on your keyboard preferences, you might have to press
+``Cmd-(Shift-)F12``.  Also, ``Ctrl-F12`` seems to be chomped by the system, so
+you'll have to change ``vim/limp.vim`` to use something else than ``<C-F12>`` for
+disconnect. (Or, you can simply quit Vim; that'll have the same effect.)
 
-Installation
-============
-I'm going to assume Limp will be installed /usr/local/limp-x.y, but you can place it wherever you want to. 
-The name of the directory isn't important either, as long as ``$LIMPRUNTIME`` is properly set.
-NOTE: It must be set regardless of the installation directory, even /usr/local!
+Also, if Vim doesn't say you're connected after booting Lisp, you might have
+to set the proper location to SBCL/SBCL_HOME in ``bin/lisp.sh``.
 
-Step-by-step instructions::
+Useful Vim Commands
+--------------------
+Vim comes with support for a few useful things out-of-the-box. You should try
+these out:
 
-  cd /usr/local
-  tar /path/to/limp-x.y.tar.gz
-  mkdir -p $HOME/.vim/ftplugin/lisp
-  ln -sf /usr/local/limp-x.y/vim $HOME/.vim/ftplugin/lisp/limp
-  ln -sf limp/limp.vim $HOME/.vim/ftplugin/lisp/limp.vim
+[<CTRL-I>
+    Jump to the definition of the word under the cursor
 
-Optionally, for the 256-color colorscheme::
+[I
+    Display all lines containing the word under the cursor.
 
-   cp $LIMPRUNTIME/vim/desert256.vim $HOME/.vim/colors/desert256.vim
+Exuberant Ctags works perfectly well for Lisp source code, so you can use the
+tag system to navigate in your Lisp source code. For non-US keyboards, the
+default keybinding can be impossible to type in. Here's a better mapping,
+``<Ctrl-Space>`` (... which generates C-@)::
 
-Limp relies on the variable ``$LIMPRUNTIME`` pointing to the base directory, so add this to your ``~/.bashrc``::
+  map <C-@> <C-]>
 
-  export LIMPRUNTIME=/usr/local/limp-x.y
 
-The following step is not required for using Limp with Vim, but if you're planning on using the command line tool, make a symlink like this::
-
-  ln -sf $LIMPRUNTIME/bin/lisp.sh /usr/local/bin
-
-Note that you probably will want to remove older versions of Lim if you've got
-that installed, and that it's not *LIMP* RUNTIME, not *LIM* RUNTIME
-
-Moreover, in order to get the Lisp symbol thesaurus (for auto-completion) working in
-Vim, you need to regenerate the data for Vim.  This is a change from earlier
-versions of Limp that distributed the generated file. The following commands
-will create the the file ``$LIMPRUNTIME/vim/thesaurus``, assuming you have the
-HyperSpec installed in ``/usr/share/doc/hyperspec`` (default location for ``apt-get
-install hyperspec``)::
-
-  cd $LIMPRUNTIME/bin
-  ./make-thesaurus.sh
 
 Changelog
 =========
+Version 0.3.4
+~~~~~~~~~~~~~
+* 2008-06-07 by Mikael Jansson <mail@mikael.jansson.be>
+
+  + Proper installation script, with optional customization of the
+    installation directory.
+
 Version 0.3.3
 ~~~~~~~~~~~~~
 * 2008-05-23 by Mikael Jansson <mail@mikael.jansson.be>
@@ -543,8 +573,9 @@ Version 0.1
 
 Known Issues
 ============
-* When the Lisp disappears, no warning is given when trying to send code to it. When that happens,
-  disconnect (``<Control-F12>``) and reconnect.
+* When the Lisp disappears, no warning is given when trying to send code to it
+  (you will get an error message, though). When that happens, disconnect
+  (``<Control-F12>``) and reconnect.
 
 Authors
 =======
