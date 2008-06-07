@@ -491,6 +491,8 @@ Version 0.3.4
 
   + Proper installation script, with optional customization of the
     installation directory.
+  + More robust method for getting the screen's STY
+  + Lisp displayed directly after boot.
 
 Version 0.3.3
 ~~~~~~~~~~~~~
