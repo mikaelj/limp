@@ -323,7 +323,7 @@ endfunction
 
 function! LimpBridge_get_pos()
   " what buffer are we in?
-  let bufname = bufname( "%" )
+  let bufnr = bufnr( "%" )
 
   " get current position
   let c_cur = virtcol( "." )
@@ -331,7 +331,7 @@ function! LimpBridge_get_pos()
   normal! H
   let l_top = line( "." )
 
-  let pos = bufname . "|" . l_top . "," . l_cur . "," . c_cur
+  let pos = bufnr . "|" . l_top . "," . l_cur . "," . c_cur
 
   " go back
   exe "normal! " l_cur . "G" . c_cur . "|"
@@ -341,13 +341,13 @@ endfunction
 
 
 function! LimpBridge_goto_pos( pos )
-  let mx = '\(\f\+\)|\(\d\+\),\(\d\+\),\(\d\+\)'
-  let bufname = substitute( a:pos, mx, '\1', '' )
+  let mx = '\(\d\+\)|\(\d\+\),\(\d\+\),\(\d\+\)'
+  let bufnr = substitute( a:pos, mx, '\1', '' )
   let l_top = substitute( a:pos, mx, '\2', '' )
   let l_cur = substitute( a:pos, mx, '\3', '' )
   let c_cur = substitute( a:pos, mx, '\4', '' )
 
-  silent exe "hide bu" bufname
+  silent exe "hide bu" bufnr
   silent exe "normal! " . l_top . "Gzt" . l_cur . "G" . c_cur . "|"
 endfunction
 
