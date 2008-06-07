@@ -37,7 +37,13 @@
 "-------------------------------------------------------------------
 " only do these things once
 
+let s:Limp_version="0.3.4"
+
 let s:Limp_location = expand("$LIMPRUNTIME")
+"if s:Limp_location == "" || s:Limp_location == "$LIMPRUNTIME"
+if !filereadable(s:Limp_location . "/vim/limp.vim") 
+    let s:Limp_location = "/usr/local/limp/" . s:Limp_version
+endif
 
 " prefix for the pipe used for communication
 let s:limp_bridge_channel_base = $HOME . "/.limp_bridge_channel-"
@@ -74,7 +80,7 @@ endfun
 "
 fun! LimpBridge_connect(...)
     if s:limp_bridge_connected == 1
-        echom "Already to connected to Lisp!"
+        echom "Already connected to Lisp!"
         return 2
     endif
     if a:0 == 1 && a:1 != ""

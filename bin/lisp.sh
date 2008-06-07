@@ -14,7 +14,9 @@ SBCL_CORE=
 # ----------------------------
 
 progname=lisp.sh
-version=$Revision$
+VERSION=0.3.4
+
+LIMPDIR=${LIMPRUNTIME:-/usr/local/limp/$VERSION}
 
 if [[ "$SBCL" == "" ]]; then
     # guess for OS X
@@ -33,7 +35,7 @@ if [[ "$SBCL" == "" ]]; then
 fi
 
 print_version() {
-    echo "$progname $version."
+    echo "$progname $VERSION."
 }
 
 print_help() {
@@ -198,7 +200,7 @@ elif [[ "$BOOT" == "1" ]]; then
     # no flow control
     echo "defflow         off" >> $initfile
 
-    echo "screen -t Lisp 0 $LIMPRUNTIME/bin/lisp.sh $core_opt -P $initfile -p $styfile" >> $initfile
+    echo "screen -t Lisp 0 $LIMPDIR/bin/lisp.sh $core_opt -P $initfile -p $styfile" >> $initfile
 
     screen -c $initfile -dmS limp_listener-$NAME 
 
