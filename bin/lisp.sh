@@ -45,11 +45,13 @@ Usage: $progname [options] [name-or-PID]
 Connects to the Lisp specified by name-or-PID, or boot a new called 'name'.
 
 Options:
-  -h       Print help (this text) and exit
-  -v       Print version information and exit
-  -b       Boot a fresh Lisp
-  -c path  Use the specified core instead of the default
-  -l       Display running Lisps
+  -h          Print help (this text) and exit
+  -v          Print version information and exit
+  -b          Boot a fresh Lisp
+  -c path     Use the specified core instead of the default
+  -l          Display running Lisps
+  -s styfile  Put the screen ID in this file, otherwise
+              display on standard output.
 
   Name must be unique! (But isn't currently enforced.)
 
@@ -66,7 +68,7 @@ list_running_lisps() {
     screen -ls | sed -ne 's/[^0-9]\+\([0-9]\+\)\.limp_listener-\([a-z0-9]\+\).*/  \2 (\1)/p' | sort -k1,1
 }
 
-SHORTOPTS="hvblc:p:P:"
+SHORTOPTS="hvblc:s:p:P:"
 
 export GETOPT_COMPATIBLE=1
 OPTS=$(getopt $SHORTOPTS $*)
@@ -89,6 +91,11 @@ while [ $# -gt 0 ]; do
                     esac ;;
         -l)         list_running_lisps
                     exit 0;;
+        -s)         case "$2" in
+                        "") echo "-s must be given a file to write the screen ID to"; 
+                            exit 1;;
+                        *) LIMP_SCREEN_STY_FILE=$2; shift 2;;
+                    esac ;;
         # magic!
         -p)         DO_BOOT=1;
                     case "$2" in 
@@ -167,7 +174,11 @@ elif [[ "$BOOT" == "1" ]]; then
     fi
 
     initfile=$(mktemp /tmp/limp_bridge-screenrc.XXXXXX)
-    styfile=$(mktemp /tmp/limp_sty_XXXXXX)
+    if [[ "$LIMP_SCREEN_STY_FILE" == "" ]]; then
+        styfile=$(mktemp /tmp/limp_sty_XXXXXX)
+    else
+        styfile=$LIMP_SCREEN_STY_FILE
+    fi
 
     #
     # to work around braindead versions of echo without -e
@@ -209,9 +220,12 @@ elif [[ "$BOOT" == "1" ]]; then
         sleep 1s
     done
 
-    # to give the STY back to Vim
-    cat $styfile
-    rm -f $styfile
+    if [[ "$LIMP_SCREEN_STY_FILE" == "" ]]; then
+
+        # to give the STY back to Vim
+        cat $styfile
+        rm -f $styfile
+    fi
 
     exit 0
 else

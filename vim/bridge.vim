@@ -226,8 +226,23 @@ fun! LimpBridge_boot_or_connect_or_display()
             else
                 echom "Booting..."
             endif
-            let sty = system("$LIMPRUNTIME/bin/lisp.sh ".core_opt." -b ".name)
+            let styfile = tempname()
+            let cmd = s:Limp_location . "/bin/lisp.sh ".core_opt."-s ".styfile." -b ".name
+            call system(cmd)
+            while getfsize(styfile) <= len("limp_listener")
+                sleep 200m
+            endwhile
+            " needs to be binary, or readfile() expects a newline...
+            let lines = readfile(styfile, 'b')
+            if len(lines) < 1
+                echom "Error getting screen ID!"
+                return
+            endif
+
+            let sty = lines[0]
+            call delete(styfile)
             call LimpBridge_connect(sty)
+            call LimpBridge_boot_or_connect_or_display()
         endif
   endif
 endfun
