@@ -108,15 +108,47 @@ fun! Sexp_MoveBack()
         call Sexp_Previous()
     endif
 
-    " copy and replace current s-exp with whitespace
+    "
+    " Find out if the previous s-exp is the parent of the current
+    "
+    " This by searching to the previous s-exp, doing a % and checking either
+    " of the following conditions:
+    "
+    " * prev_line2 == this_line2 && prev_col2 > this_col2
+    " * prev_line2 > this_line2
+    "
+    " where prev_line2/prev_col2 = the ) of the previous match, and
+    "       this_line2/this_col2   = the ) of the current s-exp.
+    "
+    
+    " so we can get back.
     silent! norm! ma
-    let [b, line1, c, o] = getpos('.')
+    let [b, this_line1, this_col1, o] = getpos('.')
 
+    " where does the *current* s-exp end?
+    silent! norm! %
+    let [b, this_line2, this_col2, o] = getpos('.')
+    silent! norm! %
+
+    " where does the previous s-exp end?
+    call Sexp_Previous()
+    let [b, prev_line1, prev_col1, o] = getpos('.')
+    silent! norm! %
+    let [b, prev_line2, prev_col2, o] = getpos('.')
+    silent! norm! `a
+
+    if (prev_line2 == this_line2 && prev_col2 > this_col2) || (prev_line2 > this_line2)
+        " For now, just do nothing
+        echom "Trying to transpose s-exp backwards with parent."
+        return
+    endif
+
+    " copy and replace current s-exp with whitespace
     silent! norm! "adab
     let @c = Fill(" ", len(@a))
     silent! norm! "cP
 
-    " same thing with next.
+    " same thing with previous.
     call Sexp_Previous()
     let [b, line2, c, o] = getpos('.')
 
@@ -125,7 +157,7 @@ fun! Sexp_MoveBack()
     let @c = Fill(" ", len(@b))
     silent! norm! "cP
 
-    if line1 == line2
+    if this_line1 == prev_line1
         " second position will be offset by pasting a s-exp
         " of a different size than the first.
         if len(@a) < len(@b)
