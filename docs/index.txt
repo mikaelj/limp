@@ -41,6 +41,21 @@ Features include:
 .. contents::
    :depth: 2
 
+What's New in 0.3.4?
+=====================
+* Lisp listener shown at boot time.
+* Features:
+
+  + `#21 (,) to navigate, {,} to transpose <http://mikael.jansson.be/hacking/limp/ticket/21>`_
+  + `#20 Proper installer <http://mikael.jansson.be/hacking/limp/ticket/20>`_
+
+* Fixes:
+
+  + `#15 Mappings set twice when switching from Lisp to non-Lisp to Lisp buffer <http://mikael.jansson.be/hacking/limp/ticket/15>`_
+  + `#16 Have Vim decide the $STY-file <http://mikael.jansson.be/hacking/limp/ticket/16>`_
+  + `#19 EvalTop on noname buffer gives error messages <http://mikael.jansson.be/hacking/limp/ticket/19>`_
+
+
 Installation
 ============
 Upgrading from 0.3.2 and earlier
@@ -487,13 +502,6 @@ default keybinding can be impossible to type in. Here's a better mapping,
 
 Changelog
 =========
-Version 0.3.4
-~~~~~~~~~~~~~
-* 2008-06-07 by Mikael Jansson <mail@mikael.jansson.be>
-
-  + Lisp listener shown at boot time.
-
-
 Version 0.3.3
 ~~~~~~~~~~~~~
 * 2008-05-23 by Mikael Jansson <mail@mikael.jansson.be>
