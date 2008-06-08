@@ -8,7 +8,7 @@ mkdir -p $INSTALL
 mkdir $INSTALL/docs
 
 echo "Generating documentation..."
-cd docs && rst2html.py index.txt index.html; cd ..
+cd docs && rst2html.py --cloak-email-addresses index.txt index.html; cd ..
 
 echo "Copying..."
 cp -r docs/{index.html,screenshots,*png} $INSTALL/docs
