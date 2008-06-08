@@ -422,6 +422,8 @@ Source transformation.
 * ``\sp``: *(S-exp Peel)*: Peel off a list around the current s-exp
 * ``\sc`` :*(S-exp Comment top)*: Comment top form
 * ``\sC`` :*(S-exp comment Current)*: Comment current form
+* ``(, )``: Go to previous/next s-exp
+* ``{, }``: Transpose current s-exp backward/forward
 
 Limp
 ----
@@ -489,10 +491,8 @@ Version 0.3.4
 ~~~~~~~~~~~~~
 * 2008-06-07 by Mikael Jansson <mail@mikael.jansson.be>
 
-  + Proper installation script, with optional customization of the
-    installation directory.
-  + More robust method for getting the screen's STY
-  + Lisp displayed directly after boot.
+  + Lisp listener shown at boot time.
+
 
 Version 0.3.3
 ~~~~~~~~~~~~~
