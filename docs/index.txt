@@ -33,6 +33,7 @@ Features include:
 * booting/attaching/detaching a Lisp (SBCL) from Vim or a command-line script, optionally specifying a core;
 * send code to the attached Lisp (and limited introspection, see *Help Describe*);
 * automatically close brackets;
+* ease s-exp navigation and (some) transposing;
 * highlight current form under the cursor;
 * lookup documentation from the HyperSpec;
 * complete (some) names.
@@ -47,7 +48,9 @@ What's New in 0.3.4?
 * Features:
 
   + `#21 (,) to navigate, {,} to transpose <http://mikael.jansson.be/hacking/limp/ticket/21>`_
+    (see `S-Exp Manipulation`_ for more info)
   + `#20 Proper installer <http://mikael.jansson.be/hacking/limp/ticket/20>`_
+    (see `Installation`_ for more info)
 
 * Fixes:
 
@@ -83,8 +86,8 @@ These are easily installable on Debian-based systems such as Ubuntu::
 
   $ sudo aptitude install vim-full sbcl hyperspec rlwrap screen perl
 
-Automatic
-~~~~~~~~~~
+Automatic Installation
+~~~~~~~~~~~~~~~~~~~~~~~
 Unpack the archive, change to the newly created directory and run the
 installation script::
 
@@ -92,21 +95,12 @@ installation script::
 
 This will install Limp in ``/usr/local/limp/0.3.4``, symlink it to ``latest``
 in the same directory, and finally make a symlink in your Vim configuration
-directory's ``ftplugin/lisp`` pointing to Limp (creating it if it doesn't
-already exist).
+directory's ``ftplugin/lisp`` (creating it if it doesn't
+already exist) pointing to ``latest`` Limp.
 
-Optional
---------
-I've also included a nifty color scheme, for 256-color-capable terminals:
-``0.3.4/vim/desert256.vim``. Copy it to your ``$HOME/.vim/colors`` directory.
 
-If you're planning on using the command line tool ``lisp.sh`` to
-list/boot/connect to Lisp listeners, make a symlink like this::
-
-  $ ln -sf /usr/local/limp/0.3.4/bin/lisp.sh /usr/local/bin
-
-Manual
-~~~~~~
+Manual Installation
+~~~~~~~~~~~~~~~~~~~~
 Unless installed in ``/usr/local/limp/0.3.4``, Limp needs to have the variable
 ``$LIMPRUNTIME`` pointing to the base directory, so add this to your
 ``~/.bash_profile`` (or equivalent settings file for your shell)::
@@ -123,6 +117,16 @@ Finally, generate the Lisp thesaurus::
 
   $ cd $LIMPRUNTIME/bin
   $ ./make-thesaurus.sh
+
+Optional
+~~~~~~~~
+I've included a nifty color scheme, for 256-color-capable terminals:
+``0.3.4/vim/desert256.vim``. Copy it to your ``$HOME/.vim/colors`` directory.
+
+If you're planning on using the command line tool ``lisp.sh`` to
+list/boot/connect to Lisp listeners outside of Vim, make a symlink like this::
+
+  $ ln -sf /usr/local/limp/0.3.4/bin/lisp.sh /usr/local/bin
 
 Quickstart
 ============
@@ -389,7 +393,7 @@ b:listener_keep_open
 
 Keyboard Reference
 ~~~~~~~~~~~~~~~~~~~~~
-The default settings in Limp. All bindings can be easily changed in ``$LIMPRUNTIME/vim/keys.vim``.
+The default settings in Limp. All bindings can be easily changed in ``/path/to/limp/0.3.4/vim/keys.vim``.
 
 ``<F12>``
   Connect to a running Lisp or start a new Lisp, optionally specifying a core
@@ -439,6 +443,7 @@ Source transformation.
 * ``\sC`` :*(S-exp comment Current)*: Comment current form
 * ``(, )``: Go to previous/next s-exp
 * ``{, }``: Transpose current s-exp backward/forward
+  (**Experimental!** *Works only for easy cases.*)
 
 Limp
 ----
