@@ -54,16 +54,26 @@ nnoremap <silent> <buffer> <Plug>SexpCommentCurrent :call Cursor_push()<CR>[(%a\
 "-------------------------------------------------------------------
 
 fun! Sexp_Next()
-    let p = getpos(".")
-    let [l, c] = searchpos('(', 'W')
-    if l == 0 && c == 0
-        call setpos('.', p)
-    endif
+    let [l, c] = Sexp_get_Next()
+    call cursor(l, c)
 endfun
 
 fun! Sexp_Previous()
-    silent! let registers = @*
+    let [l, c] = Sexp_get_Previous()
+    if l == 0 && c == 0
+        return
+    endif
+    call cursor(l, c)
+    return
+endfun
 
+" return the position of the next s-exp
+fun! Sexp_get_Next()
+    return searchpos('(', 'nW')
+endfun
+
+" return the position of the previous s-exp
+fun! Sexp_get_Previous()
     let p = getpos(".")
 
     " If outside of *any* s-exps, move to the previous s-exp first.
@@ -73,12 +83,11 @@ fun! Sexp_Previous()
     endif
 
     " now, move to the start of this s-exp, wherever it may be.
-    let [l, c] = searchpos('(', 'Wb')
-    if l == 0 && c == 0
-        call setpos('.', p)
-    endif
+    let [l, c] = searchpos('(', 'Wnb')
 
-    silent! let @* = registers
+    call setpos(".", p)
+
+    return [l, c]
 endfun
 
 "XXX: MoveBack/MoveForward share much code
