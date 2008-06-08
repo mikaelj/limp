@@ -153,8 +153,8 @@ fun! Sexp_MoveBack()
     silent! norm! "byab
 
     " copy and replace current s-exp with whitespace
-    let @c = Fill("#", len(@b))
-    let @d = Fill("-", len(@a))
+    let @c = Fill(" ", len(@b))
+    let @d = Fill(" ", len(@a))
 
     silent! norm! `a"_dab
     silent! norm! `a"cP
@@ -162,51 +162,24 @@ fun! Sexp_MoveBack()
     silent! norm! `b"_dab
     silent! norm! `b"dP
 
-
     if this_line1 == prev_line1
 
         let diff = len(@a) - len(@b)
         if diff > 0
             let movement = ''.diff.'l'
         elseif diff < 0
-            let movement = ''.diff.'h'
+            let movement = ''.(-diff).'h'
         else
             let movement = ''
         endif
 
-        " insert first s-exp at second position (i.e., left-most)
         silent! norm! `b"aPl
         silent! exe 'norm! '.len(@a).'x'
 
         silent! exe 'norm! `a'.movement.'"bPl'
         silent! exe 'norm! '.len(@b).'x'
         
-        return
-
-        "------------------------------------------
-
-        " second position will be offset by pasting a s-exp
-        " of a different size than the first.
-        if len(@a) < len(@b)
-            let movement = (len(@b)-len(@a))."h"
-        elseif len(@a) > len(@b)
-            let movement = (len(@a)-len(@b))."l"
-        else
-            let movement = ""
-        endif
-
-        " insert first s-exp at second position (i.e., left-most)
-        silent! norm! `b"aP
-
-        " adjust second s-exp's insert point at first position
-        " (i.e., right-most)
-        silent! exe 'norm! `a'.movement
-        silent! norm! "bP
-
-        " remove the extra spacing inserted for cursor position
-        " adjustment
-        silent! exe 'norm! l'.(len(@a)+len(@b)).'x'
-        silent! exe 'norm! `b'.movement
+        silent! norm! `b
     else
         " different lines, so a simple paste will do
 
