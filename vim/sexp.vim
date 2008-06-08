@@ -140,7 +140,8 @@ fun! Sexp_MoveBack()
 
     if (prev_line2 == this_line2 && prev_col2 > this_col2) || (prev_line2 > this_line2)
         " For now, just do nothing
-        echom "Trying to transpose s-exp backwards with parent."
+        echom "Error: Trying to transpose s-exp backwards with parent."
+        silent! norm! `a
         return
     endif
 
@@ -201,7 +202,7 @@ fun! Sexp_MoveForward()
         return
     endif
 
-    silent! let registers = @*
+    silent! let regs = @*
 
     " mark the start of this s-exp
     silent! norm! yl
@@ -209,46 +210,78 @@ fun! Sexp_MoveForward()
         call Sexp_Previous()
     endif
 
-    " copy and replace current s-exp with whitespace
+    "
+    " Find out if the next s-exp is the parent of the current.
+    "
+    " Search for the next ')', then see where the matching '(' ends.
+    " Check for any of the following conditions.
+    "
+    " * prev_line1 == this_line1 && prev_col1 < this_col1
+    " * prev_line1 < this_line1
+    "
+    " where prev_line1/prev_col1 = the ( of the previous match, and
+    "       this_line1/this_col1   = the ( of the current s-exp.
+    "
+    
+    " so we can get back.
     silent! norm! ma
-    let [b, line1, c, o] = getpos('.')
+    let [b, this_line1, this_col1, o] = getpos('.')
 
-    silent! norm! "adab
-    let @c = Fill(" ", len(@a))
-    silent! norm! "cP
+    " where does the *current* s-exp end?
+    silent! norm! %
+    let [b, this_line2, this_col2, o] = getpos('.')
 
-    " same thing with next.
-    call Sexp_Next()
-    let [b, line2, c, o] = getpos('.')
+    " where does the next s-exp end?
+    call search(')', 'W')
+
+    let [b, prev_line2, prev_col2, o] = getpos('.')
+    silent! norm! %
 
     silent! norm! mb
-    silent! norm! "bdab
-    let @c = Fill(" ", len(@b))
-    silent! norm! "cP
+    let [b, prev_line1, prev_col1, o] = getpos('.')
 
-    if line1 == line2
-        " second position will be offset by pasting a s-exp
-        " of a different size than the first.
-        if len(@a) < len(@b)
-            let movement = (len(@b)-len(@a))."l"
-        elseif len(@a) > len(@b)
-            let movement = (len(@a)-len(@b))."h"
+    if (prev_line1 == this_line1 && prev_col1 < this_col1) || (prev_line1 < this_line1)
+        " For now, just do nothing
+        echom "Error: Trying to transpose s-exp forward with parent."
+        silent! norm! `a
+        return
+    endif
+
+    " --------------------------------------------------------
+
+    " get the s-exps
+    silent! norm! `a
+    silent! norm! "ayab
+    silent! norm! `b
+    silent! norm! "byab
+
+    " copy and replace current s-exp with whitespace
+    let @c = Fill(" ", len(@b))
+    let @d = Fill(" ", len(@a))
+
+    silent! norm! `b"_dab
+    silent! norm! `b"dP
+
+    silent! norm! `a"_dab
+    silent! norm! `a"cP
+
+    if this_line1 == prev_line1
+
+        let diff = len(@a) - len(@b)
+        if diff > 0
+            let movement = ''.diff.'h'
+        elseif diff < 0
+            let movement = ''.(-diff).'l'
         else
-            let movement = ""
+            let movement = ''
         endif
 
-        echo "movement = ".movement
+        silent! norm! `a"bPl
+        silent! exe 'norm! '.len(@b).'x'
 
-        " insert second s-exp at first position
-        silent! norm! `a"bP
-
-        " adjust first s-exp's insert point at second position
-        silent! exe 'norm! `b'.movement
-        silent! norm! "aP
-
-        " remove the extra spacing inserted for cursor position
-        " adjustment
-        silent! exe 'norm! l'.(len(@a)+len(@b)).'x'
+        silent! exe 'norm! `b'.movement.'"aPl'
+        silent! exe 'norm! '.len(@a).'x'
+        
         silent! exe 'norm! `b'.movement
     else
         " different lines, so a simple paste will do
@@ -260,7 +293,7 @@ fun! Sexp_MoveForward()
         silent! norm! `b
     endif
 
-    silent! let @* = registers
+    silent! let @* = regs
 endfun
 
 fun! Fill(c, n)
