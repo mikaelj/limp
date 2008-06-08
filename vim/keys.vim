@@ -78,6 +78,16 @@ nmap <buffer> <LocalLeader>ft      <Plug>FormatTop
 nmap <buffer> <LocalLeader>sw      <Plug>SexpWrap
 nmap <buffer> <LocalLeader>sp      <Plug>SexpPeel
 
+" Sexp Previous:    navigate to previous s-exp
+" Sexp Next:        navigate to previous s-exp
+nmap <buffer> (                    <Plug>SexpPrevious
+nmap <buffer> )                    <Plug>SexpNext
+
+" Sexp Move Back:       swap this and previous s-exp
+" Sexp Move Forward:    swap this and next s-exp
+nmap <buffer> {                    <Plug>SexpMoveBack
+nmap <buffer> }                    <Plug>SexpMoveForward
+
 " Sexp Comment:      comment all the way from the top level
 nmap <buffer> <LocalLeader>sc      <Plug>SexpComment
 
