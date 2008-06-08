@@ -100,7 +100,7 @@ fun! Sexp_MoveBack()
         return
     endif
 
-    silent! let registers = @*
+    silent! let regs = @*
 
     " mark the start of this s-exp
     silent! norm! yl
@@ -132,10 +132,11 @@ fun! Sexp_MoveBack()
 
     " where does the previous s-exp end?
     call Sexp_Previous()
+    silent! norm! mb
+
     let [b, prev_line1, prev_col1, o] = getpos('.')
     silent! norm! %
     let [b, prev_line2, prev_col2, o] = getpos('.')
-    silent! norm! `a
 
     if (prev_line2 == this_line2 && prev_col2 > this_col2) || (prev_line2 > this_line2)
         " For now, just do nothing
@@ -143,21 +144,47 @@ fun! Sexp_MoveBack()
         return
     endif
 
+    " --------------------------------------------------------
+
+    " get the s-exps
+    silent! norm! `a
+    silent! norm! "ayab
+    silent! norm! `b
+    silent! norm! "byab
+
     " copy and replace current s-exp with whitespace
-    silent! norm! "adab
-    let @c = Fill(" ", len(@a))
-    silent! norm! "cP
+    let @c = Fill("#", len(@b))
+    let @d = Fill("-", len(@a))
 
-    " same thing with previous.
-    call Sexp_Previous()
-    let [b, line2, c, o] = getpos('.')
+    silent! norm! `a"_dab
+    silent! norm! `a"cP
 
-    silent! norm! mb
-    silent! norm! "bdab
-    let @c = Fill(" ", len(@b))
-    silent! norm! "cP
+    silent! norm! `b"_dab
+    silent! norm! `b"dP
+
 
     if this_line1 == prev_line1
+
+        let diff = len(@a) - len(@b)
+        if diff > 0
+            let movement = ''.diff.'l'
+        elseif diff < 0
+            let movement = ''.diff.'h'
+        else
+            let movement = ''
+        endif
+
+        " insert first s-exp at second position (i.e., left-most)
+        silent! norm! `b"aPl
+        silent! exe 'norm! '.len(@a).'x'
+
+        silent! exe 'norm! `a'.movement.'"bPl'
+        silent! exe 'norm! '.len(@b).'x'
+        
+        return
+
+        "------------------------------------------
+
         " second position will be offset by pasting a s-exp
         " of a different size than the first.
         if len(@a) < len(@b)
@@ -190,7 +217,7 @@ fun! Sexp_MoveBack()
         silent! norm! `b
     endif
 
-    silent! let @* = registers
+    silent! let @* = regs
 endfun
 
 fun! Sexp_MoveForward()
