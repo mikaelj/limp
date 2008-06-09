@@ -1,9 +1,12 @@
 =============================================
 Limp: When You Need More Than Just A Lisp
 =============================================
+:Mailing Lists: | `Limp User <http://groups.google.com/group/limp-user>`_
+                  (`subscribe to limp-user <mailto:limp-user-subscribe@googlegroups.com>`_)
+                | `Limp Development <http://groups.google.com/group/limp-devel>`_
+                  (`subscribe to limp-devel <mailto:limp-devel-subscribe@googlegroups.com>`_)
 :Web: | `Download Limp <http://www.vim.org/scripts/script.php?script_id=2219>`_ (Vim.org)
-      | `Limp Issues and Documentation <http://mikael.jansson.be/hacking/limp>`_ (Mikael.Jansson.be)
-      | `Limp Development  <http://groups.google.com/group/limp-devel>`_ (Google Groups)
+      | `Limp Bug Tracker and Documentation <http://mikael.jansson.be/hacking/limp>`_ (Mikael.Jansson.be)
 :Date: $Date$
 :Author: Mikael Jansson <mail@mikael.jansson.be>
 
