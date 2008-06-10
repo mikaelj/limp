@@ -116,14 +116,20 @@ function <SID>CloseStackPush(char) " ---{{{2
     "echom "push"
     let line = getline('.')
     let col = col('.')-2
+    let c = line[(col+1):(col+1)]
+    "echom "col:".col.", matching [".c."] whitespace? ".(c =~? "\\s")
     if (col) < 0
         call setline('.',a:char.line)
-    else
+
+    " only insert a bracket when on whitespace
+    elseif c =~ "\\s" || c == ""
         "echom string(col).':'.line[:(col)].'|'.line[(col+1):]
         call setline('.',line[:(col)].a:char.line[(col+1):])
+    else
+        return ''
     endif
+
     call insert(s:closeStack, a:char)
-    "echom join(s:closeStack,'').' -- '.a:char
     return ''
 endfunction
 endif
