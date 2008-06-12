@@ -34,6 +34,14 @@ $SLEEP_AFTER_NEW_PAGE= 60;
 # @browser_args = ();
 # $external = 0;
 
+# Firefox - Works. See link below for other options.
+#http://developer.mozilla.org/en/docs/Command_Line_Options
+
+#$browser_name = "firefox";
+# replace -new-tab with -new-window to create a new window
+#@browser_args = ("-new-tab", "file://localhost%s");
+#$READLINE_ON_BROWSER_START = 1;
+#$SLEEP_AFTER_NEW_PAGE = 60;
 
 #####################################################################
 # Konqueror -- probably doesn't work
