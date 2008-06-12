@@ -122,7 +122,7 @@ function <SID>CloseStackPush(char) " ---{{{2
         call setline('.',a:char.line)
 
     " only insert a bracket when on whitespace
-    elseif c =~ "\\s" || c == ""
+    elseif (a:char == '(' && c == ')') || c =~ "\\s" || c == ""
         "echom string(col).':'.line[:(col)].'|'.line[(col+1):]
         call setline('.',line[:(col)].a:char.line[(col+1):])
     else
