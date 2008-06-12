@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=0.3.4
+VERSION=0.3.5-pre
 BASE=/usr/local/limp
 LISP_FTP=$HOME/.vim/ftplugin/lisp
 

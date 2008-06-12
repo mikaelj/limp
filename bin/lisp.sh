@@ -14,7 +14,7 @@ SBCL_CORE=
 # ----------------------------
 
 progname=lisp.sh
-VERSION=0.3.4
+VERSION=0.3.5-pre
 
 LIMPDIR=${LIMPRUNTIME:-/usr/local/limp/$VERSION}
 

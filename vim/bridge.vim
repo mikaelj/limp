@@ -37,7 +37,7 @@
 "-------------------------------------------------------------------
 " only do these things once
 
-let s:Limp_version="0.3.4"
+let s:Limp_version="0.3.5-pre"
 
 let s:Limp_location = expand("$LIMPRUNTIME")
 "if s:Limp_location == "" || s:Limp_location == "$LIMPRUNTIME"
