@@ -1,0 +1,34 @@
+Index: src/ex_cmds.c
+===================================================================
+--- src/ex_cmds.c	(revision 319)
++++ src/ex_cmds.c	(working copy)
+@@ -6365,7 +6365,17 @@
+ 	    while (p1 != NULL)
+ 	    {
+ 		p2 = vim_strchr(p1 + 1, '*');	/* find second '*' */
+-		if (p2 != NULL && p2 > p1 + 1)	/* skip "*" and "**" */
++
++                /* Lisp special variables are named *standard-output*,
++                   so the tag would be named **standard-output** */
++                if (p2 != NULL && p2 == (p1+1)) {
++                    /* continue looking */
++                    p2 = vim_strchr(p1+2, '*');
++                    if (p2 != NULL && *(p2+1) == '*')
++                        p2++;
++                }
++
++		if (p2 != NULL && p2 > p1 + 1)	/* skip "*" and non-Lisp "**" */
+ 		{
+ 		    for (s = p1 + 1; s < p2; ++s)
+ 			if (*s == ' ' || *s == '\t' || *s == '|')
+@@ -6398,6 +6408,10 @@
+ 			++ga.ga_len;
+ 			sprintf((char *)s, "%s\t%s", p1, fname);
+ 
++                        /* take care of the Lisp case */
++                        if (*(p2+1) == '*')
++                            p2++;
++
+ 			/* find next '*' */
+ 			p2 = vim_strchr(p2 + 1, '*');
+ 		    }

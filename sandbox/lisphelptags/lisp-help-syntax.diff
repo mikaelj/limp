@@ -1,0 +1,35 @@
+--- help.vim    2007-05-07 05:13:56.000000000 +0200
++++ /tmp/help.vim       2008-06-15 17:02:33.000000000 +0200
+@@ -16,13 +16,21 @@
+   syn match helpHyperTextJump  "\\\@<!|[^"*|]\+|" contains=helpBar
+   syn match helpHyperTextEntry "\*[^"*|]\+\*\s"he=e-1 contains=helpStar
+   syn match helpHyperTextEntry "\*[^"*|]\+\*$" contains=helpStar
++  syn match helpHyperTextEntry  "\*\*[^"*|]\+" contains=helpStarStar nextgroup=helpHyperTextEntryEnd
++  syn match helpHyperTextEntryEnd  "\*\*$" contains=helpStarStarEnd
++  syn match helpHyperTextEntryEnd  "\*\*\s"he=e-1 contains=helpStarStarEnd
+ else
+   syn match helpHyperTextJump  "\\\@<!|[#-)!+-~]\+|" contains=helpBar
+   syn match helpHyperTextEntry "\*[#-)!+-~]\+\*\s"he=e-1 contains=helpStar
+   syn match helpHyperTextEntry "\*[#-)!+-~]\+\*$" contains=helpStar
++  syn match helpHyperTextEntry  "\*\*[#-)!+-~]\+" contains=helpStarStar nextgroup=helpHyperTextEntryEnd
++  syn match helpHyperTextEntryEnd  "\*\*$" contains=helpStarStarEnd
++  syn match helpHyperTextEntryEnd  "\*\*\s"he=e-1 contains=helpStarStarEnd
+ endif
+ syn match helpBar              contained "|"
+ syn match helpStar             contained "\*"
++syn match helpStarStar          contained "\*\*"me=s+1
++syn match helpStarStarEnd       contained "\*\*"ms=s+1
+ syn match helpNormal           "|.*====*|"
+ syn match helpNormal           ":|vim:|"       " for :help modeline
+ syn match helpVim              "Vim version [0-9.a-z]\+"
+@@ -126,6 +134,9 @@
+ hi def link helpHyperTextJump  Subtitle
+ hi def link helpBar            Ignore
+ hi def link helpStar           Ignore
++hi def link helpStarStar        helpStar
++hi def link helpStarStarEnd     helpStarStar
++hi def link helpHyperTextEntryEnd helpHyperTextEntry
+ hi def link helpHyperTextEntry String
+ hi def link helpHeadline       Statement
+ hi def link helpHeader         PreProc
+
