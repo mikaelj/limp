@@ -62,12 +62,12 @@ fun! LimpHighlight_start()
     silent! runtime plugin/matchit.vim
 
     " set whichwrap
-    let s:wwkeep = &ww
-    set ww=b,s,<,>,[,]
+    let s:wwkeep=&ww
+    setlocal ww=b,s,<,>,[,]
 
     augroup LimpHighlight
         au!
-        au CursorMoved * silent call s:LimpHighlight_handler()
+        au CursorMoved <buffer> silent call s:LimpHighlight_handler()
     augroup END
 
     set lz
@@ -87,7 +87,7 @@ fun! LimpHighlight_stop()
  
     " remove cursorhold event for highlighting matching bracket
     augroup LimpHighlight
-        au!
+        au! <buffer>
     augroup END
  
     let &ww = s:wwkeep

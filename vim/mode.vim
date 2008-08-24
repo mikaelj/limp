@@ -65,8 +65,8 @@ endfun
 
 fun! LimpMode_stop()
     let g:lisp_mode_active = 0
-    call LimpHighlight_stop()
-    call AutoClose_stop()
+    "call LimpHighlight_stop()
+    "call AutoClose_stop()
 endfun
 
 augroup LimpMode
