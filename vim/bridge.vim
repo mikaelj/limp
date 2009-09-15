@@ -227,7 +227,7 @@ fun! LimpBridge_boot_or_connect_or_display()
                 echom "Booting..."
             endif
             let styfile = tempname()
-            let cmd = s:Limp_location . "/bin/lisp.sh ".core_opt."-s ".styfile." -b ".name
+            let cmd = s:Limp_location . "/bin/lisp.sh ".core_opt." -s ".styfile." -b ".name
             call system(cmd)
             while getfsize(styfile) <= len("limp_listener")
                 sleep 200m
