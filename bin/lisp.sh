@@ -13,10 +13,14 @@ SBCL_CORE=
 
 # ----------------------------
 
-progname=lisp.sh
+progname=$(basename $0)
 VERSION=0.3.5-pre
 
-LIMPDIR=${LIMPRUNTIME:-/usr/local/limp/$VERSION}
+if [[ "$LIMPRUNTIME" = "" ]]; then
+    LIMPDIR=$(cd $(dirname $0) ; pwd)
+else 
+    LIMPDIR=${LIMPRUNTIME:-/usr}
+fi
 
 if [[ "$SBCL" == "" ]]; then
     # guess for OS X
@@ -166,6 +170,16 @@ elif [[ "$BOOT" == "1" ]]; then
         exit 1
     fi
 
+    # Check if a lisp with this name is already running
+    for l in $(list_running_lisps | awk {' print $1 '})
+    do
+        if [[ $l = $NAME ]]; then 
+            echo "A lisp with the name $NAME is running!" >&2
+            list_running_lisps >&2
+            exit 1
+        fi
+    done
+
     core_opt=""
     if [[ "$CORE_PATH" != "" ]]; then
         core_opt="-c $CORE_PATH"
@@ -211,13 +225,20 @@ elif [[ "$BOOT" == "1" ]]; then
     # no flow control
     echo "defflow         off" >> $initfile
 
-    echo "screen -t Lisp 0 $LIMPDIR/bin/lisp.sh $core_opt -P $initfile -p $styfile" >> $initfile
+    echo "screen -t Lisp 0 $LIMPDIR/$progname $core_opt -P $initfile -p $styfile" >> $initfile
 
     screen -c $initfile -dmS limp_listener-$NAME 
 
     # wait for the styfile to become available
+    timer=0
+    timeout=30
     while [ ! -s $styfile ]; do
         sleep 1s
+        (( timer++ ))
+        if [[ $timer -gt $timeout ]]; then
+            echo "Failed to launch screen session!" >&2
+            exit 1
+        fi
     done
 
     if [[ "$LIMP_SCREEN_STY_FILE" == "" ]]; then
